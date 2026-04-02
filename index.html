@@ -1292,16 +1292,12 @@ function speak(text){
 /* ═════════════════════════════════════════
    API — Universal (backend is Groq, UI is generic)
 ═════════════════════════════════════════ */
-const _AK = "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";
-const _EU = "https://api.groq.com/openai/v1/chat/completions";
+const _EU = "/api/groq";
 const _EM = "llama-3.3-70b-versatile";
-function getKey(){ return localStorage.getItem('binaris_api_key') || _AK; }
 
 async function callAI(messages, onToken, signal){
-  const key=getKey();
-  if(!key||key==='PASTE_KEY_HERE') throw new Error('API key missing. Go to Settings → API Key.');
   if(!navigator.onLine) throw new Error('No internet connection.');
-  const resp=await fetch(_EU,{method:'POST',signal,headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},body:JSON.stringify({model:_EM,messages,stream:true,temperature:0.7})});
+  const resp=await fetch(_EU,{method:'POST',signal,headers:{'Content-Type':'application/json'},body:JSON.stringify({model:_EM,messages,stream:true,temperature:0.7})});
   if(!resp.ok){const j=await resp.json().catch(()=>({}));throw new Error(j?.error?.message||`HTTP ${resp.status}`);}
   const reader=resp.body.getReader(),dec=new TextDecoder();
   let buf='',total=0;
@@ -1558,10 +1554,7 @@ async function voiceSend(text){
 
 /* PANELS */
 function getKeyStatus(){
-  const stored=localStorage.getItem('binaris_api_key');
-  if(stored&&stored.length>16)return{label:'✓ Personal key active',color:'var(--ok)'};
-  if(_AK&&_AK!=='PASTE_KEY_HERE')return{label:'✓ Built-in key active',color:'var(--ok)'};
-  return{label:'⚠ No key — add one below',color:'var(--warn)'};
+  return{label:'✓ Cloudflare proxy active',color:'var(--ok)'};
 }
 function onKeyInput(el){const v=el.value.trim(),ok=v.length>16;el.style.borderColor=v.length===0?'var(--b1)':ok?'rgba(50,213,131,.4)':'rgba(255,128,64,.4)';}
 function toggleKeyVis(){const inp=$('key-input'),show=inp.type==='text';inp.type=show?'password':'text';$('eye-ico').style.opacity=show?'1':'0.45';}
