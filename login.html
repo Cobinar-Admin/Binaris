@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="theme-color" content="#000000"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Binaris"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<title>Binaris — Sign in</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+
+<!-- Auth guard: already signed in → skip to app -->
+<script type="module">
+  import { auth, onAuthStateChanged } from "./firebase-init.js";
+  document.documentElement.style.visibility = "hidden";
+  const _u = onAuthStateChanged(auth, (user) => {
+    _u();
+    if (user) { window.location.replace("./index.html"); }
+    else { document.documentElement.style.visibility = ""; }
+  });
+</script>
+
+<!-- Device detection runs synchronously so CSS classes are ready before paint -->
+<script>
+(function(){
+  var w = window.innerWidth;
+  var ua = navigator.userAgent;
+  var isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  var isAndroid = /Android/.test(ua);
+  var isMobUA   = /Mobi|Android/.test(ua);
+  var isTabUA   = /iPad|tablet/i.test(ua) || (isAndroid && !/Mobile/.test(ua));
+  var device    = 'desktop';
+  if      (w < 640 || (isMobUA && !isTabUA)) device = 'mobile';
+  else if (w < 1024 || isTabUA)              device = 'tablet';
+  var cl = document.documentElement.classList;
+  cl.add('dev-' + device);
+  if (isIOS)     cl.add('ios');
+  if (isAndroid) cl.add('android');
+  // Re-check on resize (orientation change)
+  window.addEventListener('resize', function() {
+    var nw = window.innerWidth;
+    var nd = nw < 640 ? 'mobile' : nw < 1024 ? 'tablet' : 'desktop';
+    if (nd !== device) {
+      cl.remove('dev-mobile','dev-tablet','dev-desktop');
+      cl.add('dev-' + nd);
+      device = nd;
+    }
+  });
+})();
+</script>
+
+<style>
+/* ── DESIGN TOKENS ───────────────────────────────────────────── */
+:root{
+  --bg:#000;--s1:#080808;--s2:#0f0f0f;--s3:#161616;--s4:#1e1e1e;
+  --w1:#fff;--w2:rgba(255,255,255,.72);--w3:rgba(255,255,255,.38);
+  --w4:rgba(255,255,255,.16);--w5:rgba(255,255,255,.07);
+  --b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.22);
+  --ok:#32d583;--err:#ff4444;
+  --r-sm:7px;--r-md:11px;--r-lg:14px;--r-xl:18px;--r-2xl:22px;--r-pill:9999px;
+  --font:"Geist","Inter",system-ui,sans-serif;
+  --mono:"Geist Mono","JetBrains Mono",monospace;
+  --serif:"Instrument Serif",Georgia,serif;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;background:var(--bg);color:var(--w1);
+  font-family:var(--font);-webkit-font-smoothing:antialiased;
+  font-size:14.5px;line-height:1.5;touch-action:manipulation;
+}
+html{overflow-x:hidden}
+body{overflow:hidden}
+*{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+input{-webkit-user-select:text;user-select:text}
+
+/* ── ANIMATED BACKGROUND ─────────────────────────────────────── */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-svg{position:absolute;inset:0;width:100%;height:100%}
+.vr1{animation:vr-spin 32s linear infinite;transform-origin:50% 50%}
+.vr2{animation:vr-spin 55s linear infinite reverse;transform-origin:50% 50%}
+.vr3{animation:vr-spin 78s linear infinite;transform-origin:50% 50%}
+@keyframes vr-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.v-breathe {animation:vb 6s ease-in-out infinite;transform-origin:50% 50%}
+.v-breathe-2{animation:vb 9s ease-in-out infinite 1s;transform-origin:50% 50%}
+@keyframes vb{0%,100%{opacity:.04;transform:scale(1)}50%{opacity:.10;transform:scale(1.04)}}
+.v-hex{animation:v-drift linear infinite;transform-box:fill-box}
+@keyframes v-drift{
+  0%{transform:rotate(0deg) translateY(0px);opacity:0}
+  8%{opacity:.07}50%{transform:rotate(180deg) translateY(-18px);opacity:.07}
+  92%{opacity:.07}100%{transform:rotate(360deg) translateY(0px);opacity:0}
+}
+.v-glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:vg-pulse 9s ease-in-out infinite}
+.vg1{width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);top:-140px;left:-120px}
+.vg2{width:600px;height:600px;background:radial-gradient(circle,rgba(80,100,255,.025) 0%,transparent 70%);bottom:-180px;right:-120px;animation-delay:3.5s}
+.vg3{width:300px;height:300px;background:radial-gradient(circle,rgba(50,213,131,.02) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:1.8s}
+@keyframes vg-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.6}}
+.vg3{animation:vg-pulse-center 9s ease-in-out infinite 1.8s}
+@keyframes vg-pulse-center{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.2);opacity:.6}}
+.bg-scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.025) 3px,rgba(0,0,0,.025) 4px)}
+
+/* ── ORB ─────────────────────────────────────────────────────── */
+.orb-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.orb-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.12);animation:oring 2.8s ease-in-out infinite}
+.orb-ring:nth-child(2){border-color:rgba(255,255,255,.07);animation-delay:.95s}
+.orb-ring:nth-child(3){border-color:rgba(255,255,255,.04);animation-delay:1.9s}
+@keyframes oring{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.10);opacity:.28}}
+.orb-logo{position:relative;z-index:2;border-radius:21px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.12);
+  animation:orb-breathe 3.2s ease-in-out infinite}
+.orb-logo img{display:block;object-fit:cover}
+.orb-logo-fallback{position:absolute;inset:0;background:radial-gradient(circle at 38% 36%,#fff 0%,#666 55%,#1a1a1a 100%);display:none}
+@keyframes orb-breathe{
+  0%,100%{transform:scale(1);box-shadow:0 8px 32px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.12)}
+  50%{transform:scale(1.04);box-shadow:0 14px 44px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.20),0 0 44px rgba(255,255,255,.07)}
+}
+
+/* ── FEATURE PILL (shared base) ──────────────────────────────── */
+.feat{display:flex;align-items:center;gap:7px;background:var(--w5);border:1px solid var(--b1);border-radius:var(--r-md)}
+.feat-ico{display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--w2)}
+.feat-txt{font-family:var(--mono);color:var(--w3);white-space:nowrap;letter-spacing:.05em}
+
+/* ── SIGN-IN BUTTON ──────────────────────────────────────────── */
+.btn-google{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--w1);color:#0a0a0a;border:none;border-radius:var(--r-xl);
+  font-family:var(--font);font-weight:600;cursor:pointer;position:relative;overflow:hidden;
+  transition:background .15s,transform .12s,box-shadow .15s;
+  box-shadow:0 4px 24px rgba(255,255,255,.14);
+}
+.btn-google:hover:not(:disabled){background:rgba(255,255,255,.93);transform:translateY(-1.5px);box-shadow:0 10px 36px rgba(255,255,255,.20)}
+.btn-google:active:not(:disabled){transform:translateY(0) scale(.98)}
+.btn-google:disabled{opacity:.5;cursor:not-allowed}
+.btn-google::after{content:"";position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:shimmer 4s ease infinite 1.8s;pointer-events:none}
+@keyframes shimmer{0%{left:-100%}25%{left:140%}100%{left:140%}}
+.btn-spinner{display:none;border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
+.btn-google.loading .btn-spinner{display:block}
+.btn-google.loading .g-icon,.btn-google.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── DIVIDER ─────────────────────────────────────────────────── */
+.divider{width:100%;display:flex;align-items:center;gap:10px}
+.div-line{flex:1;height:1px;background:var(--b1)}
+.div-txt{font-family:var(--mono);color:var(--w3);letter-spacing:.09em}
+
+/* ── TERMS ───────────────────────────────────────────────────── */
+.terms{font-family:var(--mono);color:var(--w3);text-align:center;line-height:1.7;letter-spacing:.03em}
+.terms a{color:var(--w2);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+
+/* ── BYLINE ──────────────────────────────────────────────────── */
+.byline{font-family:var(--mono);color:var(--w3);letter-spacing:.07em;text-align:center}
+.byline strong{color:var(--w2);font-weight:500}
+
+/* ── ERROR TOAST ─────────────────────────────────────────────── */
+.err-toast{
+  position:fixed;bottom:calc(var(--safe-bottom) + 28px);
+  left:50%;transform:translateX(-50%) translateY(16px);
+  background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.28);
+  color:#ff8080;border-radius:var(--r-pill);
+  padding:10px 18px;font-size:.76rem;font-weight:500;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 8px 36px rgba(0,0,0,.65);
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
+  white-space:nowrap;z-index:500;max-width:calc(100vw - 32px);
+}
+.err-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ══════════════════════════════════════════════
+   MOBILE LAYOUT — centered floating card
+══════════════════════════════════════════════ */
+.dev-mobile body{overflow:hidden}
+
+.dev-mobile .login-shell{
+  position:fixed;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:10;
+  padding:calc(var(--safe-top) + 24px) 20px calc(var(--safe-bottom) + 24px);
+}
+
+/* Centered card */
+.dev-mobile .card{
+  width:100%;max-width:360px;
+  background:rgba(7,7,7,.97);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:26px;
+  padding:32px 24px 28px;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  backdrop-filter:blur(40px);
+  box-shadow:0 40px 100px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04) inset;
+  animation:card-in .5s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes card-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.dev-mobile .left-panel{display:none}
+
+/* Mobile orb */
+.dev-mobile .orb-wrap{width:60px;height:60px;margin-bottom:14px}
+.dev-mobile .orb-ring:nth-child(1){inset:0}
+.dev-mobile .orb-ring:nth-child(2){inset:-9px}
+.dev-mobile .orb-ring:nth-child(3){inset:-18px}
+.dev-mobile .orb-logo{width:60px;height:60px;border-radius:15px}
+.dev-mobile .orb-logo img{width:60px;height:60px}
+
+.dev-mobile .wordmark{font-size:1.25rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px;color:var(--w1)}
+.dev-mobile .tagline{font-family:var(--serif);font-size:.84rem;font-style:italic;color:var(--w3);margin-bottom:18px;text-align:center}
+
+/* Mobile feature row — 4 horizontal chips */
+.dev-mobile .features{display:flex;gap:6px;width:100%;margin-bottom:20px}
+.dev-mobile .feat{flex:1;flex-direction:column;padding:9px 6px;gap:5px}
+.dev-mobile .feat-ico{width:20px;height:20px}
+.dev-mobile .feat-ico svg{width:13px;height:13px}
+.dev-mobile .feat-txt{font-size:.52rem}
+.dev-mobile .feat-label{display:none}
+
+.dev-mobile .btn-google{padding:14px 20px;font-size:.9rem;border-radius:14px;margin-bottom:16px}
+.dev-mobile .btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top-color:#0a0a0a}
+
+.dev-mobile .divider{margin-bottom:14px}
+.dev-mobile .div-txt{font-size:.57rem}
+.dev-mobile .terms{font-size:.57rem;margin-bottom:0}
+.dev-mobile .byline{display:none}
+
+/* ══════════════════════════════════════════════
+   TABLET LAYOUT — centered floating card
+══════════════════════════════════════════════ */
+.dev-tablet .login-shell{
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:10;
+  padding:calc(var(--safe-top) + 24px) 20px calc(var(--safe-bottom) + 24px);
+}
+.dev-tablet .left-panel{display:none}
+.dev-tablet .card{
+  width:100%;max-width:380px;
+  background:rgba(7,7,7,.93);border:1px solid rgba(255,255,255,.10);border-radius:28px;
+  padding:42px 32px 38px;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  backdrop-filter:blur(40px);
+  box-shadow:0 50px 130px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04) inset;
+  animation:card-in .65s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes card-in{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.dev-tablet .orb-wrap{width:80px;height:80px;margin-bottom:22px}
+.dev-tablet .orb-ring:nth-child(1){inset:0}
+.dev-tablet .orb-ring:nth-child(2){inset:-11px}
+.dev-tablet .orb-ring:nth-child(3){inset:-22px}
+.dev-tablet .orb-logo{width:80px;height:80px;border-radius:20px}
+.dev-tablet .orb-logo img{width:80px;height:80px}
+
+.dev-tablet .wordmark{font-size:1.4rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;color:var(--w1)}
+.dev-tablet .tagline{font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--w3);margin-bottom:28px;text-align:center}
+
+.dev-tablet .features{display:flex;gap:6px;width:100%;margin-bottom:22px}
+.dev-tablet .feat{flex:1;flex-direction:column;align-items:center;padding:10px 6px;gap:5px}
+.dev-tablet .feat-ico{width:22px;height:22px}
+.dev-tablet .feat-ico svg{width:14px;height:14px}
+.dev-tablet .feat-txt{font-size:.55rem}
+.dev-tablet .feat-label{display:none}
+
+.dev-tablet .btn-google{padding:13px 20px;font-size:.88rem;border-radius:var(--r-xl);margin-bottom:18px}
+.dev-tablet .btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top-color:#0a0a0a}
+
+.dev-tablet .divider{margin:0 0 14px}
+.dev-tablet .div-txt{font-size:.59rem}
+.dev-tablet .terms{font-size:.59rem;margin-bottom:0}
+.dev-tablet .byline{margin-top:18px;font-size:.59rem}
+
+/* ══════════════════════════════════════════════
+   DESKTOP LAYOUT — split screen
+══════════════════════════════════════════════ */
+.dev-desktop .login-shell{
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:10;padding:40px;gap:80px;
+}
+
+/* Left branding panel */
+.dev-desktop .left-panel{
+  flex:1;max-width:480px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:0;
+  animation:panel-left .8s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes panel-left{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:translateX(0)}}
+
+.dev-desktop .left-panel .orb-wrap{width:92px;height:92px;margin-bottom:32px}
+.dev-desktop .left-panel .orb-ring:nth-child(1){inset:0}
+.dev-desktop .left-panel .orb-ring:nth-child(2){inset:-14px}
+.dev-desktop .left-panel .orb-ring:nth-child(3){inset:-28px}
+.dev-desktop .left-panel .orb-logo{width:92px;height:92px;border-radius:24px}
+.dev-desktop .left-panel .orb-logo img{width:92px;height:92px}
+
+.dev-desktop .left-panel .wordmark{
+  font-size:3rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  margin-bottom:10px;color:var(--w1);line-height:1;
+}
+.dev-desktop .left-panel .tagline{
+  font-family:var(--serif);font-size:1.1rem;font-style:italic;
+  color:var(--w3);margin-bottom:44px;line-height:1.55;
+}
+
+/* Desktop vertical feature list */
+.dev-desktop .left-panel .features{
+  display:flex;flex-direction:column;gap:10px;width:100%;margin-bottom:48px;
+}
+.dev-desktop .left-panel .feat{
+  flex-direction:row;align-items:center;
+  padding:14px 16px;gap:14px;border-radius:var(--r-lg);
+}
+.dev-desktop .left-panel .feat-ico{
+  width:36px;height:36px;border-radius:9px;
+  background:var(--s3);border:1px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.dev-desktop .left-panel .feat-ico svg{width:16px;height:16px}
+.dev-desktop .left-panel .feat-body{display:flex;flex-direction:column;gap:2px}
+.dev-desktop .left-panel .feat-txt{font-size:.78rem;font-weight:600;color:var(--w1);letter-spacing:.02em}
+.dev-desktop .left-panel .feat-label{font-size:.68rem;color:var(--w3);font-family:var(--mono)}
+
+.dev-desktop .left-panel .byline{font-size:.62rem;font-family:var(--mono);color:var(--w3);letter-spacing:.07em}
+.dev-desktop .left-panel .byline strong{color:var(--w2);font-weight:500}
+
+/* Right sign-in card */
+.dev-desktop .card{
+  flex:0 0 360px;
+  background:rgba(7,7,7,.88);border:1px solid rgba(255,255,255,.10);border-radius:28px;
+  padding:40px 36px 36px;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  backdrop-filter:blur(50px);
+  box-shadow:0 50px 130px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04) inset;
+  animation:card-right .8s .12s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes card-right{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
+
+/* Desktop card hides the redundant orb/wordmark/tagline (shown in left panel) */
+.dev-desktop .card .orb-wrap,
+.dev-desktop .card .wordmark,
+.dev-desktop .card .tagline,
+.dev-desktop .card .features,
+.dev-desktop .card .byline{display:none}
+
+.dev-desktop .card-signin-label{
+  font-family:var(--mono);font-size:.62rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--w3);
+  margin-bottom:20px;align-self:flex-start;
+}
+
+.dev-desktop .btn-google{padding:14px 20px;font-size:.88rem;border-radius:var(--r-xl);margin-bottom:20px}
+.dev-desktop .btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top-color:#0a0a0a}
+.dev-desktop .divider{margin:0 0 16px}
+.dev-desktop .div-txt{font-size:.6rem}
+.dev-desktop .terms{font-size:.6rem;margin-bottom:0}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ ANIMATED VECTOR BACKGROUND ══════════════ -->
+<div class="bg-layer" aria-hidden="true">
+  <div class="v-glow vg1"></div>
+  <div class="v-glow vg2"></div>
+  <div class="v-glow vg3"></div>
+  <svg class="bg-svg" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg" fill="none" preserveAspectRatio="xMidYMid slice">
+    <g class="vr1">
+      <circle cx="700" cy="450" r="360" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+      <circle cx="700" cy="450" r="520" stroke="rgba(255,255,255,.025)" stroke-width=".8"/>
+    </g>
+    <g class="vr2">
+      <circle cx="700" cy="450" r="440" stroke="rgba(255,255,255,.03)" stroke-width=".8" stroke-dasharray="14 20"/>
+    </g>
+    <g class="vr3">
+      <path d="M700,50 A650,650 0 0,1 1350,450" stroke="rgba(255,255,255,.035)" stroke-width="1" stroke-linecap="round"/>
+      <path d="M700,850 A650,650 0 0,1 50,450" stroke="rgba(255,255,255,.035)" stroke-width="1" stroke-linecap="round"/>
+    </g>
+    <g class="v-breathe">
+      <polygon points="700,210 912,330 912,570 700,690 488,570 488,330" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+    </g>
+    <g class="v-breathe-2">
+      <polygon points="700,130 968,282 968,618 700,770 432,618 432,282" stroke="rgba(255,255,255,.03)" stroke-width=".7"/>
+    </g>
+    <line x1="0" y1="225" x2="1400" y2="225" stroke="rgba(255,255,255,.028)" stroke-width=".7"/>
+    <line x1="0" y1="450" x2="1400" y2="450" stroke="rgba(255,255,255,.028)" stroke-width=".7"/>
+    <line x1="0" y1="675" x2="1400" y2="675" stroke="rgba(255,255,255,.028)" stroke-width=".7"/>
+    <line x1="350" y1="0" x2="350" y2="900" stroke="rgba(255,255,255,.028)" stroke-width=".7"/>
+    <line x1="700" y1="0" x2="700" y2="900" stroke="rgba(255,255,255,.028)" stroke-width=".7"/>
+    <line x1="1050" y1="0" x2="1050" y2="900" stroke="rgba(255,255,255,.028)" stroke-width=".7"/>
+    <g class="v-hex" style="animation-duration:38s;animation-delay:0s;transform-origin:100px 100px">
+      <polygon points="100,62 128,78 128,110 100,126 72,110 72,78" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <polygon points="100,46 143,70 143,118 100,142 57,118 57,70" stroke="rgba(255,255,255,.04)" stroke-width=".7"/>
+    </g>
+    <g class="v-hex" style="animation-duration:52s;animation-delay:-17s;transform-origin:1305px 795px">
+      <polygon points="1305,755 1333,771 1333,803 1305,819 1277,803 1277,771" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+    </g>
+    <g class="v-hex" style="animation-duration:44s;animation-delay:-8s;transform-origin:1300px 100px">
+      <polygon points="1300,62 1344,88 1344,140 1300,166 1256,140 1256,88" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+    </g>
+    <g class="v-hex" style="animation-duration:60s;animation-delay:-30s;transform-origin:80px 800px">
+      <polygon points="80,768 108,784 108,816 80,832 52,816 52,784" stroke="rgba(255,255,255,.06)" stroke-width=".9"/>
+    </g>
+    <g fill="rgba(255,255,255,.14)">
+      <circle cx="350" cy="225" r="2"/><circle cx="700" cy="225" r="2"/>
+      <circle cx="1050" cy="225" r="2"/><circle cx="350" cy="675" r="2"/>
+      <circle cx="700" cy="675" r="2"/><circle cx="1050" cy="675" r="2"/>
+      <circle cx="350" cy="450" r="1.5"/><circle cx="1050" cy="450" r="1.5"/>
+    </g>
+    <g stroke="rgba(255,255,255,.08)" stroke-width="1">
+      <rect x="195" y="195" width="10" height="10" transform="rotate(45 200 200)"/>
+      <rect x="1195" y="195" width="10" height="10" transform="rotate(45 1200 200)"/>
+      <rect x="195" y="695" width="10" height="10" transform="rotate(45 200 700)"/>
+      <rect x="1195" y="695" width="10" height="10" transform="rotate(45 1200 700)"/>
+    </g>
+    <g stroke="rgba(255,255,255,.04)" stroke-width=".7">
+      <line x1="350" y1="225" x2="700" y2="450"/>
+      <line x1="700" y1="450" x2="1050" y2="225"/>
+      <line x1="350" y1="675" x2="700" y2="450"/>
+      <line x1="700" y1="450" x2="1050" y2="675"/>
+    </g>
+  </svg>
+</div>
+<div class="bg-scanlines" aria-hidden="true"></div>
+
+
+<!-- ══════════════════════ SHELL ══════════════════════ -->
+<div class="login-shell">
+
+  <!-- LEFT PANEL — desktop only ─────────────────────── -->
+  <div class="left-panel">
+    <div class="orb-wrap" aria-hidden="true">
+      <div class="orb-ring"></div>
+      <div class="orb-ring"></div>
+      <div class="orb-ring"></div>
+      <div class="orb-logo">
+        <img src="round-icon.png" alt="Binaris" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <div class="orb-logo-fallback"></div>
+      </div>
+    </div>
+
+    <div class="wordmark">Binaris</div>
+    <div class="tagline">Build anything<br>with intelligence</div>
+
+    <div class="features">
+      <!-- Bolt — Instant -->
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M9.5 1.5L3.5 9H8L6.5 14.5L12.5 7H8L9.5 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="feat-body">
+          <span class="feat-txt">Instant</span>
+          <span class="feat-label">Lightning-fast AI responses</span>
+        </div>
+      </div>
+      <!-- Shield — Secure -->
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.5L2 4V8.5C2 11.9 4.7 14.8 8 15.5C11.3 14.8 14 11.9 14 8.5V4L8 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            <path d="M5.5 8.5L7.5 10.5L11 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="feat-body">
+          <span class="feat-txt">Secure</span>
+          <span class="feat-label">Your data, your control</span>
+        </div>
+      </div>
+      <!-- Globe — Multilingual -->
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8 1.5C6.3 3.8 5.5 5.9 5.5 8C5.5 10.1 6.3 12.2 8 14.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8 1.5C9.7 3.8 10.5 5.9 10.5 8C10.5 10.1 9.7 12.2 8 14.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M1.5 8H14.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M2.2 5H13.8M2.2 11H13.8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="feat-body">
+          <span class="feat-txt">Multilingual</span>
+          <span class="feat-label">24 languages supported</span>
+        </div>
+      </div>
+      <!-- Waveform — Voice AI -->
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M1 8H3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M4 5V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M7 2.5V13.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M10 4.5V11.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M13 6.5V9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M16 8H14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="feat-body">
+          <span class="feat-txt">Voice AI</span>
+          <span class="feat-label">Talk naturally, get answers</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="byline">by <strong>Marc-Arthur Samuel Dalus</strong></div>
+  </div>
+
+  <!-- CARD — always visible ─────────────────────────── -->
+  <div class="card">
+
+    <!-- Orb (mobile + tablet only; hidden on desktop via CSS) -->
+    <div class="orb-wrap" aria-hidden="true">
+      <div class="orb-ring"></div>
+      <div class="orb-ring"></div>
+      <div class="orb-ring"></div>
+      <div class="orb-logo">
+        <img src="round-icon.png" alt="Binaris" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <div class="orb-logo-fallback"></div>
+      </div>
+    </div>
+
+    <div class="wordmark">Binaris</div>
+    <div class="tagline">Build anything with intelligence</div>
+
+    <!-- Feature chips (mobile + tablet) -->
+    <div class="features">
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M9.5 1.5L3.5 9H8L6.5 14.5L12.5 7H8L9.5 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="feat-txt">Instant</span>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.5L2 4V8.5C2 11.9 4.7 14.8 8 15.5C11.3 14.8 14 11.9 14 8.5V4L8 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            <path d="M5.5 8.5L7.5 10.5L11 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="feat-txt">Secure</span>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8 1.5C6.3 3.8 5.5 5.9 5.5 8C5.5 10.1 6.3 12.2 8 14.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8 1.5C9.7 3.8 10.5 5.9 10.5 8C10.5 10.1 9.7 12.2 8 14.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M1.5 8H14.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="feat-txt">24 Lang</span>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M1 8H3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M4 5V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M7 2.5V13.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M10 4.5V11.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M13 6.5V9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="feat-txt">Voice</span>
+      </div>
+    </div>
+
+    <!-- Desktop-only label -->
+    <div class="card-signin-label">Sign in to continue</div>
+
+    <!-- Google sign-in button -->
+    <button class="btn-google" id="sign-in-btn" onclick="handleGoogleSignIn()">
+      <svg class="g-icon" width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908C16.658 14.253 17.64 11.945 17.64 9.2z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+        <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+      </svg>
+      <span class="btn-text">Continue with Google</span>
+      <div class="btn-spinner"></div>
+    </button>
+
+    <div class="divider">
+      <div class="div-line"></div>
+      <span class="div-txt">SECURE · PRIVATE · FREE</span>
+      <div class="div-line"></div>
+    </div>
+
+    <div class="terms">
+      By continuing you agree to Binaris'<br>
+      <a onclick="void(0)">Terms of Service</a>
+      &nbsp;&amp;&nbsp;
+      <a onclick="void(0)">Privacy Policy</a>
+    </div>
+
+    <div class="byline">by <strong>Marc-Arthur Samuel Dalus</strong></div>
+  </div>
+
+</div><!-- /login-shell -->
+
+<!-- Error toast -->
+<div class="err-toast" id="err-toast">
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.3"/>
+    <path d="M6 3.5V6.5M6 8.2V8.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+  </svg>
+  <span id="err-msg">Sign-in failed. Please try again.</span>
+</div>
+
+<script type="module">
+  import { signInWithGoogle } from "./firebase-init.js";
+
+  let errTimer = null;
+
+  function showError(msg) {
+    const toast = document.getElementById('err-toast');
+    const msgEl = document.getElementById('err-msg');
+    if (toast && msgEl) {
+      msgEl.textContent = msg || 'Sign-in failed. Please try again.';
+      toast.classList.add('show');
+      clearTimeout(errTimer);
+      errTimer = setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+  }
+
+  window.handleGoogleSignIn = async function () {
+    const btn = document.getElementById('sign-in-btn');
+    if (!btn || btn.disabled) return;
+    btn.disabled = true;
+    btn.classList.add('loading');
+    try {
+      await signInWithGoogle();
+      window.location.replace('./index.html');
+    } catch (err) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      const MSGS = {
+        'auth/popup-closed-by-user'   : 'Sign-in cancelled.',
+        'auth/popup-blocked'          : 'Pop-up blocked. Please allow pop-ups and try again.',
+        'auth/network-request-failed' : 'No internet connection. Check your network.',
+        'auth/cancelled-popup-request': 'Only one sign-in at a time.',
+        'auth/account-exists-with-different-credential': 'Account exists with a different provider.',
+      };
+      showError(MSGS[err.code] || err.message || 'Sign-in failed. Please try again.');
+    }
+  };
+</script>
+
+</body>
+</html>
