@@ -12,6 +12,7 @@ import {
   addDoc,
   doc,
   updateDoc,
+  deleteDoc,
   query,
   where,
   orderBy,
@@ -189,7 +190,8 @@ window.binarisChat = {
   createChat,
   updateChatTitle,
   sendMessage,
-  getMessages,                          // NEW — used by polling interval
+  deleteChat,                           // NEW — delete chat + all its messages
+  getMessages,                          // used by polling interval
   listenToMessages: subscribeToMessages, // alias kept for compat
   subscribeToMessages,
 };
@@ -248,7 +250,22 @@ export async function sendMessage(chatId, role, content) {
   return ref.id;
 }
 
-// ── Internal helpers ─────────────────────────────────────────────────────────
+// ============================
+// 🗑️ DELETE CHAT + ALL MESSAGES
+// ============================
+export async function deleteChat(chatId) {
+  if (!chatId) return;
+  try {
+    // 1. Batch-delete all messages in the subcollection
+    const msgsSnap = await getDocs(collection(db, "chats", chatId, "messages"));
+    await Promise.all(msgsSnap.docs.map(d => deleteDoc(d.ref)));
+    // 2. Delete the chat document itself
+    await deleteDoc(doc(db, "chats", chatId));
+  } catch (e) {
+    console.warn("[Binaris Chat] deleteChat error:", e.message);
+    throw e; // re-throw so caller can handle
+  }
+}
 
 function _hydrateUserBlocks(user) {
   const displayName = user.displayName || user.email || "You";

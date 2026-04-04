@@ -350,7 +350,7 @@ html{
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;max-width:740px;width:100%;animation:fu .55s .2s ease both}
 .card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-xl);padding:15px 13px;text-align:left;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
 .card:hover{background:var(--s2);border-color:var(--b2);transform:translateY(-2px)}.card:active{transform:translateY(0)}
-.card-ico{font-size:1.1rem;margin-bottom:9px;display:block}.card-t{font-size:.76rem;font-weight:600;color:var(--w1);margin-bottom:3px;line-height:1.3}.card-d{font-size:.67rem;color:var(--w3);line-height:1.5;font-weight:300}
+.card-ico{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--w5);border:1px solid var(--b1);border-radius:8px;color:var(--w2);margin-bottom:10px;flex-shrink:0}.card-t{font-size:.76rem;font-weight:600;color:var(--w1);margin-bottom:3px;line-height:1.3}.card-d{font-size:.67rem;color:var(--w3);line-height:1.5;font-weight:300}
 
 /* ── MESSAGES LIST ───────────────────────── */
 #msgs{display:none;flex-direction:column;max-width:700px;margin:0 auto;padding:28px 24px 210px;width:100%;gap:0}
@@ -714,9 +714,56 @@ html{
 .sys-notif-title{font-size:.78rem;font-weight:600;color:var(--w1);line-height:1.3}
 .sys-notif-sub{font-size:.68rem;color:var(--w3);margin-top:1px}
 .sys-notif-close{background:none;border:none;color:var(--w3);cursor:pointer;padding:2px 4px;font-size:.8rem;transition:color .12s;flex-shrink:0}.sys-notif-close:hover{color:var(--w1)}
+/* ── CUSTOM CONTEXT MENU ──────────────────────────────────── */
+#ctx-menu{
+  position:fixed;z-index:9999;
+  min-width:196px;max-width:240px;
+  background:rgba(10,10,10,.95);
+  backdrop-filter:blur(22px) saturate(160%);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:13px;
+  box-shadow:0 4px 12px rgba(0,0,0,.5),0 20px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06);
+  padding:4px;
+  opacity:0;
+  transform:scale(.94) translateY(-6px);
+  transform-origin:top left;
+  transition:opacity .13s ease,transform .13s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+  user-select:none;
+}
+#ctx-menu.ctx-open{opacity:1;transform:scale(1) translateY(0);pointer-events:all}
+.ctx-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 11px;border-radius:8px;cursor:pointer;
+  font-size:.775rem;font-family:var(--font);
+  color:rgba(255,255,255,.66);
+  transition:background .08s,color .08s;
+  white-space:nowrap;
+}
+.ctx-item:hover{background:rgba(255,255,255,.09);color:rgba(255,255,255,.95)}
+.ctx-item.ctx-danger{color:rgba(255,75,55,.75)}
+.ctx-item.ctx-danger:hover{background:rgba(255,55,35,.11);color:rgba(255,88,68,1)}
+.ctx-icon{display:flex;align-items:center;justify-content:center;width:14px;height:14px;flex-shrink:0;color:rgba(255,255,255,.35);transition:color .08s}
+.ctx-item:hover .ctx-icon{color:rgba(255,255,255,.6)}
+.ctx-item.ctx-danger .ctx-icon{color:rgba(255,75,55,.5)}
+.ctx-item.ctx-danger:hover .ctx-icon{color:rgba(255,88,68,.8)}
+.ctx-label{flex:1}
+.ctx-shortcut{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.2);flex-shrink:0}
+.ctx-sep{height:1px;background:rgba(255,255,255,.07);margin:3px 6px}
+.ctx-head{padding:5px 11px 3px;font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+/* Light themes */
+[data-theme="light"] #ctx-menu,[data-theme="sepia"] #ctx-menu{
+  background:rgba(248,246,242,.97);border-color:rgba(0,0,0,.09);
+  box-shadow:0 4px 12px rgba(0,0,0,.1),0 18px 50px rgba(0,0,0,.18);}
+[data-theme="light"] .ctx-item,[data-theme="sepia"] .ctx-item{color:rgba(0,0,0,.66)}
+[data-theme="light"] .ctx-item:hover,[data-theme="sepia"] .ctx-item:hover{background:rgba(0,0,0,.06);color:rgba(0,0,0,.92)}
+[data-theme="light"] .ctx-icon,[data-theme="sepia"] .ctx-icon{color:rgba(0,0,0,.3)}
+[data-theme="light"] .ctx-sep,[data-theme="sepia"] .ctx-sep{background:rgba(0,0,0,.08)}
+[data-theme="light"] .ctx-head,[data-theme="sepia"] .ctx-head{color:rgba(0,0,0,.24)}
+[data-theme="light"] .ctx-shortcut,[data-theme="sepia"] .ctx-shortcut{color:rgba(0,0,0,.2)}
 
 </style>
-</head>
 <body>
 <!-- ═════════════════ PWA SPLASH ═════════════════ -->
 <div id="splash">
@@ -1169,7 +1216,7 @@ const LANGS = {
     ]
   },
 };
-let curLang = localStorage.getItem('binaris_lang') || 'en';
+let curLang = localStorage.getItem('binaris_lang') || 'ht';
 function applyLang(code){
   curLang=code; localStorage.setItem('binaris_lang',code);
   const L=LANGS[code]||LANGS.en;
@@ -1187,7 +1234,22 @@ function updateSysLang(code){
 function buildCards(){
   const grid=document.getElementById('cards-grid'); if(!grid) return;
   const L=LANGS[curLang]||LANGS.en; grid.innerHTML='';
-  L.cards.forEach(c=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<span class="card-ico">${c.ico}</span><div class="card-t">${c.t}</div><div class="card-d">${c.d}</div>`;d.onclick=()=>suggest(c.q);grid.appendChild(d);});
+  // SVG icons — one per card position (same order as cards arrays in all langs)
+  const CARD_SVGS=[
+    // 0 — Landing Page / Paj Dakèy
+    `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1.5" width="12" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 4.5h12" stroke="currentColor" stroke-width="1.1"/><path d="M3.5 7h3M3.5 9h5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M1 12.5h4M9 12.5h4M7 10v2.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>`,
+    // 1 — REST API
+    `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="3" rx="1" stroke="currentColor" stroke-width="1.1"/><rect x="1.5" y="8.5" width="11" height="3" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M3.5 4h.5M3.5 10h.5M7 4h.5M7 10h.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><circle cx="10.5" cy="4" r=".7" fill="currentColor" opacity=".7"/><circle cx="10.5" cy="10" r=".7" fill="currentColor" opacity=".7"/><path d="M7 5.5v3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>`,
+    // 2 — Debug / Debyoge
+    `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 5.5v2.5l1.2 1.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M3.7 3.2L2.2 1.7M10.3 3.2l1.5-1.5M3.7 11.8l-1.5 1.5M10.3 11.8l1.5 1.5M1 7.5h1.8M11.2 7.5H13" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>`,
+    // 3 — Learn / Aprann
+    `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3c0-.6.4-1 1-1h3.5v10H3c-.6 0-1-.4-1-1V3Z" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 2H11c.6 0 1 .4 1 1v8c0 .6-.4 1-1 1H6.5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 2v10" stroke="currentColor" stroke-width="1.1"/><path d="M3.5 5h1.5M3.5 7h2.5M8.5 5H10M8.5 7h1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>`,
+  ];
+  L.cards.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="card-ico">${CARD_SVGS[i]||''}</div><div class="card-t">${c.t}</div><div class="card-d">${c.d}</div>`;
+    d.onclick=()=>suggest(c.q);grid.appendChild(d);
+  });
 }
 function buildLangGrid(){
   const grid=document.getElementById('lang-grid'); if(!grid) return; grid.innerHTML='';
@@ -1515,7 +1577,17 @@ async function loadSession(id){
     s.messages.forEach(m=>addMsg(m.role==='user'?'user':'ai',m.content));
   }
 }
-function delSession(id,e){e.stopPropagation();sessions=sessions.filter(s=>s.id!==id);saveSessions();if(curSid===id)newChat();else renderSB();}
+function delSession(id,e){
+  e.stopPropagation();
+  const s=sessions.find(x=>x.id===id);
+  sessions=sessions.filter(x=>x.id!==id);
+  saveSessions();
+  if(curSid===id) newChat(); else renderSB();
+  // Delete from Firestore for cloud-backed chats
+  if(s?._fromFirestore && window.binarisChat?.deleteChat){
+    window.binarisChat.deleteChat(id).catch(err=>console.warn('[Binaris] deleteChat error:',err.message));
+  }
+}
 function clearHistory(){sessions=[];saveSessions();newChat();closeSettings();}
 function renderSB(){
   const hist=$('sb-hist'); hist.querySelectorAll('.hist-row').forEach(r=>r.remove());
@@ -1524,6 +1596,7 @@ function renderSB(){
   empty.style.display='none';
   sessions.slice().reverse().forEach(s=>{
     const d=document.createElement('div'); d.className='hist-row'+(s.id===curSid?' active':'');
+    d.dataset.sid=s.id;
     d.innerHTML=`<div class="hist-ico"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 2c0-.5.4-1 1-1h7c.6 0 1 .5 1 1v5c0 .6-.4 1-1 1H3L1 10V2Z" stroke="currentColor" stroke-width="1.1"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div><button class="hist-del" onclick="delSession('${s.id}',event)">&#x2715;</button>`;
     d.onclick=e=>{if(e.target.closest('.hist-del'))return;loadSession(s.id);};
     hist.appendChild(d);
@@ -1601,7 +1674,6 @@ async function send(){
   streaming=true;stopFlag=false;setSendMode('stop');
   history.push({role:'user',content:text+buildCtx()});
   addMsg('user',disp,false,snap);
-  window._adHandleUserMessage?.(); // ← ads.js: hide banner when user sends
   // Persist user message to Firestore — capture doc ID to mark it as already-rendered
   if(window.binarisChat?.sendMessage){
     window.binarisChat.sendMessage(curSid,'user',text+buildCtx()).then(docId=>{ if(docId) _renderedMsgIds.add(docId); }).catch(()=>{});
@@ -1621,7 +1693,6 @@ async function send(){
     }
     await saveSession();
     notifyAIDone(full.length);
-    window._adHandleAIEnd?.(); // ← ads.js: show banner after AI responds
     if(autoTTS)speak(full);
   }catch(err){
     if(err.name==='AbortError'||stopFlag){
@@ -2239,22 +2310,189 @@ setTimeout(dismissSplash, 2200);
 <!-- Chat & Firestore session manager -->
 <script type="module" src="./chat.js"></script>
 
-<!-- ═══════════════════ ADS BOOTSTRAP ═══════════════════
-     Imports ads.js (ES module) and bridges its API onto
-     window so the non-module send() function can call
-     _adHandleUserMessage / _adHandleAIEnd safely.
-     initAds() boots the ad system once the page is ready.
- ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════ CUSTOM CONTEXT MENU DOM ═══════════════════ -->
+<div id="ctx-menu" role="menu" aria-label="Context menu"></div>
+
+<!-- ═══════════════════ CUSTOM CONTEXT MENU LOGIC ═══════════════════ -->
+<script>
+(function(){
+  const menu = document.getElementById('ctx-menu');
+  let _targetSid = null; // chat ID of the right-clicked .hist-row
+
+  /* ── Build menu items ─────────────────────────────────────────────── */
+  // Each item: { label, shortcut?, icon (SVG path data), action, danger? }
+  function _menuItems(sid){
+    const L = (typeof LANGS !== 'undefined' && typeof curLang !== 'undefined')
+      ? (LANGS[curLang] || LANGS.ht || LANGS.en)
+      : { clear_history:'Efase' };
+    return [
+      {
+        label: 'Ouvri',          // "Open"
+        icon: `<path d="M1.5 5.5V3c0-.6.4-1 1-1h3L7 3.5H11c.6 0 1 .4 1 1v5c0 .6-.4 1-1 1H2.5c-.6 0-1-.4-1-1V5.5Z" stroke="currentColor" stroke-width="1.1"/>`,
+        shortcut: '↵',
+        action(){ if(sid) loadSession(sid); }
+      },
+      { sep: true },
+      {
+        label: 'Kopye tit',      // "Copy title"
+        icon: `<rect x="2.5" y="2.5" width="7" height="8.5" rx="1" stroke="currentColor" stroke-width="1.1"/><rect x="4" y="1" width="7" height="8.5" rx="1" stroke="currentColor" stroke-width="1.1" fill="var(--bg)"/>`,
+        action(){
+          const s = (typeof sessions !== 'undefined') ? sessions.find(x=>x.id===sid) : null;
+          if(s) navigator.clipboard?.writeText(s.title).catch(()=>{});
+        }
+      },
+      {
+        label: 'Ekspòte',        // "Export"
+        icon: `<path d="M6.5 1v7M4 5.5L6.5 8 9 5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 9.5V11h9V9.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>`,
+        action(){
+          const s = (typeof sessions !== 'undefined') ? sessions.find(x=>x.id===sid) : null;
+          if(!s) return;
+          const a=document.createElement('a');
+          a.href=URL.createObjectURL(new Blob([JSON.stringify({session:s.id,title:s.title,messages:s.messages||[]},null,2)],{type:'application/json'}));
+          a.download=`binaris-${s.title.slice(0,32).replace(/[^a-z0-9]/gi,'-')}.json`;
+          a.click();
+        }
+      },
+      { sep: true },
+      {
+        label: 'Efase chat',     // "Delete chat"
+        icon: `<path d="M2 3.5h9M4 3.5V2.5h5v1M5 5.5v3M7.5 5.5v3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M3 3.5l.5 7h6l.5-7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>`,
+        danger: true,
+        action(){
+          if(sid && typeof delSession === 'function'){
+            // Simulate a click event with stopPropagation so delSession works
+            delSession(sid, { stopPropagation(){ } });
+          }
+        }
+      },
+    ];
+  }
+
+  /* ── Render ───────────────────────────────────────────────────────── */
+  function _render(sid, x, y){
+    _targetSid = sid;
+    const items = _menuItems(sid);
+    menu.innerHTML = '';
+
+    // Section heading with chat title
+    const s = (typeof sessions !== 'undefined') ? sessions.find(x=>x.id===sid) : null;
+    if(s){
+      const head = document.createElement('div');
+      head.className = 'ctx-head';
+      head.textContent = s.title.slice(0, 28) + (s.title.length > 28 ? '…' : '');
+      menu.appendChild(head);
+    }
+
+    items.forEach(item => {
+      if(item.sep){
+        const sep = document.createElement('div');
+        sep.className = 'ctx-sep';
+        menu.appendChild(sep);
+        return;
+      }
+      const el = document.createElement('div');
+      el.className = 'ctx-item' + (item.danger ? ' ctx-danger' : '');
+      el.setAttribute('role','menuitem');
+      el.innerHTML = `
+        <span class="ctx-icon">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">${item.icon}</svg>
+        </span>
+        <span class="ctx-label">${item.label}</span>
+        ${item.shortcut ? `<span class="ctx-shortcut">${item.shortcut}</span>` : ''}
+      `;
+      el.addEventListener('click', e => {
+        e.stopPropagation();
+        item.action();
+        _hide();
+      });
+      menu.appendChild(el);
+    });
+
+    // Smart positioning — keep within viewport
+    menu.style.left = '0';
+    menu.style.top  = '0';
+    menu.classList.add('ctx-open');
+    const mw = menu.offsetWidth  || 200;
+    const mh = menu.offsetHeight || 160;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    menu.style.left = Math.min(x, vw - mw - 8) + 'px';
+    menu.style.top  = Math.min(y, vh - mh - 8) + 'px';
+
+    // Flip transform-origin if near bottom
+    menu.style.transformOrigin = (y + mh > vh - 8) ? 'bottom left' : 'top left';
+  }
+
+  function _hide(){
+    menu.classList.remove('ctx-open');
+    _targetSid = null;
+  }
+
+  /* ── Event delegation ─────────────────────────────────────────────── */
+  // Listen on the two sidebar hist containers
+  function _bindContainer(el){
+    if(!el) return;
+    el.addEventListener('contextmenu', e => {
+      const row = e.target.closest('.hist-row');
+      if(!row) return;
+      e.preventDefault();
+      const sid = row.dataset.sid;
+      if(!sid) return;
+      _render(sid, e.clientX + 4, e.clientY + 4);
+    });
+    // Long-press support for mobile
+    let _lpTimer = null;
+    el.addEventListener('touchstart', e => {
+      const row = e.target.closest('.hist-row');
+      if(!row) return;
+      const touch = e.touches[0];
+      _lpTimer = setTimeout(() => {
+        e.preventDefault();
+        const sid = row.dataset.sid;
+        if(!sid) return;
+        // Center near the row on mobile
+        const rect = row.getBoundingClientRect();
+        _render(sid, rect.left + 16, rect.bottom + 4);
+      }, 580);
+    }, { passive: true });
+    el.addEventListener('touchend',  () => clearTimeout(_lpTimer));
+    el.addEventListener('touchmove', () => clearTimeout(_lpTimer));
+  }
+
+  // Bind after DOM is ready so the containers exist
+  function _init(){
+    _bindContainer(document.getElementById('sb-hist'));
+    _bindContainer(document.getElementById('sb-hist-drawer'));
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', _init);
+  } else {
+    _init();
+  }
+
+  // Suppress native context menu everywhere else in the app
+  document.addEventListener('contextmenu', e => {
+    // Allow on inputs + textareas + contenteditable so users can paste/copy text
+    const tag = e.target.tagName;
+    if(tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+    e.preventDefault();
+    // If the click wasn't on a hist-row, just hide our menu
+    if(!e.target.closest('.hist-row')) _hide();
+  });
+
+  // Hide on outside click / scroll / Escape
+  document.addEventListener('click',   e => { if(!menu.contains(e.target)) _hide(); });
+  document.addEventListener('scroll',  _hide, true);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') _hide(); });
+  window.addEventListener('blur', _hide);
+})();
+</script>
+
+<!-- ═══════════════════ ADS BOOTSTRAP ═══════════════════ -->
 <script type="module">
   import { initAds, handleAIResponseEnd, handleUserMessage } from './ads.js';
-
-  // Expose hooks as optional-chaining-safe window properties.
-  // The main script calls them via window._adHandleAIEnd?.() so
-  // if this module ever fails to load the app still works fine.
   window._adHandleAIEnd       = handleAIResponseEnd;
   window._adHandleUserMessage = handleUserMessage;
-
-  // Boot the ad system after the page is interactive.
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAds);
   } else {

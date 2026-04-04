@@ -38,8 +38,8 @@ const MODE = "dev"; // ← change to "prod" when deploying
  * Publisher ID format:  ca-pub-XXXXXXXXXXXXXXXX
  *   (NOT  ca-app-pub-… — that is AdMob, not AdSense)
  */
-const REAL_PUB_ID  = "ca-pub-3850410266185876"; // ← your AdSense pub ID
-const REAL_AD_SLOT = "3749318170";        // ← your slot number
+const REAL_PUB_ID  = "ca-pub-3850410266185876"; // ← your AdSense publisher ID
+const REAL_AD_SLOT = "3749318170";              // ← your ad unit slot
 
 /**
  * Google's official AdSense test credentials.
