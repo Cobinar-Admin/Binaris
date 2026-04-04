@@ -32,7 +32,7 @@ const MODE = "dev"; // ← change to "prod" when deploying
  *                   └─── pub ──────────────────┘└─ slot ─┘
  */
 const REAL_PUB_ID  = "ca-pub-3850410266185876";    // ← your publisher ID
-const REAL_AD_SLOT = "1390019191";                 // ← your ad slot
+const REAL_AD_SLOT = "";                 // ← your ad slot
 
 /**
  * Google's official test ad unit — do NOT change this.
