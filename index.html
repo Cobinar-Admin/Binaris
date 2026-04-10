@@ -95,6 +95,125 @@ const _unsub = onAuthStateChanged(auth, (user) => {
 [data-theme="ocean"] .code-wrap{background:#020a10}[data-theme="ocean"] .code-hdr{background:#071420}[data-theme="ocean"] .dock::before{background:linear-gradient(to top,#040d14 55%,transparent)}[data-theme="ocean"] .send-btn{background:var(--w1);color:#040d14}[data-theme="ocean"] .send-btn:hover:not(:disabled){background:rgba(186,230,253,.88)}[data-theme="ocean"] .msg.user .m-av{background:var(--w1);color:#040d14}[data-theme="ocean"] .sw input:checked+.sw-t::after{background:#040d14}
 [data-theme="violet"]{--bg:#0a080f;--s1:#100d18;--s2:#161222;--s3:#1d182c;--s4:#261f38;--s5:#302745;--w1:#e9d5ff;--w2:rgba(233,213,255,.68);--w3:rgba(233,213,255,.36);--w4:rgba(233,213,255,.14);--w5:rgba(233,213,255,.06);--w6:rgba(233,213,255,.03);--b1:rgba(233,213,255,.08);--b2:rgba(233,213,255,.13);--b3:rgba(233,213,255,.22);--ok:#a78bfa;--warn:#f59e0b;--err:#f87171;--theme-bar:#0a080f}
 [data-theme="violet"] .code-wrap{background:#080610}[data-theme="violet"] .code-hdr{background:#100d18}[data-theme="violet"] .dock::before{background:linear-gradient(to top,#0a080f 55%,transparent)}[data-theme="violet"] .send-btn{background:var(--w1);color:#0a080f}[data-theme="violet"] .send-btn:hover:not(:disabled){background:rgba(233,213,255,.88)}[data-theme="violet"] .msg.user .m-av{background:var(--w1);color:#0a080f}[data-theme="violet"] .sw input:checked+.sw-t::after{background:#0a080f}
+[data-theme="orange"]{--bg:#0e0800;--s1:#160e00;--s2:#1f1500;--s3:#291c00;--s4:#352500;--s5:#422f00;--w1:#ffd580;--w2:rgba(255,213,128,.68);--w3:rgba(255,213,128,.36);--w4:rgba(255,213,128,.14);--w5:rgba(255,213,128,.06);--w6:rgba(255,213,128,.03);--b1:rgba(255,213,128,.08);--b2:rgba(255,213,128,.13);--b3:rgba(255,213,128,.22);--ok:#fbbf24;--warn:#f97316;--err:#f87171;--theme-bar:#0e0800}
+[data-theme="orange"] .code-wrap{background:#0a0600}[data-theme="orange"] .code-hdr{background:#160e00}[data-theme="orange"] .dock::before{background:linear-gradient(to top,#0e0800 55%,transparent)}[data-theme="orange"] .send-btn{background:var(--w1);color:#0e0800}[data-theme="orange"] .send-btn:hover:not(:disabled){background:rgba(255,213,128,.88)}[data-theme="orange"] .msg.user .m-av{background:var(--w1);color:#0e0800}[data-theme="orange"] .sw input:checked+.sw-t::after{background:#0e0800}
+
+/* ── PREVIEW MESSAGE BAR ─────────────────────────────────────── */
+#preview-bar{
+  display:none;align-items:center;gap:10px;
+  padding:7px 20px;
+  background:var(--s1);border-bottom:1px solid var(--b1);
+  flex-shrink:0;z-index:15;
+}
+#preview-track{
+  flex:1;height:3px;background:var(--s4);border-radius:2px;overflow:hidden;max-width:120px;
+}
+#preview-fill{height:100%;width:100%;border-radius:2px;transition:width .4s,background .4s}
+#preview-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:var(--w3);white-space:nowrap}
+.preview-signin{
+  font-family:var(--mono);font-size:.62rem;padding:4px 10px;border-radius:var(--r-pill);
+  border:1px solid var(--b2);background:transparent;color:var(--w2);cursor:pointer;
+  transition:all .12s;white-space:nowrap;flex-shrink:0;
+}
+.preview-signin:hover{background:var(--w5);color:var(--w1)}
+
+/* ── PAYWALL MODAL ───────────────────────────────────────────── */
+#paywall-overlay{
+  display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;
+  opacity:0;transition:opacity .25s;
+  padding:20px;
+}
+#paywall-overlay.open{opacity:1}
+#paywall-card{
+  background:var(--s1);border:1px solid var(--b2);border-radius:24px;
+  padding:36px 32px;max-width:360px;width:100%;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  box-shadow:0 40px 100px rgba(0,0,0,.8);
+  animation:pw-in .4s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes pw-in{from{transform:scale(.92) translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.pw-icon{
+  width:60px;height:60px;border-radius:16px;
+  background:var(--s3);border:1px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+.pw-title{font-size:1.1rem;font-weight:700;color:var(--w1);margin-bottom:8px;text-align:center}
+.pw-sub{font-size:.82rem;color:var(--w3);text-align:center;line-height:1.65;margin-bottom:24px;max-width:280px}
+.pw-btn{
+  width:100%;padding:13px;border-radius:14px;
+  border:none;background:var(--w1);color:var(--bg);
+  font-family:var(--font);font-size:.88rem;font-weight:700;
+  cursor:pointer;transition:background .12s,transform .12s;
+  margin-bottom:10px;
+}
+.pw-btn:hover{background:rgba(255,255,255,.9);transform:translateY(-1px)}
+.pw-dismiss{
+  background:none;border:none;color:var(--w3);font-family:var(--font);
+  font-size:.72rem;cursor:pointer;padding:4px;transition:color .12s;
+}
+.pw-dismiss:hover{color:var(--w1)}
+
+/* ── IN-APP BROWSER BANNER ──────────────────────────────────── */
+#iab-banner{
+  display:none;position:fixed;inset:0;z-index:700;
+  background:var(--bg);flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:32px 24px;gap:0;text-align:center;
+}
+.iab-icon{
+  width:72px;height:72px;border-radius:20px;overflow:hidden;
+  margin-bottom:24px;box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+.iab-icon img{width:72px;height:72px;display:block}
+.iab-title{font-size:1.15rem;font-weight:700;color:var(--w1);margin-bottom:10px}
+.iab-sub{font-size:.84rem;color:var(--w3);line-height:1.7;max-width:280px;margin-bottom:28px}
+.iab-step{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--s2);border:1px solid var(--b1);border-radius:var(--r-lg);
+  padding:12px 14px;width:100%;max-width:320px;margin-bottom:10px;text-align:left;
+}
+.iab-step-num{
+  width:22px;height:22px;border-radius:50%;background:var(--w1);color:var(--bg);
+  font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.iab-step-text{font-size:.78rem;color:var(--w2);line-height:1.5}
+.iab-skip{
+  margin-top:18px;background:none;border:none;color:var(--w3);
+  font-family:var(--font);font-size:.72rem;cursor:pointer;
+  text-decoration:underline;text-underline-offset:2px;
+}
+.iab-skip:hover{color:var(--w1)}
+
+/* ── MULTI-SELECT CHECKBOXES ────────────────────────────────── */
+.hist-chk{
+  width:17px;height:17px;border-radius:5px;
+  border:1px solid var(--b2);background:var(--s3);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:transparent;transition:all .12s;
+}
+.hist-chk.checked{background:var(--w1);border-color:var(--w1);color:var(--bg)}
+.hist-row.selected{background:var(--w5)!important;border-color:var(--b2)!important}
+.sb-actions{
+  display:flex;align-items:center;gap:6px;padding:6px 8px 2px;
+}
+.sb-select-btn{
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.05em;
+  background:none;border:1px solid var(--b1);border-radius:var(--r-pill);
+  color:var(--w3);cursor:pointer;padding:3px 10px;transition:all .12s;
+}
+.sb-select-btn:hover{background:var(--w5);color:var(--w1)}
+.sb-delete-sel-btn{
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.05em;
+  background:rgba(255,60,40,.1);border:1px solid rgba(255,60,40,.25);border-radius:var(--r-pill);
+  color:#ff6040;cursor:pointer;padding:3px 10px;transition:all .12s;display:none;
+}
+.sb-delete-sel-btn:hover{background:rgba(255,60,40,.2);border-color:rgba(255,60,40,.45)}
+/* Drawer delete button always visible (touch-friendly) */
+#sb-hist-drawer .hist-del{display:flex!important}
+
 
 /* ── BASE RESET ──────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -765,6 +884,10 @@ html{
     <span data-i18n="new_chat">New conversation</span>
   </button>
   <div class="sb-label" data-i18n="recent">Recent</div>
+  <div class="sb-actions">
+    <button class="sb-select-btn" onclick="toggleSelectMode()">Select</button>
+    <button class="sb-delete-sel-btn" onclick="deleteSelected()">Delete selected</button>
+  </div>
   <div class="sb-hist" id="sb-hist">
     <div class="sb-empty" id="hist-empty" data-i18n="no_history">No history.<br>Start a conversation.</div>
   </div>
@@ -782,6 +905,10 @@ html{
   <div class="sb-logo"><div class="sb-mark"><img src="round-icon.png" alt="Binaris"></div><span class="sb-name">Binaris</span></div>
   <button class="sb-new" onclick="newChat();closeDrawer()"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span data-i18n="new_chat">New conversation</span></button>
   <div class="sb-label" data-i18n="recent">Recent</div>
+  <div class="sb-actions">
+    <button class="sb-select-btn" onclick="toggleSelectMode()">Select</button>
+    <button class="sb-delete-sel-btn" onclick="deleteSelected()">Delete selected</button>
+  </div>
   <div class="sb-hist" id="sb-hist-drawer"><div class="sb-empty" data-i18n="no_history">No history.<br>Start a conversation.</div></div>
   <div class="sb-foot">
     <div class="sb-user">
@@ -838,6 +965,12 @@ html{
     </div>
   </div>
 
+  <!-- Preview message counter bar (hidden for signed-in users) -->
+  <div id="preview-bar">
+    <div id="preview-track"><div id="preview-fill"></div></div>
+    <span id="preview-label"></span>
+    <button class="preview-signin" onclick="goToSignIn()">Sign in free</button>
+  </div>
   <div class="msgs-wrap" id="msgs-wrap">
     <div id="empty">
       <div class="e-badge"><div class="e-dot"></div><span data-i18n="badge_text">AI ASSISTANT</span></div>
@@ -1219,6 +1352,7 @@ const THEMES=[
   {id:'forest', name:'Forest',   swatch:'#080f08', border:'rgba(212,237,204,.15)', bar:'#080f08', bg:'#080f08', light:false},
   {id:'ocean',  name:'Ocean',    swatch:'#040d14', border:'rgba(186,230,253,.15)', bar:'#040d14', bg:'#040d14', light:false},
   {id:'violet', name:'Violet',   swatch:'#0a080f', border:'rgba(233,213,255,.15)', bar:'#0a080f', bg:'#0a080f', light:false},
+  {id:'orange', name:'Orange',   swatch:'#0e0800', border:'rgba(255,213,128,.15)', bar:'#0e0800', bg:'#0e0800', light:false},
 ];
 let curTheme=localStorage.getItem('binaris_theme')||'dark';
 function applyTheme(id){
@@ -1266,38 +1400,97 @@ function buildThemeGrid(){
    VOICE CHARACTERS
    Named personas mapped to Speech Synthesis
 ═════════════════════════════════════════ */
+/* ═════════════════════════════════════════
+   VOICE ENGINE — quality-ranked resolution
+   Tries Neural/Premium voices first (iOS & Android ship them),
+   falls back gracefully through Enhanced → Standard.
+═════════════════════════════════════════ */
 const VOICE_CHARS = [
-  { id:'atlas',  name:'Atlas',   desc:'Deep · Authoritative',  color:'#6366f1', initial:'A',
-    criteria: v => v.name.includes('Google UK English Male') || (v.lang.startsWith('en') && v.name.toLowerCase().includes('daniel')) || (v.lang.startsWith('en') && v.name.toLowerCase().includes('alex')) || (v.lang.startsWith('en') && v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female')),
-    fallback: v => v.lang.startsWith('en') && !v.name.toLowerCase().includes('female'),
-    pitch:0.88, rate:0.96 },
-  { id:'luna',   name:'Luna',    desc:'Warm · Conversational', color:'#a78bfa', initial:'L',
-    criteria: v => v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Karen') || (v.lang.startsWith('en') && v.name.toLowerCase().includes('female')),
-    fallback: v => v.lang.startsWith('en-US'),
-    pitch:1.1, rate:1.0 },
-  { id:'nova',   name:'Nova',    desc:'Bright · Energetic',    color:'#34d399', initial:'N',
-    criteria: v => v.name.includes('Google US English') || v.name.includes('Moira') || v.name.includes('Tessa'),
-    fallback: v => v.lang.startsWith('en-GB'),
-    pitch:1.2, rate:1.06 },
-  { id:'sage',   name:'Sage',    desc:'Calm · Precise',        color:'#60a5fa', initial:'S',
-    criteria: v => v.name.includes('Microsoft David') || v.name.includes('Microsoft Mark') || v.name.includes('Fred'),
-    fallback: v => v.lang.startsWith('en-AU'),
-    pitch:0.95, rate:0.94 },
-  { id:'echo',   name:'Echo',    desc:'Clear · Professional',  color:'#f59e0b', initial:'E',
-    criteria: v => v.name.includes('Google UK English Female') || v.name.includes('Fiona') || v.name.includes('Veena'),
-    fallback: v => v.lang.startsWith('en-IN'),
-    pitch:1.0, rate:1.02 },
-  { id:'aria',   name:'Aria',    desc:'Expressive · Dynamic',  color:'#f87171', initial:'A',
-    criteria: v => v.name.includes('Microsoft Aria') || v.name.includes('Allison') || v.name.includes('Zira'),
-    fallback: v => v.lang.startsWith('en') && v.voiceURI.includes('Premium'),
-    pitch:1.15, rate:1.04 },
+  { id:'atlas',  name:'Atlas',   desc:'Deep · Neural Male',     color:'#6366f1', initial:'A',
+    // Priority: iOS Neural "Daniel" → Android Neural "en-GB-Standard-B" → Google UK Male → any deep male
+    priority:[
+      v => v.name==='Daniel'&&v.lang.startsWith('en'),           // iOS Neural (UK)
+      v => v.name.includes('Neural')&&v.lang.startsWith('en')&&!v.name.match(/female|zira|hazel|salli|joanna|kimberly/i),
+      v => v.name==='Google UK English Male',
+      v => v.name.includes('Microsoft David')&&v.lang==='en-US',
+      v => v.name.includes('David')&&v.lang.startsWith('en'),
+      v => v.lang.startsWith('en')&&!v.name.match(/female|zira|hazel|salli|joanna|kimberly|karen|moira/i),
+    ], pitch:0.88, rate:0.95 },
+
+  { id:'luna',   name:'Luna',    desc:'Warm · Neural Female',   color:'#a78bfa', initial:'L',
+    priority:[
+      v => v.name==='Samantha'&&v.lang.startsWith('en'),         // iOS Neural (US)
+      v => v.name.includes('Neural')&&v.lang==='en-US'&&v.name.match(/female|joanna|kimberly|salli/i),
+      v => v.name==='Google US English',
+      v => v.name.includes('Microsoft Zira')&&v.lang==='en-US',
+      v => v.name.includes('Samantha')||v.name.includes('Victoria'),
+      v => v.lang==='en-US',
+    ], pitch:1.05, rate:1.0 },
+
+  { id:'nova',   name:'Nova',    desc:'Bright · Expressive',    color:'#34d399', initial:'N',
+    priority:[
+      v => v.name==='Karen'&&v.lang.startsWith('en'),            // iOS Neural (AU)
+      v => v.name==='Tessa'&&v.lang.startsWith('en'),            // iOS Neural (ZA)
+      v => v.name.includes('Neural')&&v.lang==='en-AU',
+      v => v.name==='Google UK English Female',
+      v => v.name.includes('Moira'),
+      v => v.lang==='en-AU'||v.lang==='en-GB',
+    ], pitch:1.15, rate:1.06 },
+
+  { id:'sage',   name:'Sage',    desc:'Calm · Measured',        color:'#60a5fa', initial:'S',
+    priority:[
+      v => v.name==='Alex'&&v.lang.startsWith('en'),             // iOS Neural deep
+      v => v.name.includes('Neural')&&v.lang.startsWith('en')&&v.name.match(/mark|brian|guy/i),
+      v => v.name.includes('Microsoft Mark')&&v.lang==='en-US',
+      v => v.name.includes('Mark')&&v.lang.startsWith('en'),
+      v => v.name.includes('Fred')&&v.lang.startsWith('en'),
+      v => v.lang==='en-GB',
+    ], pitch:0.92, rate:0.93 },
+
+  { id:'echo',   name:'Echo',    desc:'Clear · Professional',   color:'#f59e0b', initial:'E',
+    priority:[
+      v => v.name==='Fiona'&&v.lang.startsWith('en'),            // iOS Neural Scottish
+      v => v.name.includes('Neural')&&v.lang==='en-GB'&&v.name.match(/amy|emma|hazel/i),
+      v => v.name.includes('Microsoft Hazel')&&v.lang==='en-GB',
+      v => v.name.includes('Hazel')||v.name.includes('Amy'),
+      v => v.name==='Google UK English Female',
+      v => v.lang.startsWith('en'),
+    ], pitch:1.0, rate:1.01 },
+
+  { id:'aria',   name:'Aria',    desc:'Dynamic · Neural',       color:'#f87171', initial:'A',
+    priority:[
+      v => v.name==='Microsoft Aria Online (Natural)'&&v.lang==='en-US',  // Edge Neural best
+      v => v.name.includes('Aria')&&v.lang.startsWith('en'),
+      v => v.name.includes('Neural')&&v.lang==='en-US',
+      v => v.name.includes('Allison')&&v.lang.startsWith('en'),
+      v => v.name==='Google US English',
+      v => v.lang.startsWith('en'),
+    ], pitch:1.1, rate:1.03 },
 ];
 let curVoiceChar = localStorage.getItem('binaris_voice_char') || 'atlas';
 
+// Cache voices after first load — getVoices() returns [] until 'voiceschanged'
+let _cachedVoices = [];
+function _getVoices(){
+  if(_cachedVoices.length) return _cachedVoices;
+  _cachedVoices = speechSynthesis.getVoices();
+  return _cachedVoices;
+}
+if(typeof speechSynthesis !== 'undefined'){
+  speechSynthesis.addEventListener('voiceschanged', ()=>{
+    _cachedVoices = speechSynthesis.getVoices();
+  });
+}
+
 function resolveVoice(char){
-  const voices = speechSynthesis.getVoices();
+  const voices = _getVoices();
   if(!voices.length) return null;
-  return voices.find(char.criteria) || voices.find(char.fallback) || voices.find(v=>v.lang.startsWith('en')) || voices[0];
+  // Walk through priority tiers — first match wins
+  for(const tier of char.priority){
+    const found = voices.find(tier);
+    if(found) return found;
+  }
+  return voices.find(v=>v.lang.startsWith('en')) || voices[0];
 }
 function getVoiceChar(id){ return VOICE_CHARS.find(c=>c.id===id) || VOICE_CHARS[0]; }
 
@@ -1323,15 +1516,42 @@ function updateVoiceBadge(){
 
 function speak(text){
   speechSynthesis.cancel();
-  const clean=text.replace(/```[\s\S]*?```/g,'code.').replace(/[#*_`>~]/g,'').slice(0,1400);
-  const u=new SpeechSynthesisUtterance(clean);
-  const vc=getVoiceChar(curVoiceChar);
-  const resolved=resolveVoice(vc);
-  if(resolved) u.voice=resolved;
-  u.lang=resolved?.lang||'en-US';
-  u.pitch=vc.pitch; u.rate=vc.rate;
-  speechSynthesis.speak(u);
-  return u;
+  const vc = getVoiceChar(curVoiceChar);
+
+  // Strip markdown and truncate
+  const clean = text
+    .replace(/```[\s\S]*?```/g, 'code block.')
+    .replace(/`[^`]+`/g, s => s.slice(1,-1))
+    .replace(/#{1,6}\s/g,'').replace(/[*_~>|]/g,'')
+    .replace(/\n{2,}/g,' ').replace(/\n/g,' ')
+    .trim().slice(0, 2400);
+
+  if(!clean) return;
+
+  // Voices may not be loaded yet — retry once after voiceschanged
+  function _doSpeak(){
+    const resolved = resolveVoice(vc);
+    const u = new SpeechSynthesisUtterance(clean);
+    if(resolved){ u.voice = resolved; u.lang = resolved.lang; }
+    else { u.lang = 'en-US'; }
+    u.pitch = vc.pitch;
+    u.rate  = vc.rate;
+    // Chrome bug: long utterances stop mid-sentence — keep SpeechSynthesis alive
+    let keepAlive;
+    u.onstart = () => {
+      keepAlive = setInterval(() => {
+        if(!speechSynthesis.speaking) clearInterval(keepAlive);
+        else { speechSynthesis.pause(); speechSynthesis.resume(); }
+      }, 10000);
+    };
+    u.onend = u.onerror = () => clearInterval(keepAlive);
+    speechSynthesis.speak(u);
+    return u;
+  }
+
+  if(_cachedVoices.length) return _doSpeak();
+  // First call before voiceschanged fires — wait briefly then speak
+  setTimeout(_doSpeak, 120);
 }
 
 /* ═════════════════════════════════════════
@@ -1375,6 +1595,72 @@ let history=[{role:'system',content:SYS}];
 let sessions=[],curSid=null,streaming=false,stopFlag=false,autoTTS=false;
 let pendingFiles=[],totalTokens=0;
 let sttOn=false,sttRecog=null,voiceOn=false,vMuted=false,vRecog=null;
+
+/* ── PREVIEW SESSION ──────────────────────────────────────────────────────
+   15 free messages per browser session for unauthenticated usage.
+   Authenticated users (Firebase) always bypass this.
+   Counter resets on page refresh (sessionStorage) so signed-in users
+   who sign out mid-session still see a grace period.
+─────────────────────────────────────────────────────────────────────────── */
+const PREVIEW_LIMIT = 15;
+let _previewCount = parseInt(sessionStorage.getItem('binaris_preview_count') || '0', 10);
+
+function _isAuthUser(){
+  // window._binarisUser is set by main.js when Firebase auth resolves
+  return !!(window._binarisUser && window._binarisUser.uid);
+}
+
+function _previewRemaining(){ return Math.max(0, PREVIEW_LIMIT - _previewCount); }
+
+function _incrementPreview(){
+  _previewCount++;
+  sessionStorage.setItem('binaris_preview_count', _previewCount);
+}
+
+window._updatePreviewBar = _updatePreviewBar;
+function _updatePreviewBar(){
+  const rem = _previewRemaining();
+  const bar = document.getElementById('preview-bar');
+  if(!bar) return;
+  if(_isAuthUser()){ bar.style.display='none'; return; }
+  bar.style.display='flex';
+  const fill = document.getElementById('preview-fill');
+  const label = document.getElementById('preview-label');
+  const pct = (rem / PREVIEW_LIMIT) * 100;
+  if(fill){
+    fill.style.width = pct + '%';
+    fill.style.background = rem <= 3 ? 'var(--err)' : rem <= 7 ? 'var(--warn)' : 'var(--ok)';
+  }
+  if(label){
+    if(rem === 0) label.textContent = 'No free messages left — sign in to continue';
+    else if(rem === 1) label.textContent = '1 free message remaining';
+    else label.textContent = rem + ' free messages remaining';
+    label.style.color = rem <= 3 ? 'var(--err)' : rem <= 7 ? 'var(--warn)' : 'var(--w3)';
+  }
+}
+
+function _showPaywall(){
+  const el = document.getElementById('paywall-overlay');
+  if(el){ el.style.display='flex'; requestAnimationFrame(()=>el.classList.add('open')); }
+}
+
+window.closePaywall = function(){
+  const el = document.getElementById('paywall-overlay');
+  if(el){ el.classList.remove('open'); setTimeout(()=>el.style.display='none',300); }
+};
+
+window.goToSignIn = function(){
+  window.location.href = './login.html';
+};
+
+function _checkPreview(){
+  if(_isAuthUser()) return true; // always allowed
+  if(_previewCount >= PREVIEW_LIMIT){
+    _showPaywall();
+    return false; // blocked
+  }
+  return true; // allowed — count will be incremented after send
+}
 
 const $=id=>document.getElementById(id);
 const emptyEl=$('empty'),msgsEl=$('msgs'),wrapEl=$('msgs-wrap');
@@ -1477,17 +1763,78 @@ async function loadSession(id){
     s.messages.forEach(m=>addMsg(m.role==='user'?'user':'ai',m.content));
   }
 }
-function delSession(id,e){e.stopPropagation();sessions=sessions.filter(s=>s.id!==id);saveSessions();if(curSid===id)newChat();else renderSB();}
+function delSession(id,e){
+  if(e) e.stopPropagation();
+  sessions=sessions.filter(s=>s.id!==id);
+  saveSessions();
+  if(curSid===id) newChat(); else renderSB();
+}
 function clearHistory(){sessions=[];saveSessions();newChat();closeSettings();}
+
+/* ── MULTI-SELECT delete ───────────────────────────────────────────────── */
+let _selectMode=false;
+const _selectedIds=new Set();
+
+function toggleSelectMode(){
+  _selectMode=!_selectMode;
+  _selectedIds.clear();
+  renderSB();
+  renderDrawerHistory();
+  // Update all select-mode toggle buttons
+  document.querySelectorAll('.sb-select-btn').forEach(btn=>{
+    btn.textContent = _selectMode ? 'Cancel' : 'Select';
+    btn.style.color = _selectMode ? 'var(--err)' : 'var(--w3)';
+  });
+  document.querySelectorAll('.sb-delete-sel-btn').forEach(btn=>{
+    btn.style.display = _selectMode ? 'flex' : 'none';
+  });
+}
+
+function toggleSelectItem(id){
+  if(_selectedIds.has(id)) _selectedIds.delete(id);
+  else _selectedIds.add(id);
+  // Update the "Delete (N)" button label
+  document.querySelectorAll('.sb-delete-sel-btn').forEach(btn=>{
+    btn.textContent = _selectedIds.size ? 'Delete ('+_selectedIds.size+')' : 'Delete selected';
+    btn.style.opacity = _selectedIds.size ? '1' : '0.4';
+  });
+  // Re-render just the checkboxes without a full re-render
+  document.querySelectorAll('.hist-row[data-sid]').forEach(row=>{
+    const chk=row.querySelector('.hist-chk');
+    if(chk) chk.classList.toggle('checked', _selectedIds.has(row.dataset.sid));
+    row.classList.toggle('selected', _selectedIds.has(row.dataset.sid));
+  });
+}
+
+function deleteSelected(){
+  if(!_selectedIds.size) return;
+  const wasActive = _selectedIds.has(curSid);
+  sessions = sessions.filter(s => !_selectedIds.has(s.id));
+  _selectedIds.clear();
+  saveSessions();
+  _selectMode=false;
+  document.querySelectorAll('.sb-select-btn').forEach(btn=>{ btn.textContent='Select'; btn.style.color='var(--w3)'; });
+  document.querySelectorAll('.sb-delete-sel-btn').forEach(btn=>btn.style.display='none');
+  if(wasActive) newChat(); else renderSB();
+}
+
 function renderSB(){
   const hist=$('sb-hist'); hist.querySelectorAll('.hist-row').forEach(r=>r.remove());
   const empty=$('hist-empty');
   if(!sessions.length){empty.style.display='';return;}
   empty.style.display='none';
   sessions.slice().reverse().forEach(s=>{
-    const d=document.createElement('div'); d.className='hist-row'+(s.id===curSid?' active':'');
-    d.innerHTML=`<div class="hist-ico"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 2c0-.5.4-1 1-1h7c.6 0 1 .5 1 1v5c0 .6-.4 1-1 1H3L1 10V2Z" stroke="currentColor" stroke-width="1.1"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div><button class="hist-del" onclick="delSession('${s.id}',event)">&#x2715;</button>`;
-    d.onclick=e=>{if(e.target.closest('.hist-del'))return;loadSession(s.id);};
+    const d=document.createElement('div');
+    d.className='hist-row'+(s.id===curSid?' active':'')+(_selectedIds.has(s.id)?' selected':'');
+    d.dataset.sid=s.id;
+    if(_selectMode){
+      const chkd=_selectedIds.has(s.id);
+      d.innerHTML=`<div class="hist-chk${chkd?' checked':''}"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6.5L7 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div>`;
+      d.onclick=()=>toggleSelectItem(s.id);
+    } else {
+      d.innerHTML=`<div class="hist-ico"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 2c0-.5.4-1 1-1h7c.6 0 1 .5 1 1v5c0 .6-.4 1-1 1H3L1 10V2Z" stroke="currentColor" stroke-width="1.1"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div><button class="hist-del" onclick="delSession('${s.id}',event)">&#x2715;</button>`;
+      d.onclick=e=>{if(e.target.closest('.hist-del'))return;loadSession(s.id);};
+    }
     hist.appendChild(d);
   });
   if(document.getElementById('sb-drawer')?.classList.contains('open'))renderDrawerHistory();
@@ -1504,9 +1851,17 @@ function renderDrawerHistory(){
   if(!sessions.length){if(empty)empty.style.display='';return;}
   if(empty)empty.style.display='none';
   sessions.slice().reverse().forEach(s=>{
-    const d=document.createElement('div'); d.className='hist-row'+(s.id===curSid?' active':'');
-    d.innerHTML=`<div class="hist-ico"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 2c0-.5.4-1 1-1h7c.6 0 1 .5 1 1v5c0 .6-.4 1-1 1H3L1 10V2Z" stroke="currentColor" stroke-width="1.1"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div>`;
-    d.onclick=()=>{loadSession(s.id);closeDrawer();};
+    const d=document.createElement('div');
+    d.className='hist-row'+(s.id===curSid?' active':'')+(_selectedIds.has(s.id)?' selected':'');
+    d.dataset.sid=s.id;
+    if(_selectMode){
+      const chkd=_selectedIds.has(s.id);
+      d.innerHTML=`<div class="hist-chk${chkd?' checked':''}"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6.5L7 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div>`;
+      d.onclick=()=>toggleSelectItem(s.id);
+    } else {
+      d.innerHTML=`<div class="hist-ico"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 2c0-.5.4-1 1-1h7c.6 0 1 .5 1 1v5c0 .6-.4 1-1 1H3L1 10V2Z" stroke="currentColor" stroke-width="1.1"/></svg></div><div class="hist-body"><div class="hist-title">${esc(s.title)}</div><div class="hist-date">${fmtD(s.date)}</div></div><button class="hist-del" onclick="delSession('${s.id}',event)" style="display:flex">&#x2715;</button>`;
+      d.onclick=e=>{if(e.target.closest('.hist-del'))return;loadSession(s.id);closeDrawer();};
+    }
     hist.appendChild(d);
   });
 }
@@ -1555,6 +1910,10 @@ async function send(){
   const text=promptEl.value.trim();
   if((!text&&!pendingFiles.length)||streaming) return;
   if(!navigator.onLine){showToast('No internet connection','var(--err)');return;}
+  // Preview gate — blocks if unauthenticated and limit reached
+  if(!_checkPreview()) return;
+  _incrementPreview();
+  _updatePreviewBar();
   showMsgs();
   const snap=[...pendingFiles],disp=text||'[File attached]';
   promptEl.value='';pendingFiles=[];renderStrip();onTxInput(promptEl);
@@ -2077,6 +2436,42 @@ function dismissSplash(){
   setTimeout(()=>{splash.style.display='none';},550);
 }
 
+/* ── IN-APP BROWSER DETECTION ─────────────────────────────────
+   Facebook, Instagram, TikTok, Snapchat etc. embed a stripped WebView
+   that blocks Firebase Auth popups, Web Speech, and other APIs.
+   We detect this and show a friendly "open in browser" banner.
+──────────────────────────────────────────────────────────────── */
+(function detectIAB(){
+  const ua = navigator.userAgent;
+  // Common in-app browser signals
+  const isIAB = /FBAN|FBAV|Instagram|Twitter|Snapchat|TikTok|Line\/|KAKAOTALK|MicroMessenger|LinkedInApp|Pinterest/.test(ua)
+    || (ua.includes('wv') && !ua.includes('Chrome/') && /Android/.test(ua)) // Android WebView
+    || (window.navigator.standalone === false && /iPhone|iPad/.test(ua) && !ua.includes('Safari/')); // iOS in-app
+  if(!isIAB) return;
+
+  const banner = document.getElementById('iab-banner');
+  if(!banner) return;
+  banner.style.display = 'flex';
+
+  // Customize instructions by platform
+  const isAndroid = /Android/.test(ua);
+  const step1 = document.getElementById('iab-step1');
+  const step2 = document.getElementById('iab-step2');
+  if(ua.includes('FBAN') || ua.includes('FBAV')){
+    if(step1) step1.textContent = 'Tap the ··· menu in the top-right corner';
+    if(step2) step2.innerHTML = 'Tap <strong>"Open in external browser"</strong>';
+  } else if(ua.includes('Instagram')){
+    if(step1) step1.textContent = 'Tap the ··· menu at the bottom-right';
+    if(step2) step2.innerHTML = 'Tap <strong>"Open in browser"</strong>';
+  } else if(isAndroid){
+    if(step1) step1.textContent = 'Tap the menu (⋮) in the top-right corner';
+    if(step2) step2.innerHTML = 'Tap <strong>"Open in Chrome"</strong> or <strong>"Open in browser"</strong>';
+  } else {
+    if(step1) step1.textContent = 'Tap the Share icon at the bottom of the screen';
+    if(step2) step2.innerHTML = 'Tap <strong>"Open in Safari"</strong>';
+  }
+})();
+
 // Boot sequence
 loadSessions();
 applyTheme(localStorage.getItem('binaris_theme')||'dark');
@@ -2084,6 +2479,9 @@ applyLang(localStorage.getItem('binaris_lang')||'en');
 curVoiceChar=localStorage.getItem('binaris_voice_char')||'atlas';
 updateVoiceBadge();
 newChat();
+
+// Init preview bar
+_updatePreviewBar();
 
 // Dismiss splash after app is ready
 setTimeout(dismissSplash, 2200);
@@ -2124,7 +2522,7 @@ showInstallPanel();
 
   // Returning from lock screen, minimise, tab switch
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') syncNavBar();
+    if (document.visibilityState === 'visible') { syncNavBar(); _updatePreviewBar(); }
   });
 
   // Orientation change — OS redraws nav bar chrome
@@ -2196,6 +2594,55 @@ showInstallPanel();
     <div class="sys-notif-sub" id="sys-notif-sub"></div>
   </div>
   <button class="sys-notif-close" onclick="closeSysNotif()">✕</button>
+</div>
+
+<!-- ═══════════════════ PAYWALL MODAL ═══════════════════ -->
+<div id="paywall-overlay" onclick="if(event.target===this)closePaywall()">
+  <div id="paywall-card" onclick="event.stopPropagation()">
+    <div class="pw-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M7 12V9a7 7 0 0114 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <rect x="4" y="12" width="20" height="13" rx="3" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="14" cy="18.5" r="1.5" fill="currentColor"/>
+        <path d="M14 18.5v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="pw-title">Free preview ended</div>
+    <div class="pw-sub">You've used all 15 free messages. Sign in with Google or email to continue — it's completely free.</div>
+    <button class="pw-btn" onclick="goToSignIn()">
+      <svg width="15" height="15" viewBox="0 0 18 18" style="vertical-align:middle;margin-right:7px" fill="none">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908C16.658 14.253 17.64 11.945 17.64 9.2z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+        <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+      </svg>
+      Continue with Google — Free
+    </button>
+    <button class="pw-btn" style="background:var(--s3);color:var(--w1);border:1px solid var(--b2)" onclick="goToSignIn()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;margin-right:7px">
+        <path d="M1.5 4.5l6.5 5 6.5-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      Continue with Email — Free
+    </button>
+    <button class="pw-dismiss" onclick="closePaywall()">Maybe later</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ IN-APP BROWSER BANNER ═══════════════════ -->
+<div id="iab-banner">
+  <div class="iab-icon"><img src="round-icon.png" alt="Binaris"/></div>
+  <div class="iab-title">Open in your browser</div>
+  <div class="iab-sub">Binaris doesn't work fully inside Facebook, Instagram, or other app browsers. Open it in Safari or Chrome for the full experience.</div>
+  <div class="iab-step">
+    <div class="iab-step-num">1</div>
+    <div class="iab-step-text" id="iab-step1">Tap the menu icon in the corner of this screen</div>
+  </div>
+  <div class="iab-step">
+    <div class="iab-step-num">2</div>
+    <div class="iab-step-text" id="iab-step2">Select <strong>"Open in browser"</strong> or <strong>"Open in Safari / Chrome"</strong></div>
+  </div>
+  <button class="iab-skip" onclick="document.getElementById('iab-banner').style.display='none'">Continue anyway (limited functionality)</button>
 </div>
 
 <!-- Auth state manager -->

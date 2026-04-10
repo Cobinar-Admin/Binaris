@@ -32,6 +32,11 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
   // Expose user on window so other scripts can access if needed
   window._binarisUser = user;
 
+  // Hide preview bar — signed-in users have no message limit
+  if (typeof window._updatePreviewBar === "function") window._updatePreviewBar();
+  const pb = document.getElementById("preview-bar");
+  if (pb) pb.style.display = "none";
+
   // Schedule a notification-permission request after first interaction
   // (browsers block Notification.requestPermission outside user gesture if
   //  called immediately — so we wait for newChat() / the first send)

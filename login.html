@@ -13,6 +13,25 @@
 <title>Binaris — Sign in</title>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
 
+<!-- In-app browser detection for login page -->
+<script>
+(function(){
+  var ua = navigator.userAgent;
+  var isIAB = /FBAN|FBAV|Instagram|Twitter|Snapchat|TikTok|Line\/|KAKAOTALK|MicroMessenger|LinkedInApp|Pinterest/.test(ua)
+    || (ua.includes('wv') && !ua.includes('Chrome/') && /Android/.test(ua));
+  if(!isIAB) return;
+  // Show a minimal overlay before anything else renders
+  document.addEventListener('DOMContentLoaded', function(){
+    var b = document.createElement('div');
+    b.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;font-family:system-ui,sans-serif';
+    b.innerHTML = '<div style="font-size:1.1rem;font-weight:700;margin-bottom:10px">Open in your browser</div>'
+      + '<div style="font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.7;max-width:280px;margin-bottom:24px">Sign-in doesn't work inside Facebook, Instagram, or other app browsers. Please open this page in Safari or Chrome.</div>'
+      + '<div style="font-size:.75rem;color:rgba(255,255,255,.35)">Tap ··· → Open in browser</div>';
+    document.body.appendChild(b);
+  });
+})();
+</script>
+
 <!-- Already signed in → skip directly to app -->
 <script type="module">
   import { auth, onAuthStateChanged } from "./firebase-init.js";
@@ -214,20 +233,25 @@ input{-webkit-user-select:text;user-select:text}
 /* ══════════════════════════════════════════════
    MOBILE — bottom sheet
 ══════════════════════════════════════════════ */
-.dev-mobile .login-shell{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:flex-end;z-index:10}
+.dev-mobile .login-shell{
+  position:fixed;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:10;
+  padding:calc(var(--safe-top)+16px) 16px calc(var(--safe-bottom)+16px);
+  overflow-y:auto;
+}
 .dev-mobile .left-panel{display:none}
 .dev-mobile .card{
-  width:100%;background:rgba(7,7,7,.97);border:1px solid rgba(255,255,255,.10);
-  border-bottom:none;border-radius:26px 26px 0 0;
-  padding:10px 20px calc(24px + var(--safe-bottom));
+  width:100%;max-width:360px;
+  background:rgba(7,7,7,.97);border:1px solid rgba(255,255,255,.10);
+  border-radius:24px;
+  padding:28px 22px 26px;
   display:flex;flex-direction:column;align-items:center;
   backdrop-filter:blur(40px);
-  box-shadow:0 -30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04) inset;
-  animation:sheet-up .5s cubic-bezier(.16,1,.3,1) both;
-  max-height:92dvh;overflow-y:auto;
+  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.04) inset;
+  animation:card-in .5s cubic-bezier(.16,1,.3,1) both;
+  max-height:calc(100dvh - var(--safe-top) - var(--safe-bottom) - 32px);
+  overflow-y:auto;
 }
-@keyframes sheet-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.dev-mobile .card::before{content:"";display:block;width:36px;height:4px;background:var(--b3);border-radius:2px;margin-bottom:18px;flex-shrink:0}
 .dev-mobile .orb-wrap{width:52px;height:52px;margin-bottom:12px;flex-shrink:0}
 .dev-mobile .orb-ring:nth-child(1){inset:0}
 .dev-mobile .orb-ring:nth-child(2){inset:-8px}
