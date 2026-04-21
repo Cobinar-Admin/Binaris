@@ -1,0 +1,8 @@
+# Binaris — Clean URL Redirects
+# Works with Netlify, Cloudflare Pages, and compatible static hosts
+
+/terms      /terms/index.html      200
+/privacy    /privacy/index.html    200
+
+# SPA fallback — send all unmatched routes to index
+/*          /index.html            200

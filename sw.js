@@ -17,8 +17,6 @@ const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
 ];
 
 /* CDN assets — cached on first fetch, served from cache after */

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="theme-color" content="#FF0000"/>
+<title>Binaris — Politik Konfidansyalite</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#FF0000;--s1:#CC0000;--s2:#BB0000;--s3:#AA0000;--s4:#990000;
+  --w1:#fff;--w2:rgba(255,255,255,.82);--w3:rgba(255,255,255,.48);
+  --w4:rgba(255,255,255,.18);--w5:rgba(255,255,255,.08);
+  --b1:rgba(255,255,255,.10);--b2:rgba(255,255,255,.16);
+  --font:"Geist","Inter",system-ui,sans-serif;
+  --mono:"Geist Mono","JetBrains Mono",monospace;
+  --serif:"Instrument Serif",Georgia,serif;
+  --r-md:11px;--r-lg:14px;--r-xl:18px;--r-pill:9999px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--w1);font-family:var(--font);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.6}
+body{min-height:100vh;background:var(--bg);padding:0}
+
+/* Nav */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(204,0,0,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-img{width:28px;height:28px;border-radius:7px;overflow:hidden}
+.nav-logo-img img{width:100%;height:100%;object-fit:cover;display:block}
+.nav-wordmark{font-weight:700;font-size:.95rem;letter-spacing:.15em;text-transform:uppercase;color:var(--w1)}
+.nav-back{
+  display:flex;align-items:center;gap:6px;padding:7px 14px;
+  border-radius:var(--r-pill);border:1px solid var(--b2);
+  background:transparent;color:var(--w2);font-family:var(--font);font-size:.78rem;
+  cursor:pointer;text-decoration:none;transition:background .13s,color .13s;
+}
+.nav-back:hover{background:var(--w5);color:var(--w1)}
+
+/* Hero */
+.hero{padding:52px 24px 36px;max-width:760px;margin:0 auto;text-align:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:var(--r-pill);
+  background:var(--w5);border:1px solid var(--b1);
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;color:var(--w3);
+  margin-bottom:20px;text-transform:uppercase;
+}
+.hero h1{font-size:2.2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;color:var(--w1)}
+.hero-sub{font-family:var(--serif);font-style:italic;color:var(--w3);font-size:1rem}
+.hero-date{font-family:var(--mono);font-size:.67rem;color:var(--w3);margin-top:10px;letter-spacing:.06em}
+
+/* Content */
+.content{max-width:760px;margin:0 auto;padding:8px 24px 80px}
+.section{
+  background:rgba(187,0,0,.5);border:1px solid var(--b1);
+  border-radius:var(--r-xl);padding:28px 30px;margin-bottom:16px;
+}
+.section h2{
+  font-size:1rem;font-weight:600;letter-spacing:.01em;
+  color:var(--w1);margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.section h2 svg{flex-shrink:0;opacity:.7}
+.section p,.section li{font-size:.88rem;color:var(--w2);line-height:1.75}
+.section ul{padding-left:1.4em;margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.section a{color:var(--w1);text-underline-offset:3px}
+
+/* Highlight box */
+.highlight{
+  background:rgba(255,255,255,.06);border:1px solid var(--b2);
+  border-radius:var(--r-lg);padding:14px 16px;margin-top:12px;
+}
+.highlight p{font-size:.82rem;color:var(--w2)}
+
+/* Footer */
+.footer{text-align:center;padding:24px;font-family:var(--mono);font-size:.63rem;color:var(--w3);border-top:1px solid var(--b1)}
+.footer a{color:var(--w2);text-decoration:underline;text-underline-offset:2px}
+
+@media(max-width:600px){
+  .hero h1{font-size:1.6rem}
+  .section{padding:20px 18px}
+  .content{padding:8px 12px 60px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">
+    <div class="nav-logo-img"><img src="../round-icon.png" alt="Binaris" onerror="this.style.display='none'"/></div>
+    <span class="nav-wordmark">Binaris</span>
+  </a>
+  <a href="../login.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Retounen
+  </a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">
+    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1L2 3v4c0 2.2 1.8 4 4 4s4-1.8 4-4V3L6 1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+    Konfidansyalite
+  </div>
+  <h1>Politik Konfidansyalite</h1>
+  <p class="hero-sub">Nou pwoteje done ou yo ak swen ak transparans.</p>
+  <p class="hero-date">Dènye mizajou: Janvye 2025</p>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      1. Enfòmasyon Nou Kolekte
+    </h2>
+    <p>Binaris kolekte enfòmasyon pou bay ou yon eksperyans pi bon. Sa ka enkli:</p>
+    <ul>
+      <li><strong>Enfòmasyon kont:</strong> non, adrès imèl, foto pwofil (si ou itilize Google Sign-In)</li>
+      <li><strong>Konvèsasyon:</strong> mesaj ou voye ak repons AI yo (sove nan Firebase)</li>
+      <li><strong>Done itilizasyon:</strong> paramèt lang, tèm, preferans vwa ou yo</li>
+      <li><strong>Done teknik:</strong> tip aparèy, navigatè, adres IP pou sekirite</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>Enfòmasyon sans kont:</strong> Itilizatè ki pa konekte — nou sèlman sove yon kòmptèy mesaj gratis nan yon cookie pou 30 jou. Pa gen lòt done pèsonèl nou kolekte.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L2 4V8.5C2 11.9 4.7 14.8 8 15.5C11.3 14.8 14 11.9 14 8.5V4L8 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 8.5L7.5 10.5L11 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      2. Kijan Nou Itilize Done Ou
+    </h2>
+    <p>Nou itilize done ou yo pou:</p>
+    <ul>
+      <li>Bay repons AI pèsonalize ak kontekstyèl</li>
+      <li>Sove istwa konvèsasyon ou pou ou ka retrouve yo</li>
+      <li>Amelyore pèfòmans ak kalite sèvis la</li>
+      <li>Pwoteje kont ou ak detekte aktivite abi</li>
+      <li>Voye notifikasyon ou te chwazi resevwa yo</li>
+    </ul>
+    <p style="margin-top:10px">Nou <strong>pa janm</strong> vann done ou yo bay tèt pati yo oswa itilize yo pou reklamasyon.</p>
+  </div>
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="11" r="1" fill="currentColor"/></svg>
+      3. Sekirite Done Ou
+    </h2>
+    <p>Binaris itilize Firebase Google pou otantifikasyon ak estokaj done. Tout done transmèt atravè koneksyon HTTPS kriptografik. Nou aplike pratik sekirite ki jan endistri rekòmande.</p>
+    <div class="highlight">
+      <p>Kle API ou sove <strong>lokalmaan sou aparèy ou sèlman</strong> — nou pa janm jwenn li oswa sove li nan sèvè nou yo.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2h5l2 3H14v9H2V2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 10h4M6 12h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      4. Cookies ak Estokaj Lokal
+    </h2>
+    <p>Nou itilize cookies ak localStorage pou:</p>
+    <ul>
+      <li><strong>Cookie mesaj gratis:</strong> suivi konbyen mesaj ou voye anvan ou konekte (30 jou)</li>
+      <li><strong>Preferans:</strong> lang, tèm, paramèt vwa ou yo (localStorage, lokal sèlman)</li>
+      <li><strong>Sesi:</strong> Firebase jere otantifikasyon ou atravè cookies sekirize</li>
+    </ul>
+    <p style="margin-top:10px">Ou ka efase cookies atravè navigatè ou nenpòt ki lè. Sa pral reinisyalize kòmptèy mesaj gratis ou.</p>
+  </div>
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5C6.3 3.8 5.5 5.9 5.5 8S6.3 12.2 8 14.5M8 1.5C9.7 3.8 10.5 5.9 10.5 8S9.7 12.2 8 14.5" stroke="currentColor" stroke-width="1.2"/><line x1="1.5" y1="8" x2="14.5" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      5. Pataj Done ak Tèt Pati
+    </h2>
+    <p>Binaris itilize sèvis tèt pati sa yo pou fonksyone:</p>
+    <ul>
+      <li><strong>Google Firebase:</strong> otantifikasyon ak baz done (politik Google aplikab)</li>
+      <li><strong>Groq AI:</strong> trete mesaj ou pou jenere repons AI</li>
+      <li><strong>Google Fonts:</strong> fontyè tipografik (pa gen done pèsonèl pataje)</li>
+    </ul>
+    <p style="margin-top:10px">Nou pa pataje done ou ak lòt tèt pati san konsantman ou eksepte lè lwa egzije sa.</p>
+  </div>
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 13.5C8 13.5 1.5 9.5 1.5 5.5C1.5 3.5 3 2 5 2C6.2 2 7.2 2.6 8 3.5C8.8 2.6 9.8 2 11 2C13 2 14.5 3.5 14.5 5.5C14.5 9.5 8 13.5 8 13.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      6. Dwa Ou yo
+    </h2>
+    <p>Ou gen dwa pou:</p>
+    <ul>
+      <li><strong>Aksede:</strong> Wè tout done nou gen sou ou</li>
+      <li><strong>Korije:</strong> Mande kòreksyon done ou yo</li>
+      <li><strong>Efase:</strong> Mande nou efase kont ou ak done ki asosye</li>
+      <li><strong>Pòtabilite:</strong> Jwenn yon kopi done ou nan fòma JSON</li>
+    </ul>
+    <p style="margin-top:10px">Pou egzèse dwa sa yo, voye yon mesaj nan aplikasyon an oswa kontakte nou dirèkteman.</p>
+  </div>
+
+  <div class="section">
+    <h2>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4C2 2.9 2.9 2 4 2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5 8h6M8 5v6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      7. Kontakte Nou
+    </h2>
+    <p>Si ou gen kesyon sou konfidansyalite ou oswa ou vle egzèse dwa ou, kontakte nou atravè aplikasyon Binaris. Ou ka tou sipòte nou atravè <a href="https://payments.cobinar.com" target="_blank">payments.cobinar.com</a>.</p>
+  </div>
+
+</div>
+
+<footer class="footer">
+  Binaris &nbsp;&middot;&nbsp; by <strong style="color:var(--w2)">Marc-Arthur Samuel Dalus</strong>
+  &nbsp;&middot;&nbsp; <a href="/terms">Kondisyon Sèvis</a>
+</footer>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ht">
 <head>
 <meta charset="UTF-8"/>
 <!-- VIEWPORT — edge-to-edge, notch + gesture nav bar -->
@@ -7,7 +7,7 @@
 <!-- PWA — makes Chrome/Edge/Samsung show the install prompt -->
 <link rel="manifest" href="manifest.json"/>
 <!-- Android: themes status bar + gesture nav bar to match app -->
-<meta name="theme-color" content="#000000" id="theme-color-meta"/>
+<meta name="theme-color" content="#FF0000" id="theme-color-meta"/>
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme:light)" id="theme-color-light"/>
 <meta name="mobile-web-app-capable" content="yes"/>
@@ -43,7 +43,7 @@ const _unsub = onAuthStateChanged(auth, (user) => {
    DESIGN TOKENS
 ═══════════════════════════════════════════ */
 :root{
-  --bg:#000;--s1:#080808;--s2:#0f0f0f;--s3:#161616;--s4:#1e1e1e;--s5:#272727;
+  --bg:#FF0000;--s1:#CC0000;--s2:#BB0000;--s3:#AA0000;--s4:#990000;--s5:#880000;
   --w1:#fff;--w2:rgba(255,255,255,.72);--w3:rgba(255,255,255,.38);
   --w4:rgba(255,255,255,.16);--w5:rgba(255,255,255,.07);--w6:rgba(255,255,255,.04);
   --b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.22);
@@ -241,7 +241,7 @@ html{
 ═══════════════════════════════════════════ */
 #splash{
   position:fixed;inset:0;z-index:999;
-  background:#000;
+  background:#FF0000;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   gap:0;
@@ -446,7 +446,7 @@ html{
 .tb-btn{width:30px;height:30px;border-radius:var(--r-sm);border:1px solid transparent;background:transparent;color:var(--w3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr);position:relative;flex-shrink:0}.tb-btn:hover{background:var(--w5);border-color:var(--b1);color:var(--w1)}
 .tb-btn[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);background:var(--s4);border:1px solid var(--b2);color:var(--w2);font-family:var(--font);font-size:.61rem;padding:2px 7px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:99}
 .lang-btn{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:var(--r-pill);border:1px solid var(--b1);background:transparent;color:var(--w3);font-family:var(--mono);font-size:.65rem;cursor:pointer;transition:all var(--tr);white-space:nowrap;flex-shrink:0}.lang-btn:hover{background:var(--w5);border-color:var(--b2);color:var(--w1)}
-.lang-flag{font-size:.8rem}
+.lang-flag{font-size:.8rem;display:inline-flex;align-items:center;line-height:1}
 
 /* ── MESSAGES ────────────────────────────── */
 .msgs-wrap{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch}
@@ -584,7 +584,7 @@ html{
 /* Lang / theme grids */
 .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .lang-card{display:flex;align-items:center;gap:7px;padding:8px 10px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r-md);cursor:pointer;transition:all var(--tr)}.lang-card:hover{border-color:var(--b2);background:var(--s3)}.lang-card.selected{border-color:var(--w1);background:var(--w6)}
-.lang-card-flag{font-size:.95rem}.lang-card-name{font-size:.76rem;font-weight:500}
+.lang-card-flag{font-size:.95rem;display:inline-flex;align-items:center;line-height:1}.lang-card-name{font-size:.76rem;font-weight:500}
 .theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .theme-card{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--b1);border-radius:var(--r-md);cursor:pointer;transition:all var(--tr)}.theme-card:hover{border-color:var(--b2);background:var(--w5)}.theme-card.selected{border-color:var(--w1)}
 .theme-swatch{width:20px;height:20px;border-radius:4px;flex-shrink:0}.theme-card-name{font-size:.75rem;font-weight:500;flex:1;line-height:1.2}
@@ -950,7 +950,7 @@ html{
     </div>
     <div class="tb-creator">by <strong>Marc-Arthur Samuel Dalus</strong></div>
     <div class="tb-r">
-      <button class="lang-btn" onclick="openSettings()" id="lang-chip"><span class="lang-flag" id="lang-flag">🇺🇸</span><span id="lang-code">EN</span></button>
+      <button class="lang-btn" onclick="openSettings()" id="lang-chip"><span class="lang-flag" id="lang-flag"><svg width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="6" fill="#00209F"/><rect y="6" width="16" height="6" fill="#D21034"/></svg></span><span id="lang-code">HT</span></button>
       <button class="tb-btn" onclick="openNotifPanel()" data-tip="Notifications" style="position:relative">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5a4.5 4.5 0 014.5 4.5c0 2.5.8 3.5 1.5 4.5H1c.7-1 1.5-2 1.5-4.5A4.5 4.5 0 016.5 1.5z" stroke="currentColor" stroke-width="1.2"/><path d="M5.2 11a1.3 1.3 0 002.6 0" stroke="currentColor" stroke-width="1.2"/></svg>
         <div class="notif-badge" id="notif-badge"></div>
@@ -1063,6 +1063,19 @@ html{
     <div class="p-sec">
       <div class="p-lbl" data-i18n="data">Data</div>
       <button class="p-btn p-btn-danger" onclick="clearHistory()"><span data-i18n="clear_history">Clear all history</span></button>
+    </div>
+
+    <div class="p-sec" style="text-align:center">
+      <a href="https://payments.cobinar.com" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.22);border-radius:var(--r-pill);color:var(--w2);text-decoration:none;font-size:.75rem;font-weight:500;font-family:var(--mono);letter-spacing:.03em;transition:background .15s,border-color .15s"
+         onmouseover="this.style.background='rgba(255,80,80,.16)';this.style.borderColor='rgba(255,80,80,.4)'"
+         onmouseout="this.style.background='rgba(255,80,80,.08)';this.style.borderColor='rgba(255,80,80,.22)'">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 13.5C8 13.5 1.5 9.5 1.5 5.5C1.5 3.5 3 2 5 2C6.2 2 7.2 2.6 8 3.5C8.8 2.6 9.8 2 11 2C13 2 14.5 3.5 14.5 5.5C14.5 9.5 8 13.5 8 13.5Z" stroke="#ff5050" stroke-width="1.3" stroke-linejoin="round" fill="rgba(255,80,80,.25)"/>
+        </svg>
+        Ede nou kontinye bati
+      </a>
+      <div style="font-size:.6rem;color:var(--w3);margin-top:6px;font-family:var(--mono)">payments.cobinar.com</div>
     </div>
 
     <div style="text-align:center;padding:4px 0 2px;font-size:.63rem;color:var(--w3)">Binaris &nbsp;&middot;&nbsp; by <strong style="color:var(--w2)">Marc-Arthur Samuel Dalus</strong></div>
@@ -1199,7 +1212,7 @@ setTimeout(updateOnlineStatus, 100);
    I18N
 ═════════════════════════════════════════ */
 const LANGS = {
-  en: { flag:"🇺🇸",code:"EN",name:"English",dir:"ltr",
+  en: { flag:"<svg width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="12" fill="#B22234"/><rect y="0.92" width="16" height="0.92" fill="white"/><rect y="2.77" width="16" height="0.92" fill="white"/><rect y="4.62" width="16" height="0.92" fill="white"/><rect y="6.46" width="16" height="0.92" fill="white"/><rect y="8.31" width="16" height="0.92" fill="white"/><rect y="10.15" width="16" height="0.92" fill="white"/><rect width="7" height="6.46" fill="#3C3B6E"/></svg>",code:"EN",name:"English",dir:"ltr",
     new_chat:"New conversation",recent:"Recent",no_history:"No history.\nStart a conversation.",
     you:"You",local_account:"Local account",badge_text:"AI ASSISTANT",
     hero_line1:"Build anything",hero_line2:"with artificial intelligence",
@@ -1216,13 +1229,13 @@ const LANGS = {
     offline_title:"No connection",offline_sub:"Reconnecting…",offline_retry:"Retry",
     offline_full_title:"You're offline",offline_full_sub:"Binaris needs an internet connection to respond. Check your connection and try again.",
     cards:[
-      {ico:"🏗️",t:"Landing Page",d:"Animated hero, features & pricing",q:"Create a responsive SaaS landing page with animated hero, 4 features, and pricing table"},
-      {ico:"⚡",t:"REST API",d:"Express + JWT + PostgreSQL",q:"Write a Node.js REST API with Express, JWT authentication and PostgreSQL"},
-      {ico:"🔬",t:"Debug",d:"Find root causes fast",q:"Fix this React performance issue and explain unnecessary re-renders"},
-      {ico:"📡",t:"Learn",d:"Deep analysis with examples",q:"Explain how WebSockets work with a complete JavaScript example"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 8V5l4-3 4 3v3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="7" y="12" width="4" height="5" rx=".5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="11" x2="5" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="13" y1="11" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>",t:"Landing Page",d:"Animated hero, features & pricing",q:"Create a responsive SaaS landing page with animated hero, 4 features, and pricing table"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 2L4 10.5H9L7.5 16L14 7.5H9.5L10.5 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>",t:"REST API",d:"Express + JWT + PostgreSQL",q:"Write a Node.js REST API with Express, JWT authentication and PostgreSQL"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 6.5V2.5M6.5 4l2.5 2.5L11.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.5H2M13 9.5h3M5.5 13l-1.5 1.5M12.5 13l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Debug",d:"Find root causes fast",q:"Fix this React performance issue and explain unnecessary re-renders"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 11.5A5 5 0 0 1 5.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 11.5A5 5 0 0 0 12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M3 13.5A8 8 0 0 1 3 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M15 13.5A8 8 0 0 0 15 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="10" x2="9" y2="16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Learn",d:"Deep analysis with examples",q:"Explain how WebSockets work with a complete JavaScript example"},
     ]
   },
-  ht: { flag:"🇭🇹",code:"HT",name:"Kreyòl",dir:"ltr",
+  ht: { flag:"<svg width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="6" fill="#00209F"/><rect y="6" width="16" height="6" fill="#D21034"/></svg>",code:"HT",name:"Kreyòl",dir:"ltr",
     new_chat:"Nouvo konvèsasyon",recent:"Istwa resan",no_history:"Pa gen istwa.\nKòmanse yon konvèsasyon.",
     you:"Ou",local_account:"Kont lokal",badge_text:"ASISTAN AI",
     hero_line1:"Bati nenpòt bagay",hero_line2:"avèk entèlijans atifisyèl",
@@ -1239,13 +1252,13 @@ const LANGS = {
     offline_title:"Pa gen koneksyon",offline_sub:"Ap rechèche…",offline_retry:"Eseye ankò",
     offline_full_title:"Ou pa konekte",offline_full_sub:"Binaris bezwen entènèt pou reponn. Tcheke koneksyon ou epi eseye ankò.",
     cards:[
-      {ico:"🏗️",t:"Paj Dakèy",d:"Hero anime, fonksyon ak pri",q:"Kreye yon paj dakèy SaaS responsiv ak seksyon hero anime, kat fonksyon ak tablo pri"},
-      {ico:"⚡",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Ekri yon API REST Node.js ak Express, JWT ak PostgreSQL"},
-      {ico:"🔬",t:"Debyoge",d:"Jwenn kòz rasin yo vit",q:"Korije pwoblèm pèfòmans React sa a epi eksplike reranman ki pa nesesè"},
-      {ico:"📡",t:"Aprann",d:"Analiz apwofondi ak egzanp",q:"Eksplike kijan WebSockets travay ak yon egzanp JavaScript konplè"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 8V5l4-3 4 3v3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="7" y="12" width="4" height="5" rx=".5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="11" x2="5" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="13" y1="11" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>",t:"Paj Dakèy",d:"Hero anime, fonksyon ak pri",q:"Kreye yon paj dakèy SaaS responsiv ak seksyon hero anime, kat fonksyon ak tablo pri"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 2L4 10.5H9L7.5 16L14 7.5H9.5L10.5 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Ekri yon API REST Node.js ak Express, JWT ak PostgreSQL"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 6.5V2.5M6.5 4l2.5 2.5L11.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.5H2M13 9.5h3M5.5 13l-1.5 1.5M12.5 13l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Debyoge",d:"Jwenn kòz rasin yo vit",q:"Korije pwoblèm pèfòmans React sa a epi eksplike reranman ki pa nesesè"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 11.5A5 5 0 0 1 5.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 11.5A5 5 0 0 0 12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M3 13.5A8 8 0 0 1 3 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M15 13.5A8 8 0 0 0 15 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="10" x2="9" y2="16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Aprann",d:"Analiz apwofondi ak egzanp",q:"Eksplike kijan WebSockets travay ak yon egzanp JavaScript konplè"},
     ]
   },
-  fr: { flag:"🇫🇷",code:"FR",name:"Français",dir:"ltr",
+  fr: { flag:"<svg width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><rect width="5.33" height="12" fill="#002395"/><rect x="5.33" width="5.34" height="12" fill="white"/><rect x="10.67" width="5.33" height="12" fill="#ED2939"/></svg>",code:"FR",name:"Français",dir:"ltr",
     new_chat:"Nouvelle conversation",recent:"Récent",no_history:"Pas d'historique.\nCommencez une conversation.",
     you:"Vous",local_account:"Compte local",badge_text:"ASSISTANT IA",
     hero_line1:"Créez n'importe quoi",hero_line2:"avec l'intelligence artificielle",
@@ -1262,13 +1275,13 @@ const LANGS = {
     offline_title:"Pas de connexion",offline_sub:"Reconnexion…",offline_retry:"Réessayer",
     offline_full_title:"Vous êtes hors ligne",offline_full_sub:"Binaris a besoin d'une connexion internet. Vérifiez votre connexion et réessayez.",
     cards:[
-      {ico:"🏗️",t:"Page d'accueil",d:"Hero animé, fonctions & prix",q:"Créez une landing page SaaS responsive avec hero animé, 4 fonctions et tableau de prix"},
-      {ico:"⚡",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Écris une API REST Node.js avec Express, authentification JWT et PostgreSQL"},
-      {ico:"🔬",t:"Déboguer",d:"Trouvez la cause racine vite",q:"Corrige ce problème de performance React et explique les re-rendus inutiles"},
-      {ico:"📡",t:"Apprendre",d:"Analyse approfondie avec exemples",q:"Explique comment fonctionnent les WebSockets avec un exemple JavaScript complet"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 8V5l4-3 4 3v3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="7" y="12" width="4" height="5" rx=".5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="11" x2="5" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="13" y1="11" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>",t:"Page d'accueil",d:"Hero animé, fonctions & prix",q:"Créez une landing page SaaS responsive avec hero animé, 4 fonctions et tableau de prix"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 2L4 10.5H9L7.5 16L14 7.5H9.5L10.5 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Écris une API REST Node.js avec Express, authentification JWT et PostgreSQL"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 6.5V2.5M6.5 4l2.5 2.5L11.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.5H2M13 9.5h3M5.5 13l-1.5 1.5M12.5 13l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Déboguer",d:"Trouvez la cause racine vite",q:"Corrige ce problème de performance React et explique les re-rendus inutiles"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 11.5A5 5 0 0 1 5.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 11.5A5 5 0 0 0 12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M3 13.5A8 8 0 0 1 3 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M15 13.5A8 8 0 0 0 15 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="10" x2="9" y2="16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Apprendre",d:"Analyse approfondie avec exemples",q:"Explique comment fonctionnent les WebSockets avec un exemple JavaScript complet"},
     ]
   },
-  es: { flag:"🇪🇸",code:"ES",name:"Español",dir:"ltr",
+  es: { flag:"<svg width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="12" fill="#c60b1e"/><rect y="3" width="16" height="6" fill="#ffc400"/></svg>",code:"ES",name:"Español",dir:"ltr",
     new_chat:"Nueva conversación",recent:"Reciente",no_history:"Sin historial.\nComienza una conversación.",
     you:"Tú",local_account:"Cuenta local",badge_text:"ASISTENTE IA",
     hero_line1:"Construye cualquier cosa",hero_line2:"con inteligencia artificial",
@@ -1285,13 +1298,13 @@ const LANGS = {
     offline_title:"Sin conexión",offline_sub:"Reconectando…",offline_retry:"Reintentar",
     offline_full_title:"Estás sin conexión",offline_full_sub:"Binaris necesita internet para responder. Verifica tu conexión e intenta de nuevo.",
     cards:[
-      {ico:"🏗️",t:"Landing Page",d:"Hero animado, funciones y precios",q:"Crea una landing page SaaS responsive con hero animado, 4 funciones y tabla de precios"},
-      {ico:"⚡",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Escribe una API REST Node.js con Express, autenticación JWT y PostgreSQL"},
-      {ico:"🔬",t:"Depurar",d:"Encuentra la causa raíz rápido",q:"Corrige este problema de rendimiento en React y explica los re-renders innecesarios"},
-      {ico:"📡",t:"Aprender",d:"Análisis profundo con ejemplos",q:"Explica cómo funcionan los WebSockets con un ejemplo JavaScript completo"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 8V5l4-3 4 3v3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="7" y="12" width="4" height="5" rx=".5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="11" x2="5" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="13" y1="11" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>",t:"Landing Page",d:"Hero animado, funciones y precios",q:"Crea una landing page SaaS responsive con hero animado, 4 funciones y tabla de precios"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 2L4 10.5H9L7.5 16L14 7.5H9.5L10.5 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Escribe una API REST Node.js con Express, autenticación JWT y PostgreSQL"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 6.5V2.5M6.5 4l2.5 2.5L11.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.5H2M13 9.5h3M5.5 13l-1.5 1.5M12.5 13l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Depurar",d:"Encuentra la causa raíz rápido",q:"Corrige este problema de rendimiento en React y explica los re-renders innecesarios"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 11.5A5 5 0 0 1 5.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 11.5A5 5 0 0 0 12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M3 13.5A8 8 0 0 1 3 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M15 13.5A8 8 0 0 0 15 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="10" x2="9" y2="16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Aprender",d:"Análisis profundo con ejemplos",q:"Explica cómo funcionan los WebSockets con un ejemplo JavaScript completo"},
     ]
   },
-  pt: { flag:"🇧🇷",code:"PT",name:"Português",dir:"ltr",
+  pt: { flag:"<svg width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="12" fill="#009C3B"/><polygon points="8,1 15,6 8,11 1,6" fill="#FEDF00"/><circle cx="8" cy="6" r="2.5" fill="#002776"/></svg>",code:"PT",name:"Português",dir:"ltr",
     new_chat:"Nova conversa",recent:"Recente",no_history:"Sem histórico.\nInicie uma conversa.",
     you:"Você",local_account:"Conta local",badge_text:"ASSISTENTE IA",
     hero_line1:"Construa qualquer coisa",hero_line2:"com inteligência artificial",
@@ -1308,14 +1321,14 @@ const LANGS = {
     offline_title:"Sem conexão",offline_sub:"Reconectando…",offline_retry:"Tentar novamente",
     offline_full_title:"Você está offline",offline_full_sub:"Binaris precisa de internet para responder. Verifique sua conexão e tente novamente.",
     cards:[
-      {ico:"🏗️",t:"Landing Page",d:"Hero animado, funções e preços",q:"Crie uma landing page SaaS responsiva com hero animado, 4 funções e tabela de preços"},
-      {ico:"⚡",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Escreva uma API REST Node.js com Express, autenticação JWT e PostgreSQL"},
-      {ico:"🔬",t:"Depurar",d:"Encontre a causa raiz rápido",q:"Corrija este problema de performance em React e explique os re-renders desnecessários"},
-      {ico:"📡",t:"Aprender",d:"Análise profunda com exemplos",q:"Explique como WebSockets funcionam com um exemplo JavaScript completo"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 8V5l4-3 4 3v3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="7" y="12" width="4" height="5" rx=".5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="11" x2="5" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="13" y1="11" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>",t:"Landing Page",d:"Hero animado, funções e preços",q:"Crie uma landing page SaaS responsiva com hero animado, 4 funções e tabela de preços"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 2L4 10.5H9L7.5 16L14 7.5H9.5L10.5 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>",t:"API REST",d:"Express + JWT + PostgreSQL",q:"Escreva uma API REST Node.js com Express, autenticação JWT e PostgreSQL"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 6.5V2.5M6.5 4l2.5 2.5L11.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.5H2M13 9.5h3M5.5 13l-1.5 1.5M12.5 13l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Depurar",d:"Encontre a causa raiz rápido",q:"Corrija este problema de performance em React e explique os re-renders desnecessários"},
+      {ico:"<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 11.5A5 5 0 0 1 5.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 11.5A5 5 0 0 0 12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M3 13.5A8 8 0 0 1 3 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M15 13.5A8 8 0 0 0 15 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="10" x2="9" y2="16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>",t:"Aprender",d:"Análise profunda com exemplos",q:"Explique como WebSockets funcionam com um exemplo JavaScript completo"},
     ]
   },
 };
-let curLang = localStorage.getItem('binaris_lang') || 'en';
+let curLang = localStorage.getItem('binaris_lang') || 'ht';
 function applyLang(code){
   curLang=code; localStorage.setItem('binaris_lang',code);
   const L=LANGS[code]||LANGS.en;
@@ -1328,7 +1341,7 @@ function applyLang(code){
 }
 function updateSysLang(code){
   const map={en:'English',ht:'Haitian Creole (Kreyòl Ayisyen)',fr:'French',es:'Spanish',pt:'Portuguese'};
-  history[0]={role:'system',content:`You are Binaris, a high-level expert AI assistant.\nYou ALWAYS respond in ${map[code]||'English'}, with precision, clarity and professional expertise.\nYou are direct, concise and technical when necessary.\nYou format code with markdown.\nYour name is Binaris. Never introduce yourself any other way.\nYour creator is Marc-Arthur Samuel Dalus. If anyone asks who created you or who built you, always answer: Marc-Arthur Samuel Dalus.`};
+  history[0]={role:'system',content:`You are Binaris, a high-level expert AI assistant.\nYou ALWAYS respond in ${map[code]||'English'}, with precision, clarity and professional expertise.\nYou are direct, concise and technical when necessary.\nYou format code with markdown.\nYour name is Binaris. Never introduce yourself any other way.\nYour creator is Marc-Arthur Samuel Dalus. If anyone asks who created you or who built you, always answer: Marc-Arthur Samuel Dalus.\nAfter every response, always end by proactively asking the user what they would like to do next. Offer 2-3 specific, relevant follow-up suggestions tailored to the conversation context, formatted as a brief natural question like "What would you like to do next?" followed by short bullet suggestions.`};
 }
 function buildCards(){
   const grid=document.getElementById('cards-grid'); if(!grid) return;
@@ -1344,7 +1357,7 @@ function buildLangGrid(){
    THEMES — 8 options
 ═════════════════════════════════════════ */
 const THEMES=[
-  {id:'dark',   name:'Dark',     swatch:'#000000', border:'rgba(255,255,255,.12)', bar:'#000000', bg:'#000000', light:false},
+  {id:'dark',   name:'Dark',     swatch:'#FF0000', border:'rgba(255,255,255,.12)', bar:'#FF0000', bg:'#FF0000', light:false},
   {id:'slate',  name:'Slate',    swatch:'#0f1117', border:'rgba(230,237,243,.15)', bar:'#0f1117', bg:'#0f1117', light:false},
   {id:'light',  name:'Light',    swatch:'#ffffff', border:'rgba(0,0,0,.15)',        bar:'#ffffff', bg:'#ffffff', light:true},
   {id:'sepia',  name:'Sepia',    swatch:'#f4efe6', border:'rgba(44,36,22,.15)',     bar:'#f4efe6', bg:'#f4efe6', light:true},
@@ -1590,7 +1603,7 @@ function updateTokBadge(n){
 // Session key — overridden by chat.js after auth resolves to scope per-user
 let _SK='binaris_v4';
 function getSK(){ return window._binarisCurrentSK || _SK; }
-const SYS=`You are Binaris, a high-level expert AI assistant.\nYou ALWAYS respond in English, with precision, clarity and professional expertise.\nYou are direct, concise and technical when necessary.\nYou format code with markdown.\nYour name is Binaris. Never introduce yourself any other way.\nYour creator is Marc-Arthur Samuel Dalus. If anyone asks who created you or who built you, always answer: Marc-Arthur Samuel Dalus.`;
+const SYS=`You are Binaris, a high-level expert AI assistant.\nYou ALWAYS respond in English, with precision, clarity and professional expertise.\nYou are direct, concise and technical when necessary.\nYou format code with markdown.\nYour name is Binaris. Never introduce yourself any other way.\nYour creator is Marc-Arthur Samuel Dalus. If anyone asks who created you or who built you, always answer: Marc-Arthur Samuel Dalus.\nAfter every response, always end by proactively asking the user what they would like to do next. Offer 2-3 specific, relevant follow-up suggestions tailored to the conversation context, formatted as a brief natural question like "What would you like to do next?" followed by short bullet suggestions.`;
 let history=[{role:'system',content:SYS}];
 let sessions=[],curSid=null,streaming=false,stopFlag=false,autoTTS=false;
 let pendingFiles=[],totalTokens=0;
@@ -1602,8 +1615,11 @@ let sttOn=false,sttRecog=null,voiceOn=false,vMuted=false,vRecog=null;
    Counter resets on page refresh (sessionStorage) so signed-in users
    who sign out mid-session still see a grace period.
 ─────────────────────────────────────────────────────────────────────────── */
-const PREVIEW_LIMIT = 15;
-let _previewCount = parseInt(sessionStorage.getItem('binaris_preview_count') || '0', 10);
+const PREVIEW_LIMIT = 10;
+// Cookie-based preview count — persists across sessions until user logs in
+function _getCookieCount(){try{const m=document.cookie.match(/binaris_preview=(\d+)/);return m?parseInt(m[1],10):0;}catch(e){return 0;}}
+function _setCookieCount(n){const d=new Date();d.setTime(d.getTime()+30*24*60*60*1000);document.cookie='binaris_preview='+n+';expires='+d.toUTCString()+';path=/;SameSite=Lax';}
+let _previewCount = _getCookieCount();
 
 function _isAuthUser(){
   // window._binarisUser is set by main.js when Firebase auth resolves
@@ -1614,7 +1630,7 @@ function _previewRemaining(){ return Math.max(0, PREVIEW_LIMIT - _previewCount);
 
 function _incrementPreview(){
   _previewCount++;
-  sessionStorage.setItem('binaris_preview_count', _previewCount);
+  _setCookieCount(_previewCount);
 }
 
 window._updatePreviewBar = _updatePreviewBar;
@@ -1632,9 +1648,9 @@ function _updatePreviewBar(){
     fill.style.background = rem <= 3 ? 'var(--err)' : rem <= 7 ? 'var(--warn)' : 'var(--ok)';
   }
   if(label){
-    if(rem === 0) label.textContent = 'No free messages left — sign in to continue';
-    else if(rem === 1) label.textContent = '1 free message remaining';
-    else label.textContent = rem + ' free messages remaining';
+    if(rem === 0) label.textContent = 'Pa gen mesaj gratis — konekte pou kontinye';
+    else if(rem === 1) label.innerHTML = '<strong>1</strong> mesaj anvan koneksyon';
+    else label.innerHTML = '<strong>' + rem + '</strong> mesaj anvan ou bezwen konekte';
     label.style.color = rem <= 3 ? 'var(--err)' : rem <= 7 ? 'var(--warn)' : 'var(--w3)';
   }
 }
@@ -1645,12 +1661,20 @@ function _showPaywall(){
 }
 
 window.closePaywall = function(){
+  // Only closeable if user is authenticated
+  if(!_isAuthUser()) return;
   const el = document.getElementById('paywall-overlay');
   if(el){ el.classList.remove('open'); setTimeout(()=>el.style.display='none',300); }
 };
 
 window.goToSignIn = function(){
   window.location.href = './login.html';
+};
+
+// Clear preview cookie after user logs in (called by main.js when auth resolves)
+window._clearPreviewCookie = function(){
+  document.cookie = 'binaris_preview=0;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax';
+  _previewCount = 0;
 };
 
 function _checkPreview(){
@@ -1985,11 +2009,28 @@ function copyResponse(btn){const bubble=btn.closest('.msg').querySelector('.bubb
 /* FILES */
 function trigFile(){$('file-in').click();}
 function szFmt(b){return b<1024?b+'B':b<1e6?(b/1024).toFixed(1)+'KB':(b/1e6).toFixed(1)+'MB';}
-function fEmo(n){const e=n.split('.').pop().toLowerCase(),m={js:'🟨',ts:'🔷',py:'🐍',html:'🌐',css:'🎨',json:'📋',md:'📝',txt:'📄',pdf:'📕',png:'🖼',jpg:'🖼',jpeg:'🖼',gif:'🖼',svg:'🎭',zip:'📦',csv:'📊'};return m[e]||'📎';}
+function fEmo(n){
+  const e=n.split('.').pop().toLowerCase();
+  const svgs={
+    js:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#f7df1e" stroke-width="1.2"/><text x="6" y="8.5" text-anchor="middle" font-size="5" font-weight="bold" fill="#f7df1e">JS</text></svg>',
+    ts:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#3178c6" stroke-width="1.2"/><text x="6" y="8.5" text-anchor="middle" font-size="5" font-weight="bold" fill="#3178c6">TS</text></svg>',
+    py:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 1.5C2.6 1.5 2 2.2 2 3.5V5h4v.5H2C1 .5 1 1.2 1 2.5v1.5c0 1.3.6 2 2 2h.5v1c0 1.3.6 2 2 2h3c1.4 0 2-.7 2-2V8H7v-.5h3C11 7.5 11 6.8 11 5.5V4c0-1.3-.6-2-2-2H4Z" stroke="#4b8bbe" stroke-width="1.1"/></svg>',
+    html:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 1l1 8 3 1 3-1 1-8H2Z" stroke="#e34c26" stroke-width="1.1"/></svg>',
+    css:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 1l1 8 3 1 3-1 1-8H2Z" stroke="#264de4" stroke-width="1.1"/></svg>',
+    json:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2C3 2 2.5 2.5 2.5 3v1c0 .8-.5 1-.5 1s.5.2.5 1v1c0 .5.5 1 1.5 1M8 2c1 0 1.5.5 1.5 1v1c0 .8.5 1 .5 1s-.5.2-.5 1v1c0 .5-.5 1-1.5 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    md:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2.5" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M3 8V4l2 2.5L7 4v4M9 8V5.5l-1.5 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    pdf:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1h4.5L10 3.5V11H3V1Z" stroke="#e44" stroke-width="1.1"/><text x="6" y="8" text-anchor="middle" font-size="4" fill="#e44">PDF</text></svg>',
+    zip:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1h4.5L10 3.5V11H3V1Z" stroke="currentColor" stroke-width="1.1"/><line x1="5.5" y1="1" x2="5.5" y2="5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1 1"/></svg>',
+  };
+  const img='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="4" cy="5" r="1" stroke="currentColor" stroke-width="1"/><path d="M1 9l3-3 2.5 2.5L9 6l2 3" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const file='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1h4.5L10 3.5V11H3V1Z" stroke="currentColor" stroke-width="1.1"/><line x1="5" y1="5" x2="9" y2="5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="5" y1="7" x2="9" y2="7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>';
+  if(['png','jpg','jpeg','gif','svg','webp'].includes(e)) return img;
+  return svgs[e]||file;
+}
 async function handleFiles(fl){for(const f of fl){const r=new FileReader();r.onload=e=>{pendingFiles.push({name:f.name,size:f.size,type:f.type,content:e.target.result});renderStrip();};if(f.type.startsWith('text/')||/\.(js|ts|py|html|css|json|md|txt|csv|xml|yaml|yml|sh|sql)$/i.test(f.name))r.readAsText(f);else r.readAsDataURL(f);}$('file-in').value='';}
 function renderStrip(){fstripEl.innerHTML='';pendingFiles.forEach((f,i)=>{const c=document.createElement('div');c.className='fp';c.innerHTML=`<span class="fp-ico">${fEmo(f.name)}</span><span class="fp-n">${f.name}</span><span style="font-size:.59rem;color:var(--w3)">${szFmt(f.size)}</span><button class="fp-rm" onclick="rmF(${i})">&#x2715;</button>`;fstripEl.appendChild(c);});}
 function rmF(i){pendingFiles.splice(i,1);renderStrip();}
-function buildCtx(){if(!pendingFiles.length)return '';return '\n\n---\n**Attached files:**\n'+pendingFiles.map(f=>{const t=typeof f.content==='string'&&!f.content.startsWith('data:');return `\n📎 **${f.name}** (${szFmt(f.size)})\n`+(t?`\`\`\`\n${f.content.slice(0,8000)}\n\`\`\``:'[Binary file]');}).join('\n');}
+function buildCtx(){if(!pendingFiles.length)return '';return '\n\n---\n**Attached files:**\n'+pendingFiles.map(f=>{const t=typeof f.content==='string'&&!f.content.startsWith('data:');return `\n[file] **${f.name}** (${szFmt(f.size)})\n`+(t?`\`\`\`\n${f.content.slice(0,8000)}\n\`\`\``:'[Binary file]');}).join('\n');}
 
 /* PASTE DETECTION */
 const ptEl=$('paste-toast'),ptLangEl=$('pt-lang');let ptTimer;
@@ -2090,7 +2131,7 @@ function requestNotifPermission() {
         type: 'ok',
         title: 'Notifications enabled',
         sub: 'You will now receive updates from Binaris.',
-        icon: '🔔',
+        icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C5.8 2 4 3.8 4 6v3l-1.5 2h11L12 9V6c0-2.2-1.8-4-4-4Z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
       });
     }
   });
@@ -2101,7 +2142,7 @@ function requestNotifPermission() {
  * type: 'ok' | 'warn' | 'err' | 'info'
  * Adds to in-app panel + sends native OS notification if permitted
  */
-function pushNotif({ type = 'info', title, sub = '', icon = '💬', detail = '', showSys = true }) {
+function pushNotif({ type = 'info', title, sub = '', icon = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>', detail = '', showSys = true }) {
   const id = ++_notifId;
   const now = new Date();
   const timeStr = now.toLocaleTimeString(curLang || 'en', { hour: '2-digit', minute: '2-digit' });
@@ -2134,7 +2175,7 @@ function pushNotif({ type = 'info', title, sub = '', icon = '💬', detail = '',
 }
 
 /** In-app floating top toast */
-function sysNotif({ type = 'info', title, sub = '', icon = '💬' }) {
+function sysNotif({ type = 'info', title, sub = '', icon = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>' }) {
   const el  = document.getElementById('sys-notif');
   const ico = document.getElementById('sys-notif-ico');
   const ttl = document.getElementById('sys-notif-title');
@@ -2223,7 +2264,7 @@ function notifyConversationStarted() {
     type: 'ok',
     title: 'Conversation started',
     sub: 'Binaris is ready. Ask anything.',
-    icon: '💬',
+    icon: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
     detail: `Session: ${curSid?.slice(0,8) || '—'} · ${new Date().toLocaleTimeString()}`,
     showSys: true,
   });
@@ -2235,7 +2276,7 @@ function notifyAISpeaking(preview) {
     type: 'info',
     title: 'Binaris is responding',
     sub: shortened,
-    icon: '🤖',
+    icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="5" width="10" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="6" cy="9" r="1" fill="currentColor"/><circle cx="10" cy="9" r="1" fill="currentColor"/><path d="M6.5 11.5h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M8 5V2.5M5.5 2.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
     detail: 'AI is generating a response',
     showSys: false, // too frequent — only log to panel
   });
@@ -2257,7 +2298,7 @@ function notifyVoiceStarted(charName) {
     type: 'info',
     title: `${charName} is speaking`,
     sub: 'Voice mode active — Binaris is reading aloud',
-    icon: '🔊',
+    icon: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 6H1v4h2l4 3V3L3 6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M11 5c1 .8 1.5 1.8 1.5 3s-.5 2.2-1.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
     showSys: true,
   });
 }
@@ -2267,7 +2308,7 @@ function notifyVoiceEnded() {
     type: 'info',
     title: 'Voice session ended',
     sub: 'Conversation saved to history',
-    icon: '🔇',
+    icon: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 6H1v4h2l4 3V3L3 6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M13 5.5L10 8.5M10 5.5l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
     showSys: false,
   });
 }
@@ -2344,7 +2385,7 @@ window.addEventListener('appinstalled', () => {
     type: 'ok',
     title: 'Binaris installed!',
     sub: 'App added to your home screen',
-    icon: '📲',
+    icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4" y="1" width="8" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="12.5" r=".8" fill="currentColor"/><path d="M6 4h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
     showSys: true,
   });
 });
@@ -2475,7 +2516,7 @@ function dismissSplash(){
 // Boot sequence
 loadSessions();
 applyTheme(localStorage.getItem('binaris_theme')||'dark');
-applyLang(localStorage.getItem('binaris_lang')||'en');
+applyLang(localStorage.getItem('binaris_lang')||'ht');
 curVoiceChar=localStorage.getItem('binaris_voice_char')||'atlas';
 updateVoiceBadge();
 newChat();
@@ -2550,10 +2591,10 @@ showInstallPanel();
       </div>
     </div>
     <div class="ip-features">
-      <div class="ip-feat"><span class="ip-feat-ico">⚡</span><span class="ip-feat-text">Instant load</span></div>
-      <div class="ip-feat"><span class="ip-feat-ico">📡</span><span class="ip-feat-text">Works offline</span></div>
-      <div class="ip-feat"><span class="ip-feat-ico">🔔</span><span class="ip-feat-text">Notifications</span></div>
-      <div class="ip-feat"><span class="ip-feat-ico">🖥️</span><span class="ip-feat-text">Full screen</span></div>
+      <div class="ip-feat"><span class="ip-feat-ico"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M10.5 2L4 10.5H9L7.5 16L14 7.5H9.5L10.5 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg></span><span class="ip-feat-text">Instant load</span></div>
+      <div class="ip-feat"><span class="ip-feat-ico"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 11.5A5 5 0 0 1 5.5 6.5M12.5 11.5A5 5 0 0 0 12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="10" x2="9" y2="16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="ip-feat-text">Works offline</span></div>
+      <div class="ip-feat"><span class="ip-feat-ico"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2C5.8 2 4 3.8 4 6v3l-1.5 2h11L12 9V6c0-2.2-1.8-4-4-4Z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="ip-feat-text">Notifications</span></div>
+      <div class="ip-feat"><span class="ip-feat-ico"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 14h6M8 12v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="ip-feat-text">Full screen</span></div>
     </div>
     <div class="ip-actions" style="margin-top:16px">
       <button class="ip-btn-install" onclick="doInstall()">Install App</button>
@@ -2588,7 +2629,7 @@ showInstallPanel();
 
 <!-- System notification popup (shows at top) -->
 <div class="sys-notif" id="sys-notif">
-  <div class="sys-notif-ico" id="sys-notif-ico">💬</div>
+  <div class="sys-notif-ico" id="sys-notif-ico"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></div>
   <div class="sys-notif-body">
     <div class="sys-notif-title" id="sys-notif-title">Binaris</div>
     <div class="sys-notif-sub" id="sys-notif-sub"></div>

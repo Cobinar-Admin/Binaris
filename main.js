@@ -33,9 +33,12 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
   window._binarisUser = user;
 
   // Hide preview bar — signed-in users have no message limit
+  if (typeof window._clearPreviewCookie === "function") window._clearPreviewCookie();
   if (typeof window._updatePreviewBar === "function") window._updatePreviewBar();
   const pb = document.getElementById("preview-bar");
   if (pb) pb.style.display = "none";
+  // Close paywall if open
+  if (typeof window.closePaywall === "function") window.closePaywall();
 
   // Schedule a notification-permission request after first interaction
   // (browsers block Notification.requestPermission outside user gesture if
