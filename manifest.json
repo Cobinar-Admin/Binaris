@@ -1,9 +1,11 @@
 {
   "name": "Binaris",
   "short_name": "Binaris",
-  "description": "Binaris — AI assistant by Marc-Arthur Samuel Dalus",
-  "start_url": "/",
+  "description": "Binaris — Evolving at the speed of light by Cobinar",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
   "orientation": "portrait",
   "background_color": "#FF1540",
   "theme_color": "#FF1540",
