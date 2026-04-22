@@ -3,10 +3,10 @@
   "short_name": "Binaris",
   "description": "Binaris — AI assistant by Marc-Arthur Samuel Dalus",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#FF1540",
+  "theme_color": "#FF1540",
   "icons": [
     {
       "src": "icon-192.png",
