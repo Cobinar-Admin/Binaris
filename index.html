@@ -28,12 +28,11 @@
 <!-- Auth guard — redirects to login.html if not signed in -->
 <script type="module">
 import { auth, onAuthStateChanged } from "./firebase-init.js";
-// Auth check runs independently of the splash screen.
-// Splash always dismisses on its own timer (never gated on Firebase).
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.replace("./login.html");
-  }
+// One-shot auth check — unsubscribes after first resolution so token
+// refreshes don't accidentally redirect an authenticated user.
+const _unsub = onAuthStateChanged(auth, (user) => {
+  _unsub();
+  if (!user) window.location.replace('./login.html');
 });
 </script>
 <style>
@@ -833,6 +832,192 @@ html{
 @media(max-width:640px){
   #translate-btn{bottom:calc(var(--safe-bottom,0px) + 68px);right:12px;padding:8px 12px;}
 }
+
+/* ═══════════════════════════════════════════════════════════
+   NEOBRUTALISM OVERRIDE — bold borders, flat offset shadows
+   Keeps the same red/dark color palette.
+═══════════════════════════════════════════════════════════ */
+
+/* ── Global border & shadow tokens ── */
+:root {
+  --neo-border: 2px solid rgba(0,0,0,0.55);
+  --neo-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  --neo-shadow-sm: 2px 2px 0 rgba(0,0,0,0.45);
+  --neo-shadow-lg: 4px 4px 0 rgba(0,0,0,0.6);
+  --neo-radius: 4px;
+}
+[data-theme="light"] {
+  --neo-border: 2px solid rgba(0,0,0,0.8);
+  --neo-shadow: 3px 3px 0 rgba(0,0,0,0.75);
+  --neo-shadow-sm: 2px 2px 0 rgba(0,0,0,0.6);
+  --neo-shadow-lg: 4px 4px 0 rgba(0,0,0,0.8);
+}
+
+/* ── Topbar: no border-bottom, flat against safe area ── */
+.topbar {
+  border-bottom: none !important;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+}
+
+/* Extend topbar bg all the way into the status bar notch */
+html, body {
+  background-color: var(--bg);
+}
+.topbar::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * env(safe-area-inset-top, 0px));
+  left: 0; right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background: inherit;
+  pointer-events: none;
+}
+.topbar { position: relative; }
+
+/* ── Buttons: chunky neo style ── */
+.btn-primary,
+.p-btn-primary,
+.p-btn,
+.preview-signin,
+.send-btn {
+  border: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow) !important;
+  border-radius: var(--neo-radius) !important;
+  font-weight: 700 !important;
+  transition: transform .1s ease, box-shadow .1s ease !important;
+}
+.btn-primary:hover:not(:disabled),
+.p-btn:hover,
+.preview-signin:hover,
+.send-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: var(--neo-shadow-lg) !important;
+}
+.btn-primary:active:not(:disabled),
+.p-btn:active,
+.send-btn:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: none !important;
+}
+
+/* ── Input fields: bold border ── */
+.field input,
+#key-input,
+.bar-tx {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+}
+.field input:focus,
+#key-input:focus,
+.bar-tx:focus {
+  border-color: var(--w1) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+/* ── Panels / cards ── */
+.panel,
+.card {
+  border: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-lg) !important;
+  border-radius: 6px !important;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  border-right: var(--neo-border) !important;
+}
+
+/* ── Chat messages: user bubble ── */
+.msg.user .m-body {
+  border: 1px solid rgba(0,0,0,0.4) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+  border-radius: var(--neo-radius) !important;
+}
+
+/* ── Status chip / lang chip ── */
+.status-chip, .lang-btn, .tok-badge {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+/* ── New chat button ── */
+.sb-new {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+  font-weight: 700 !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+.sb-new:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: var(--neo-shadow) !important;
+}
+
+/* ── History rows ── */
+.hist-row {
+  border: 1px solid var(--b2) !important;
+  border-radius: var(--neo-radius) !important;
+}
+.hist-row.active {
+  border: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+/* ── Dock / input bar ── */
+.dock-inner {
+  border: var(--neo-border) !important;
+  border-radius: 6px !important;
+  box-shadow: var(--neo-shadow) !important;
+}
+
+/* ── Auth tabs (login) ── */
+.auth-tab.active {
+  border: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+/* ── Translate button ── */
+#translate-btn {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+  box-shadow: var(--neo-shadow) !important;
+}
+#translate-btn:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: var(--neo-shadow-lg) !important;
+}
+
+/* ── Splash screen: neo wordmark ── */
+.splash-wordmark {
+  font-weight: 900 !important;
+  letter-spacing: .25em !important;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+}
+.splash-progress {
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.3) !important;
+}
+
+/* ── Settings section labels ── */
+.p-lbl {
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  font-size: .62rem !important;
+}
+
+/* ── Theme / lang card selections ── */
+.theme-card.selected, .lang-card.selected {
+  border: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+/* ── Mobile nav bar ── */
+.mob-nav {
+  border-top: var(--neo-border) !important;
+  background: var(--bg) !important;
+}
+
 </style>
 </head>
 <body>
@@ -848,6 +1033,29 @@ html{
   </div>
   <div class="splash-progress"><div class="splash-progress-fill"></div></div>
 </div>
+<script>
+// Self-contained splash dismiss — runs immediately, zero dependencies
+(function(){
+  function _hide(){
+    var s = document.getElementById('splash');
+    if(!s || s._done) return;
+    s._done = true;
+    s.style.transition = 'opacity .35s ease';
+    s.style.opacity = '0';
+    s.style.pointerEvents = 'none';
+    setTimeout(function(){ s.style.display = 'none'; }, 370);
+  }
+  // Primary: dismiss after 1.1s branded moment
+  setTimeout(_hide, 1100);
+  // Backup: dismiss on window load if still visible
+  window.addEventListener('load', function(){ setTimeout(_hide, 600); }, {once:true});
+  // Nuclear: if somehow still up after 4s, force it gone
+  setTimeout(function(){
+    var s = document.getElementById('splash');
+    if(s && s.style.display !== 'none'){ s.style.display = 'none'; }
+  }, 4000);
+})();
+</script>
 
 <!-- ═════════════════ OFFLINE BANNER ═════════════════ -->
 <div id="offline-banner">
@@ -2490,15 +2698,8 @@ speechSynthesis.getVoices();
 window.speechSynthesis?.addEventListener?.('voiceschanged',()=>{});
 
 function dismissSplash(){
-  const splash=document.getElementById('splash');
-  if(!splash||splash._gone) return;
-  splash._gone=true;
-  splash.style.transition='opacity .4s ease';
-  splash.style.opacity='0';
-  setTimeout(()=>{
-    splash.style.display='none';
-    splash.style.pointerEvents='none';
-  },420);
+  // Splash is now dismissed by the self-contained inline script above the fold.
+  // This is kept as a no-op for any legacy calls.
 }
 
 /* ── IN-APP BROWSER DETECTION ─────────────────────────────────
@@ -2548,8 +2749,7 @@ newChat();
 // Init preview bar
 _updatePreviewBar();
 
-// Dismiss splash after a short branded moment — never wait for Firebase
-setTimeout(dismissSplash, 1400);
+// Splash dismissed by inline script above — this is a legacy no-op
 // Auto-show install panel shortly after splash (if eligible)
 showInstallPanel();
 
