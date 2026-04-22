@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
 <title>Binaris — Konekte</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Press+Start+2P&display=swap" rel="stylesheet"/>
 
 <!-- In-app browser detection for login page -->
 <script>
@@ -36,11 +36,12 @@
 <!-- Already signed in → skip directly to app -->
 <script type="module">
   import { auth, onAuthStateChanged } from "./firebase-init.js";
-  document.documentElement.style.visibility = "hidden";
+  // No visibility:hidden — show the login form immediately.
+  // If user is already signed in, redirect silently after auth resolves.
   const _u = onAuthStateChanged(auth, (user) => {
     _u();
     if (user) { window.location.replace("./index.html"); }
-    else { document.documentElement.style.visibility = ""; }
+    // else: stay on login page, already visible
   });
 </script>
 
@@ -363,6 +364,72 @@ input{-webkit-user-select:text;user-select:text}
 }
 #translate-btn:hover{background:rgba(0,0,0,.7);transform:translateY(-1px)}
 #translate-btn:active{transform:scale(.97)}
+
+/* ── NEOBRUTALISM ── */
+:root {
+  --neo-border: 2px solid rgba(0,0,0,0.55);
+  --neo-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  --neo-shadow-sm: 2px 2px 0 rgba(0,0,0,0.45);
+  --neo-radius: 4px;
+}
+.card {
+  border: 2px solid rgba(255,255,255,0.2) !important;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.5) !important;
+  border-radius: 6px !important;
+}
+.btn-primary {
+  border: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow) !important;
+  border-radius: var(--neo-radius) !important;
+  font-weight: 800 !important;
+  transition: transform .1s, box-shadow .1s !important;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translate(-1px,-1px) !important;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.6) !important;
+}
+.btn-primary:active:not(:disabled) {
+  transform: translate(1px,1px) !important;
+  box-shadow: none !important;
+}
+.field input {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+}
+.field input:focus {
+  border-color: rgba(255,255,255,0.8) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+.auth-tabs {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+}
+.auth-tab.active {
+  border: none !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+.wordmark {
+  font-weight: 900 !important;
+  letter-spacing: .25em !important;
+}
+#translate-btn {
+  border: var(--neo-border) !important;
+  border-radius: var(--neo-radius) !important;
+  box-shadow: var(--neo-shadow) !important;
+}
+#translate-btn:hover {
+  transform: translate(-1px,-1px) !important;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.55) !important;
+}
+
+
+/* ── PRESS START 2P ── */
+.wordmark {
+  font-family: "Press Start 2P", monospace !important;
+  font-size: .95rem !important;
+  letter-spacing: .1em !important;
+}
+
 </style>
 </head>
 <body>
