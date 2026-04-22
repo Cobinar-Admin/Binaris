@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <meta name="theme-color" content="#FF0000"/>
 <title>Binaris — Politik Konfidansyalite</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#FF0000;--s1:#CC0000;--s2:#BB0000;--s3:#AA0000;--s4:#990000;
@@ -119,6 +119,20 @@ body{min-height:100vh;background:var(--bg);padding:0}
 .hero-badge { border: 2px solid rgba(255,255,255,0.25) !important; border-radius: 4px !important; font-weight: 700 !important; }
 #translate-btn { border: 2px solid rgba(255,255,255,0.3) !important; border-radius: 4px !important; box-shadow: 3px 3px 0 rgba(0,0,0,0.4) !important; }
 #translate-btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 rgba(0,0,0,0.5) !important; }
+
+
+/* ── PRESS START 2P ── */
+.hero h1 {
+  font-family: "Press Start 2P", monospace !important;
+  font-size: 1.3rem !important;
+  line-height: 1.6 !important;
+  letter-spacing: .05em !important;
+}
+.nav-wordmark {
+  font-family: "Press Start 2P", monospace !important;
+  font-size: .65rem !important;
+  letter-spacing: .08em !important;
+}
 
 </style>
 </head>
@@ -322,7 +336,7 @@ body{min-height:100vh;background:var(--bg);padding:0}
       if(ul&&t[k+'l']){ul.innerHTML='';t[k+'l'].forEach(function(item){var li=document.createElement('li');li.innerHTML=item;ul.appendChild(li);});}
       var hl=sec.querySelector('.highlight p');
       if(hl&&t[k+'note'])hl.textContent=t[k+'note'];
-      if(i===6&&ps[0]){ps[0].innerHTML=t.s7p+' <a href="https://payments.cobinar.com" target="_blank">payments.cobinar.com</a>.';}
+      if(i===6&&ps[0]){ps[0].innerHTML=t.s7p+' <a href="contact@cobinar.com" target="_blank">payments.cobinar.com</a>.';}
     });
     var fl=_q('.footer a');if(fl)fl.textContent=t.footer_link;
   }
