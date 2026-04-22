@@ -4,12 +4,13 @@
 <meta charset="UTF-8"/>
 <!-- VIEWPORT — edge-to-edge, notch + gesture nav bar -->
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,interactive-widget=resizes-visual"/>
+<meta name="color-scheme" content="dark light"/>
 <!-- PWA — makes Chrome/Edge/Samsung show the install prompt -->
 <link rel="manifest" href="manifest.json"/>
 <!-- Android: themes status bar + gesture nav bar to match app -->
-<meta name="theme-color" content="#FF1540" id="theme-color-meta"/>
-<meta name="theme-color" content="#FF1540" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
-<meta name="theme-color" content="#FF1540" media="(prefers-color-scheme:light)" id="theme-color-light"/>
+<meta name="theme-color" content="#FF0000" id="theme-color-meta"/>
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme:light)" id="theme-color-light"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <!-- iOS — full screen + status bar style -->
 <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -27,14 +28,11 @@
 <!-- Auth guard — redirects to login.html if not signed in -->
 <script type="module">
 import { auth, onAuthStateChanged } from "./firebase-init.js";
-// Paint a black veil instantly so the app is invisible until auth resolves
-document.documentElement.style.visibility = "hidden";
-const _unsub = onAuthStateChanged(auth, (user) => {
-  _unsub();
+// Auth check runs independently of the splash screen.
+// Splash always dismisses on its own timer (never gated on Firebase).
+onAuthStateChanged(auth, (user) => {
   if (!user) {
-    window.location.replace("/login.html");
-  } else {
-    document.documentElement.style.visibility = "";
+    window.location.replace("./login.html");
   }
 });
 </script>
@@ -408,7 +406,7 @@ html{
   display:flex;align-items:center;justify-content:space-between;
   /* top padding absorbs status bar */
   padding:calc(10px + var(--safe-top)) 20px 10px;
-  border-bottom:1px solid var(--b1);
+  border-bottom:1px solid transparent;
   flex-shrink:0;background:var(--topbar-bg);z-index:10;gap:8px;
 }
 .tb-l{display:flex;align-items:center;gap:6px;min-width:0;flex:1}
@@ -1372,28 +1370,50 @@ function applyTheme(id){
   if(id==='dark') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme',id);
   const t=THEMES.find(x=>x.id===id)||THEMES[0];
-  // ── System bar theming (status bar + gesture nav bar + notch) ──
-  // CRITICAL: Chrome's edge-to-edge nav bar sampler reads the *computed*
-  // backgroundColor of <html> — not CSS variables. We must write the
-  // literal hex directly so it resolves without a style recalc.
   const bgHex = t.bg;
+  const isLight = t.light;
+
+  // 1. html + body — Chrome/Samsung read backgroundColor directly from computed style
   document.documentElement.style.backgroundColor = bgHex;
   document.body.style.backgroundColor = bgHex;
 
-  // theme-color meta — controls status bar tint in Chrome & Safari PWA
-  const allThemeMetas = document.querySelectorAll('meta[name='theme-color']');
-  allThemeMetas.forEach(m => { m.content = bgHex; });
+  // 2. color-scheme — controls OS scrollbar/input chrome color
+  document.documentElement.style.colorScheme = isLight ? 'light' : 'dark';
 
-  // iOS: light themes need 'default' (dark status bar text),
-  //      dark themes need 'black-translucent' (white text, bleeds under bar)
-  const iosBar = document.querySelector('meta[name='apple-mobile-web-app-status-bar-style']');
-  if (iosBar) iosBar.content = t.light ? 'default' : 'black-translucent';
-  // Syntax highlighting
+  // 3. Every theme-color meta — covers status bar, PWA toolbar, nav bar
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => { m.content = bgHex; });
+
+  // 4. iOS: swap status-bar icon color based on background lightness
+  const iosBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+  if(iosBar) iosBar.content = isLight ? 'default' : 'black-translucent';
+
+  // 5. Topbar background must match exactly so no seam shows under status bar
+  const topbar = document.querySelector('.topbar');
+  if(topbar) topbar.style.backgroundColor = bgHex;
+
+  // 6. Sidebar also needs explicit bg so it bleeds correctly into safe area
+  document.querySelectorAll('.sidebar,.sb-drawer').forEach(el => {
+    el.style.backgroundColor = ''; // let CSS var handle it — just force repaint
+  });
+
+  // 7. Force compositor flush so Android nav bar re-samples immediately
+  document.documentElement.style.willChange = 'background-color';
+  requestAnimationFrame(() => {
+    document.documentElement.style.willChange = '';
+    // Second rAF for Samsung/MIUI which sample after the first paint
+    requestAnimationFrame(() => {
+      document.documentElement.style.backgroundColor = bgHex;
+      document.body.style.backgroundColor = bgHex;
+      document.querySelectorAll('meta[name="theme-color"]').forEach(m => { m.content = bgHex; });
+    });
+  });
+
+  // 8. Syntax highlighting theme
   const hl=document.getElementById('hljs-css');
-  if(hl) hl.href=t.light
+  if(hl) hl.href=isLight
     ?'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'
     :'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css';
-  // Update dock gradient in JS for custom themes
+
   buildThemeGrid();
 }
 function buildThemeGrid(){
@@ -2471,9 +2491,14 @@ window.speechSynthesis?.addEventListener?.('voiceschanged',()=>{});
 
 function dismissSplash(){
   const splash=document.getElementById('splash');
-  if(!splash) return;
-  splash.classList.add('out');
-  setTimeout(()=>{splash.style.display='none';},550);
+  if(!splash||splash._gone) return;
+  splash._gone=true;
+  splash.style.transition='opacity .4s ease';
+  splash.style.opacity='0';
+  setTimeout(()=>{
+    splash.style.display='none';
+    splash.style.pointerEvents='none';
+  },420);
 }
 
 /* ── IN-APP BROWSER DETECTION ─────────────────────────────────
@@ -2523,8 +2548,8 @@ newChat();
 // Init preview bar
 _updatePreviewBar();
 
-// Dismiss splash after app is ready
-setTimeout(dismissSplash, 1600);
+// Dismiss splash after a short branded moment — never wait for Firebase
+setTimeout(dismissSplash, 1400);
 // Auto-show install panel shortly after splash (if eligible)
 showInstallPanel();
 
@@ -2539,15 +2564,14 @@ showInstallPanel();
   function syncNavBar(){
     const t = THEMES.find(x => x.id === curTheme) || THEMES[0];
     const hex = t.bg;
-    // Write to html + body so Chrome's surface-color sampler always resolves it
     if (document.documentElement.style.backgroundColor !== hex) {
       document.documentElement.style.backgroundColor = hex;
       document.body.style.backgroundColor = hex;
     }
-    // Keep all theme-color metas in sync too (status bar / PWA toolbar)
-    document.querySelectorAll('meta[name='theme-color']').forEach(m => {
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
       if (m.content !== hex) m.content = hex;
     });
+    document.documentElement.style.colorScheme = t.light ? 'light' : 'dark';
   }
 
   // After scroll stops — OS may re-evaluate nav bar color at rest
@@ -2688,7 +2712,7 @@ showInstallPanel();
 <!-- Auth state manager -->
 <script type='module' src='./main.js'></script>
 <!-- Chat & Firestore session manager -->
-<script type='module' src='./chat.js"></script>
+<script type="module" src="./chat.js"></script>
 
 
 <!-- TRANSLATE TOGGLE -->
