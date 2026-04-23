@@ -227,7 +227,7 @@ body{min-height:100vh;background:var(--bg);padding:0}
     <p>Binaris itilize sèvis tèt pati sa yo pou fonksyone:</p>
     <ul>
       <li><strong>Google Firebase:</strong> otantifikasyon ak baz done (politik Google aplikab)</li>
-      <li><strong>Groq AI:</strong> trete mesaj ou pou jenere repons AI</li>
+      <li><strong>Sèvis AI:</strong> trete mesaj ou pou jenere repons entèlijans atifisyèl</li>
       <li><strong>Google Fonts:</strong> fontyè tipografik (pa gen done pèsonèl pataje)</li>
     </ul>
     <p style="margin-top:10px">Nou pa pataje done ou ak lòt tèt pati san konsantman ou eksepte lè lwa egzije sa.</p>
@@ -253,7 +253,7 @@ body{min-height:100vh;background:var(--bg);padding:0}
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4C2 2.9 2.9 2 4 2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4Z" stroke="currentColor" stroke-width="1.3"/><path d="M5 8h6M8 5v6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
       7. Kontakte Nou
     </h2>
-    <p>Si ou gen kesyon sou konfidansyalite ou oswa ou vle egzèse dwa ou, kontakte nou atravè aplikasyon Binaris. Ou ka tou sipòte nou atravè <a href="https://payments.cobinar.com" target="_blank">payments.cobinar.com</a>.</p>
+    <p>Si ou gen kesyon sou konfidansyalite ou oswa ou vle egzèse dwa ou, kontakte nou nan <a href="mailto:contact@cobinar.com">contact@cobinar.com</a> oswa <a href="mailto:contact@binaris.cc">contact@binaris.cc</a>.</p>
   </div>
 
 </div>
@@ -285,12 +285,12 @@ body{min-height:100vh;background:var(--bg);padding:0}
     s4l:['Cookie mesaj gratis: suivi konbyen mesaj ou voye anvan ou konekte (30 jou)','Preferans: lang, tèm, paramèt vwa ou yo (localStorage, lokal sèlman)','Sesi: Firebase jere otantifikasyon ou atravè cookies sekirize'],
     s4note:'Ou ka efase cookies atravè navigatè ou nenpòt ki lè. Sa pral reinisyalize kòmptèy mesaj gratis ou.',
     s5h:'5. Pataj Done ak Tèt Pati',s5p:'Binaris itilize sèvis tèt pati sa yo pou fonksyone:',
-    s5l:['Google Firebase: otantifikasyon ak baz done (politik Google aplikab)','Groq AI: trete mesaj ou pou jenere repons AI','Google Fonts: fontyè tipografik (pa gen done pèsonèl pataje)'],
+    s5l:['Google Firebase: otantifikasyon ak baz done (politik Google aplikab)','Sèvis AI: trete mesaj ou pou jenere repons entèlijans atifisyèl','Google Fonts: fontyè tipografik (pa gen done pèsonèl pataje)'],
     s5note:'Nou pa pataje done ou ak lòt tèt pati san konsantman ou eksepte lè lwa egzije sa.',
     s6h:'6. Dwa Ou yo',s6p:'Ou gen dwa pou:',
     s6l:['Aksede: Wè tout done nou gen sou ou','Korije: Mande kòreksyon done ou yo','Efase: Mande nou efase kont ou ak done ki asosye','Pòtabilite: Jwenn yon kopi done ou nan fòma JSON'],
     s6note:'Pou egzèse dwa sa yo, voye yon mesaj nan aplikasyon an oswa kontakte nou dirèkteman.',
-    s7h:'7. Kontakte Nou',s7p:'Si ou gen kesyon sou konfidansyalite ou oswa ou vle egzèse dwa ou, kontakte nou atravè aplikasyon Binaris. Ou ka tou sipòte nou atravè',
+    s7h:'7. Kontakte Nou',s7p:'Si ou gen kesyon sou konfidansyalite ou oswa ou vle egzèse dwa ou, kontakte nou nan <a href="mailto:contact@cobinar.com">contact@cobinar.com</a> oswa <a href="mailto:contact@binaris.cc">contact@binaris.cc</a>.',
     footer_link:'Kondisyon Sèvis',btn_lbl:'EN'},
     en:{title:'Binaris — Privacy Policy',nav_back:'Back',badge:'Privacy',h1:'Privacy Policy',sub:'We protect your data with care and transparency.',date:'Last updated: January 2025',
     s1h:'1. Information We Collect',s1p:'Binaris collects information to provide you a better experience. This may include:',
@@ -305,12 +305,12 @@ body{min-height:100vh;background:var(--bg);padding:0}
     s4l:['Free message cookie: tracking how many messages you send before login (30 days)','Preferences: your language, theme, voice settings (localStorage, local only)','Session: Firebase manages your authentication via secure cookies'],
     s4note:'You can delete cookies through your browser at any time. This will reset your free message counter.',
     s5h:'5. Third-Party Data Sharing',s5p:'Binaris uses these third-party services to operate:',
-    s5l:['Google Firebase: authentication and database (Google policies apply)','Groq AI: processes your messages to generate AI responses','Google Fonts: typographic fonts (no personal data shared)'],
+    s5l:['Google Firebase: authentication and database (Google policies apply)','AI Service: processes your messages to generate AI responses','Google Fonts: typographic fonts (no personal data shared)'],
     s5note:'We do not share your data with other third parties without your consent except when required by law.',
     s6h:'6. Your Rights',s6p:'You have the right to:',
     s6l:['Access: See all data we have about you','Correct: Request corrections to your data','Delete: Request we delete your account and associated data','Portability: Get a copy of your data in JSON format'],
     s6note:'To exercise these rights, send a message in the app or contact us directly.',
-    s7h:'7. Contact Us',s7p:'If you have questions about your privacy or wish to exercise your rights, contact us through the Binaris app. You can also support us at',
+    s7h:'7. Contact Us',s7p:'If you have questions about your privacy or wish to exercise your rights, contact us at <a href="mailto:contact@cobinar.com">contact@cobinar.com</a> or <a href="mailto:contact@binaris.cc">contact@binaris.cc</a>.',
     footer_link:'Terms of Service',btn_lbl:'HT'}
   };
   function _q(sel){return document.querySelector(sel)}
@@ -336,7 +336,7 @@ body{min-height:100vh;background:var(--bg);padding:0}
       if(ul&&t[k+'l']){ul.innerHTML='';t[k+'l'].forEach(function(item){var li=document.createElement('li');li.innerHTML=item;ul.appendChild(li);});}
       var hl=sec.querySelector('.highlight p');
       if(hl&&t[k+'note'])hl.textContent=t[k+'note'];
-      if(i===6&&ps[0]){ps[0].innerHTML=t.s7p+' <a href="contact@cobinar.com" target="_blank">payments.cobinar.com</a>.';}
+      if(i===6&&ps[0]){ps[0].innerHTML=t.s7p;return;}
     });
     var fl=_q('.footer a');if(fl)fl.textContent=t.footer_link;
   }

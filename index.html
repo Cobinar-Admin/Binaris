@@ -812,26 +812,7 @@ html{
 .sys-notif-close{background:none;border:none;color:var(--w3);cursor:pointer;padding:2px 4px;font-size:.8rem;transition:color .12s;flex-shrink:0}.sys-notif-close:hover{color:var(--w1)}
 
 
-/* ── TRANSLATE TOGGLE BUTTON ─────────────────────────── */
-#translate-btn{
-  position:fixed;bottom:calc(var(--safe-bottom,0px) + 80px);right:14px;
-  z-index:490;
-  display:flex;align-items:center;gap:7px;
-  padding:9px 14px;
-  background:rgba(0,0,0,.55);backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.18);border-radius:var(--r-pill);
-  color:rgba(255,255,255,.9);font-family:var(--mono);font-size:.68rem;
-  font-weight:500;letter-spacing:.06em;cursor:pointer;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
-  transition:background .15s,border-color .15s,transform .12s;
-  user-select:none;-webkit-user-select:none;
-}
-#translate-btn:hover{background:rgba(0,0,0,.75);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
-#translate-btn:active{transform:translateY(0) scale(.97)}
-#translate-btn svg{flex-shrink:0}
-@media(max-width:640px){
-  #translate-btn{bottom:calc(var(--safe-bottom,0px) + 68px);right:12px;padding:8px 12px;}
-}
+/* ── Translate button removed from main chat - use lang button in topbar ── */
 
 /* ═══════════════════════════════════════════════════════════
    NEOBRUTALISM OVERRIDE — bold borders, flat offset shadows
@@ -853,23 +834,25 @@ html{
   --neo-shadow-lg: 4px 4px 0 rgba(0,0,0,0.8);
 }
 
-/* ── Topbar: no border-bottom, flat against safe area ── */
+/* ── Topbar: fully red, edge-to-edge ── */
 .topbar {
   border-bottom: none !important;
   box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+  background: #FF0000 !important;
 }
 
 /* Extend topbar bg all the way into the status bar notch */
 html, body {
-  background-color: var(--bg);
+  background-color: #FF0000;
 }
 .topbar::before {
   content: '';
-  position: absolute;
-  top: calc(-1 * env(safe-area-inset-top, 0px));
+  position: fixed;
+  top: 0;
   left: 0; right: 0;
   height: env(safe-area-inset-top, 0px);
-  background: inherit;
+  background: #FF0000;
+  z-index: 9999;
   pointer-events: none;
 }
 .topbar { position: relative; }
@@ -964,11 +947,7 @@ html, body {
 }
 
 /* ── Dock / input bar ── */
-.dock-inner {
-  border: var(--neo-border) !important;
-  border-radius: 6px !important;
-  box-shadow: var(--neo-shadow) !important;
-}
+/* dock-inner: no outer border - keep clean */
 
 /* ── Auth tabs (login) ── */
 .auth-tab.active {
@@ -976,62 +955,54 @@ html, body {
   box-shadow: var(--neo-shadow-sm) !important;
 }
 
-/* ── Translate button ── */
-#translate-btn {
-  border: var(--neo-border) !important;
-  border-radius: var(--neo-radius) !important;
-  box-shadow: var(--neo-shadow) !important;
-}
-#translate-btn:hover {
-  transform: translate(-1px, -1px) !important;
-  box-shadow: var(--neo-shadow-lg) !important;
-}
+/* ── translate button removed from main chat ── */
 
-/* ── DEEP BLUE CHAT AREA — neobrutalist ── */
+/* ── SKYBLUE CHAT AREA — neobrutalist ── */
 .msgs-wrap {
-  background: #0a1628 !important;
+  background: #87CEEB !important;
 }
 #msgs {
-  background: #0a1628 !important;
+  background: #87CEEB !important;
 }
 #empty {
-  background: #0a1628 !important;
+  background: #87CEEB !important;
 }
-/* AI bubble: deep blue card with thick shadow */
+/* AI bubble: skyblue card */
 .msg.ai .bubble {
-  background: #0f1e3d !important;
-  border: 2px solid #1a3a6b !important;
-  box-shadow: 4px 4px 0 #071020 !important;
+  background: #c5e8f7 !important;
+  border: 2px solid #5aacda !important;
+  box-shadow: 4px 4px 0 #2a7aaa !important;
   border-radius: 4px !important;
-  color: #c8d8f8 !important;
+  color: #08304a !important;
 }
-/* AI avatar: dark blue ring */
+/* AI avatar: skyblue ring */
 .msg.ai .m-av {
-  background: #0f1e3d !important;
-  border: 2px solid #1a3a6b !important;
-  box-shadow: 2px 2px 0 #071020 !important;
+  background: #c5e8f7 !important;
+  border: 2px solid #5aacda !important;
+  box-shadow: 2px 2px 0 #2a7aaa !important;
   overflow: hidden !important;
 }
-/* User bubble: bold red accent on dark */
+/* User bubble: bold red accent */
 .msg.user .bubble {
   background: #1a0000 !important;
   border: 2px solid #CC0000 !important;
   box-shadow: 4px 4px 0 #070000 !important;
   border-radius: 4px !important;
+  color: #fff !important;
 }
-/* Typing dots match blue scheme */
+/* Typing dots match skyblue scheme */
 .tdots span {
-  background: #4a7cc7 !important;
+  background: #2a7aaa !important;
 }
 /* Code blocks inside chat */
 .msg.ai .code-wrap {
-  border: 2px solid #1a3a6b !important;
-  box-shadow: 3px 3px 0 #071020 !important;
+  border: 2px solid #5aacda !important;
+  box-shadow: 3px 3px 0 #2a7aaa !important;
 }
 /* Scrollbar for chat area */
 .msgs-wrap::-webkit-scrollbar { width: 6px; }
-.msgs-wrap::-webkit-scrollbar-track { background: #0a1628; }
-.msgs-wrap::-webkit-scrollbar-thumb { background: #1a3a6b; border-radius: 2px; }
+.msgs-wrap::-webkit-scrollbar-track { background: #87CEEB; }
+.msgs-wrap::-webkit-scrollbar-thumb { background: #5aacda; border-radius: 2px; }
 
 /* ── Splash screen: neo wordmark ── */
 .splash-wordmark {
@@ -2434,7 +2405,7 @@ function requestNotifPermission() {
         type: 'ok',
         title: 'Notifications enabled',
         sub: 'You will now receive updates from Binaris.',
-        icon: '"<svg width="16" height="'16' viewBox='0 0 16 16' fill='none'><path d='M8 2C5.8 2 4 3.8 4 6v3l-1.5 2h11L12 9V6c0-2.2-1.8-4-4-4Z' stroke='currentColor' stroke-width='1.3'/><path d='M6.5 13.5a1.5 1.5 0 0 0 3 0' stroke='currentColor' stroke-width='1.3' stroke-linecap='round'/></svg>',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C5.8 2 4 3.8 4 6v3l-1.5 2h11L12 9V6c0-2.2-1.8-4-4-4Z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
       });
     }
   });
@@ -2445,7 +2416,7 @@ function requestNotifPermission() {
  * type: 'ok' | 'warn' | 'err' | 'info'
  * Adds to in-app panel + sends native OS notification if permitted
  */
-function pushNotif({ type = 'info', title, sub = '', icon = '<svg width='14' height='14' viewBox='0 0 16 16' fill='none'><path d='M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z' stroke='currentColor' stroke-width='1.3' stroke-linejoin='round'/></svg>', detail = '', showSys = true }) {
+function pushNotif({ type = 'info', title, sub = '', icon = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>`, detail = '', showSys = true }) {
   const id = ++_notifId;
   const now = new Date();
   const timeStr = now.toLocaleTimeString(curLang || 'en', { hour: '2-digit', minute: '2-digit' });
@@ -2478,7 +2449,7 @@ function pushNotif({ type = 'info', title, sub = '', icon = '<svg width='14' hei
 }
 
 /** In-app floating top toast */
-function sysNotif({ type = 'info', title, sub = '', icon = '<svg width='14' height='14' viewBox='0 0 16 16' fill='none'><path d='M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z' stroke='currentColor' stroke-width='1.3' stroke-linejoin='round'/></svg>' }) {
+function sysNotif({ type = 'info', title, sub = '', icon = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>` }) {
   const el  = document.getElementById('sys-notif');
   const ico = document.getElementById('sys-notif-ico');
   const ttl = document.getElementById('sys-notif-title');
@@ -2567,7 +2538,7 @@ function notifyConversationStarted() {
     type: 'ok',
     title: 'Conversation started',
     sub: 'Binaris is ready. Ask anything.',
-    icon: '"<svg width="14" height="'14' viewBox='0 0 16 16' fill='none'><path d='M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z' stroke='currentColor' stroke-width='1.3' stroke-linejoin='round'/></svg>',
+    icon: `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h10c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H5l-3 2V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>`,
     detail: `Session: ${curSid?.slice(0,8) || '—'} · ${new Date().toLocaleTimeString()}`,
     showSys: true,
   });
@@ -2579,7 +2550,7 @@ function notifyAISpeaking(preview) {
     type: 'info',
     title: 'Binaris is responding',
     sub: shortened,
-    icon: '"<svg width="16" height="'16' viewBox='0 0 16 16' fill='none'><rect x='3' y='5' width='10' height='8' rx='2' stroke='currentColor' stroke-width='1.3'/><circle cx='6' cy='9' r='1' fill='currentColor'/><circle cx='10' cy='9' r='1' fill='currentColor'/><path d='M6.5 11.5h3' stroke='currentColor' stroke-width='1.2' stroke-linecap='round'/><path d='M8 5V2.5M5.5 2.5h5' stroke='currentColor' stroke-width='1.3' stroke-linecap='round'/></svg>',
+    icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="5" width="10" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="6" cy="9" r="1" fill="currentColor"/><circle cx="10" cy="9" r="1" fill="currentColor"/><path d="M6.5 11.5h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M8 5V2.5M5.5 2.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
     detail: 'AI is generating a response',
     showSys: false, // too frequent — only log to panel
   });
@@ -2601,7 +2572,7 @@ function notifyVoiceStarted(charName) {
     type: 'info',
     title: `${charName} is speaking`,
     sub: 'Voice mode active — Binaris is reading aloud',
-    icon: '"<svg width="14" height="'14' viewBox='0 0 16 16' fill='none'><path d='M3 6H1v4h2l4 3V3L3 6Z' stroke='currentColor' stroke-width='1.3' stroke-linejoin='round'/><path d='M11 5c1 .8 1.5 1.8 1.5 3s-.5 2.2-1.5 3' stroke='currentColor' stroke-width='1.3' stroke-linecap='round'/></svg>',
+    icon: `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 6H1v4h2l4 3V3L3 6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M11 5c1 .8 1.5 1.8 1.5 3s-.5 2.2-1.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
     showSys: true,
   });
 }
@@ -2611,7 +2582,7 @@ function notifyVoiceEnded() {
     type: 'info',
     title: 'Voice session ended',
     sub: 'Conversation saved to history',
-    icon: '"<svg width="14" height="'14' viewBox='0 0 16 16' fill='none'><path d='M3 6H1v4h2l4 3V3L3 6Z' stroke='currentColor' stroke-width='1.3' stroke-linejoin='round'/><path d='M13 5.5L10 8.5M10 5.5l3 3' stroke='currentColor' stroke-width='1.3' stroke-linecap='round'/></svg>',
+    icon: `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 6H1v4h2l4 3V3L3 6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M13 5.5L10 8.5M10 5.5l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
     showSys: false,
   });
 }
@@ -2688,7 +2659,7 @@ window.addEventListener('appinstalled', () => {
     type: 'ok',
     title: 'Binaris installed!',
     sub: 'App added to your home screen',
-    icon: '"<svg width="16" height="'16' viewBox='0 0 16 16' fill='none'><rect x='4' y='1' width='8' height='14' rx='1.5' stroke='currentColor' stroke-width='1.3'/><circle cx='8' cy='12.5' r='.8' fill='currentColor'/><path d='M6 4h4' stroke='currentColor' stroke-width='1.2' stroke-linecap='round'/></svg>',
+    icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4" y="1" width="8" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="12.5" r=".8" fill="currentColor"/><path d="M6 4h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
     showSys: true,
   });
 });
@@ -2991,33 +2962,7 @@ showInstallPanel();
 <script type="module" src="./chat.js"></script>
 
 
-<!-- TRANSLATE TOGGLE -->
-<button id="translate-btn" onclick="toggleTranslate()" title="Translate / Tradui" aria-label="Toggle language">
-  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/>
-    <path d="M8 1.5C6.3 3.8 5.5 5.9 5.5 8S6.3 12.2 8 14.5" stroke="currentColor" stroke-width="1.2"/>
-    <path d="M8 1.5C9.7 3.8 10.5 5.9 10.5 8S9.7 12.2 8 14.5" stroke="currentColor" stroke-width="1.2"/>
-    <line x1="1.5" y1="8" x2="14.5" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-  </svg>
-  <span id="translate-lbl">EN</span>
-</button>
-<script>
-(function(){
-  var _tLang = localStorage.getItem('binaris_lang') || 'ht';
-  function _updateTranslateBtn(){
-    var lbl = document.getElementById('translate-lbl');
-    if(!lbl) return;
-    lbl.textContent = (_tLang === 'ht') ? 'EN' : 'HT';
-  }
-  window.toggleTranslate = function(){
-    _tLang = (_tLang === 'ht') ? 'en' : 'ht';
-    if(typeof applyLang === 'function') applyLang(_tLang);
-    _updateTranslateBtn();
-  };
-  // Sync label after page load
-  document.addEventListener('DOMContentLoaded', _updateTranslateBtn);
-  setTimeout(_updateTranslateBtn, 100);
-})();
-</script>
+
+
 </body>
 </html>
