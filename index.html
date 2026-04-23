@@ -838,12 +838,19 @@ html{
 .topbar {
   border-bottom: none !important;
   box-shadow: 0 2px 0 rgba(0,0,0,0.3);
-  background: #FF0000 !important;
+  background: #1a3a6e !important;
 }
 
 /* Extend topbar bg all the way into the status bar notch */
 html, body {
   background-color: #FF0000;
+}
+/* Blue chat panel */
+.main {
+  background: #1a3a6e !important;
+}
+.dock::before {
+  background: linear-gradient(to top, #1a3a6e 55%, transparent) !important;
 }
 .topbar::before {
   content: '';
@@ -851,7 +858,7 @@ html, body {
   top: 0;
   left: 0; right: 0;
   height: env(safe-area-inset-top, 0px);
-  background: #FF0000;
+  background: #1a3a6e;
   z-index: 9999;
   pointer-events: none;
 }
@@ -1578,7 +1585,7 @@ function applyLang(code){
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(L[k]!==undefined)el.innerHTML=L[k].replace(/\n/g,'<br>');});
   const tx=document.getElementById('prompt'); if(tx) tx.placeholder=L.placeholder;
   const lf=document.getElementById('lang-flag'),lc=document.getElementById('lang-code');
-  if(lf) lf.textContent=L.flag; if(lc) lc.textContent=L.code;
+  if(lf) lf.innerHTML=L.flag; if(lc) lc.textContent=L.code;
   buildCards(); buildLangGrid(); updateSysLang(code);
 }
 function updateSysLang(code){
@@ -1632,9 +1639,9 @@ function applyTheme(id){
   const iosBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
   if(iosBar) iosBar.content = isLight ? 'default' : 'black-translucent';
 
-  // 5. Topbar background must match exactly so no seam shows under status bar
-  const topbar = document.querySelector('.topbar');
-  if(topbar) topbar.style.backgroundColor = bgHex;
+  // 5. Topbar is always blue for the chat panel — do NOT override with theme bg
+  // const topbar = document.querySelector('.topbar');
+  // if(topbar) topbar.style.backgroundColor = bgHex;
 
   // 6. Sidebar also needs explicit bg so it bleeds correctly into safe area
   document.querySelectorAll('.sidebar,.sb-drawer').forEach(el => {
@@ -2843,6 +2850,47 @@ showInstallPanel();
   window.addEventListener('focus', syncNavBar);
   window.addEventListener('pageshow', syncNavBar);
 })();
+
+/* ── Expose all button-handler functions on window so they are reachable
+   from onclick="" attributes regardless of module/strict-mode boundaries ── */
+window.retryConnection  = retryConnection;
+window.newChat          = newChat;
+window.toggleSelectMode = toggleSelectMode;
+window.deleteSelected   = deleteSelected;
+window.openSettings     = openSettings;
+window.closeSettings    = closeSettings;
+window.openDrawer       = openDrawer;
+window.closeDrawer      = closeDrawer;
+window.openShare        = openShare;
+window.closeShare       = closeShare;
+window.exportChat       = exportChat;
+window.openNotifPanel   = openNotifPanel;
+window.closeNotifPanel  = closeNotifPanel;
+window.clearAllNotifs   = clearAllNotifs;
+window.closeSysNotif    = closeSysNotif;
+window.trigFile         = trigFile;
+window.toggleMic        = toggleMic;
+window.openVoice        = openVoice;
+window.closeVoice       = closeVoice;
+window.toggleVMute      = toggleVMute;
+window.toggleTTS        = toggleTTS;
+window.handleSendStop   = handleSendStop;
+window.scrollBot        = scrollBot;
+window.handleKey        = handleKey;
+window.onTxInput        = onTxInput;
+window.handleFiles      = handleFiles;
+window.dismissPaste     = dismissPaste;
+window.ovBg             = ovBg;
+window.clearHistory     = clearHistory;
+window.toggleKeyVis     = toggleKeyVis;
+window.clearKey         = clearKey;
+window.suggest          = suggest;
+window.applyLang        = applyLang;
+window.applyTheme       = applyTheme;
+window.dismissNotif     = dismissNotif;
+window.loadSession      = loadSession;
+window.toggleSelectItem = toggleSelectItem;
+window.showInstallPanel = showInstallPanel;
 
 
 </script>
