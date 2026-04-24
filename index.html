@@ -412,6 +412,10 @@ html{
 @keyframes lpulse{0%,100%{opacity:1}50%{opacity:.3}}
 .tok-badge{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:var(--r-pill);border:1px solid var(--b1);background:transparent;font-family:var(--mono);font-size:.63rem;color:var(--w3);white-space:nowrap}
 .tok-badge svg{flex-shrink:0;opacity:.5}
+.model-badge{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:var(--r-pill);border:1px solid var(--b1);background:transparent;font-family:var(--mono);font-size:.63rem;color:var(--w3);white-space:nowrap;transition:color .2s,border-color .2s}
+.model-badge svg{flex-shrink:0;opacity:.5}
+.model-badge.fallback{color:rgba(255,193,60,.75);border-color:rgba(255,193,60,.3)}
+.model-badge.fallback svg{opacity:.7}
 .tb-creator{font-size:.6rem;font-weight:400;color:var(--w3);letter-spacing:.04em;white-space:nowrap;text-align:center;flex:1;pointer-events:none}
 .tb-creator strong{color:var(--w2);font-weight:500}
 .tb-r{display:flex;align-items:center;gap:3px;flex-shrink:0}
@@ -606,7 +610,7 @@ html{
 @media(max-width:1023px){
   .app{grid-template-columns:1fr}.sidebar{display:none}
   .sb-overlay,.sb-drawer{display:flex;flex-direction:column}.tb-burger{display:flex}
-  .tb-creator{display:none}.tok-badge{display:none!important}
+  .tb-creator{display:none}.tok-badge{display:none!important}.model-badge{display:none!important}
   .cards{grid-template-columns:repeat(2,1fr)}.dock{left:0}
   :root{--scroll-btn-b:130px}
 }
@@ -615,7 +619,7 @@ html{
   .dock{left:0;bottom:calc(var(--mob-nav-h) + var(--safe-bottom));padding-bottom:14px}
   .dock::before{height:190px}.dock-inner{padding:0 12px}
   :root{--scroll-btn-b:calc(130px + var(--mob-nav-h) + var(--safe-bottom))}
-  #msgs{padding:20px 16px calc(190px + var(--mob-nav-h) + var(--safe-bottom));max-width:100%}
+  #msgs{padding:20px 10px calc(190px + var(--mob-nav-h) + var(--safe-bottom));max-width:100%}
   #empty{padding:40px 16px calc(200px + var(--mob-nav-h) + var(--safe-bottom))}
   .bar{border-radius:18px;padding:9px 8px 7px 12px}.bar-tx{font-size:.875rem}
   .act span{display:none}.act{padding:5px 8px}.act-sep,.char-c{display:none}
@@ -624,7 +628,17 @@ html{
   .tb-creator{display:none}
   .cards{grid-template-columns:1fr}.card{border-radius:var(--r-lg);padding:13px 12px}
   .e-h{font-size:clamp(1.8rem,8vw,2.6rem)}.e-p{font-size:.82rem;max-width:90%}.e-by{margin-bottom:32px}
-  .msg.user .bubble{max-width:94%}.bubble{font-size:.85rem}
+  /* AI messages: hide avatar, fill full width edge-to-edge */
+  .msg.ai .m-av{display:none}
+  .msg.ai{gap:0;padding:12px 0}
+  .msg.ai .m-body{width:100%;max-width:100%}
+  .msg.ai .bubble,.msg.ai .mdbody{width:100%;max-width:100%;font-size:.87rem}
+  /* User bubbles: still compact but wider */
+  .msg.user .bubble{max-width:96%;font-size:.86rem}
+  .bubble{font-size:.86rem}
+  /* Tighten message row padding on mobile */
+  .msg{padding:10px 0}
+  .m-who{font-size:.6rem;margin-bottom:5px}
   .panel{width:100vw;max-width:100vw;border-left:none;border-top:1px solid var(--b1);padding:calc(18px + var(--safe-top)) 16px 18px}
   .overlay{align-items:flex-end}
   .overlay .panel{height:88dvh;max-height:88dvh;border-radius:var(--r-2xl) var(--r-2xl) 0 0;transform:translateY(20px);padding-top:18px}
@@ -1269,6 +1283,10 @@ html, body {
         <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.5" stroke="currentColor" stroke-width="1.1"/><path d="M4.5 2.5v2l1.2 1.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
         <span id="tok-txt">0 tokens</span>
       </div>
+      <div class="model-badge" id="model-badge">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 4h3M4 2.5v3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        <span id="model-name-txt">Bino2.4</span>
+      </div>
     </div>
     <div class="tb-creator">by <strong>Marc-Arthur Samuel Dalus</strong></div>
     <div class="tb-r">
@@ -1349,6 +1367,31 @@ html, body {
     <div class="p-sec">
       <div class="p-lbl" data-i18n="language">Lang</div>
       <div class="lang-grid" id="lang-grid"></div>
+    </div>
+
+    <div class="p-sec">
+      <div class="p-lbl">Modèl AI</div>
+      <div style="display:flex;flex-direction:column;gap:5px" id="model-selector">
+        <button class="model-opt active" id="mopt-bino" onclick="setPreferredModel('groq')"
+          style="display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-md);cursor:pointer;transition:all .13s;text-align:left">
+          <div style="width:7px;height:7px;border-radius:50%;background:var(--ok);flex-shrink:0"></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.75rem;font-weight:600;color:var(--w1);font-family:var(--mono)">Bino2.4</div>
+            <div style="font-size:.62rem;color:var(--w3);margin-top:1px">Modèl prensipal · rapide</div>
+          </div>
+          <div id="mopt-bino-check" style="font-size:.7rem;color:var(--ok)">✓</div>
+        </button>
+        <button class="model-opt" id="mopt-brad" onclick="setPreferredModel('gemini')"
+          style="display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r-md);cursor:pointer;transition:all .13s;text-align:left">
+          <div style="width:7px;height:7px;border-radius:50%;background:rgba(255,193,60,.8);flex-shrink:0"></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.75rem;font-weight:600;color:var(--w1);font-family:var(--mono)">Brad 5.0</div>
+            <div style="font-size:.62rem;color:var(--w3);margin-top:1px">Modèl sekondè · rezo diferan</div>
+          </div>
+          <div id="mopt-brad-check" style="font-size:.7rem;color:rgba(255,193,60,.9);display:none">✓</div>
+        </button>
+      </div>
+      <div class="p-info" style="font-size:.62rem" id="model-fallback-note" hidden>Brad 5.0 aktif — Bino2.4 te rive limit.</div>
     </div>
 
     <div class="p-sec">
@@ -1925,15 +1968,68 @@ function speak(text){
 /* ═════════════════════════════════════════
    API — Universal (backend is Groq, UI is generic)
 ═════════════════════════════════════════ */
-const _EU = '/api/groq';
-const _EM = 'llama-3.3-70b-versatile';
+const _EU_GROQ   = '/api/groq';
+const _EU_GEMINI = '/api/gemini';
+const _EM_GROQ   = 'llama-3.3-70b-versatile';   // displayed as Bino2.4
+const _EM_GEMINI = 'gemini-2.0-flash';            // displayed as Brad 5.0
+
+/* Model display names — never expose underlying provider names in the UI */
+const MODEL_LABEL = { groq:'Bino2.4', gemini:'Brad 5.0' };
+let   activeModel = 'groq'; // tracks which model answered last
+
+/* Errors from Groq that should trigger a Gemini fallback */
+function _isQuotaError(status, msg){
+  return status === 429 || status === 503 || status === 502 ||
+         /rate.limit|quota|capacity|overload|unavailable/i.test(msg||'');
+}
 
 async function callAI(messages, onToken, signal){
   if(!navigator.onLine) throw new Error('No internet connection.');
-  const resp=await fetch(_EU,{method:'POST',signal,headers:{'Content-Type':'application/json'},body:JSON.stringify({model:_EM,messages,stream:true,temperature:0.7})});
-  if(!resp.ok){const j=await resp.json().catch(()=>({}));throw new Error(j?.error?.message||`HTTP ${resp.status}`);}
-  const reader=resp.body.getReader(),dec=new TextDecoder();
-  let buf='',total=0;
+
+  // If user manually pinned a model, use it directly (no fallback)
+  const forced = (typeof preferredModel !== 'undefined') && preferredModel !== 'auto';
+
+  /* ── Try Groq (Bino2.4) first — unless user forced Gemini ── */
+  let resp;
+  if(!forced || preferredModel === 'groq'){
+    try {
+      resp = await fetch(_EU_GROQ, {method:'POST', signal,
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:_EM_GROQ, messages, stream:true, temperature:0.7})});
+    } catch(fetchErr){
+      if(fetchErr?.name==='AbortError') throw fetchErr;
+      resp = null;
+    }
+    if(resp && !resp.ok){
+      const clone = resp.clone();
+      const j = await clone.json().catch(()=>({}));
+      const msg = j?.error?.message||'';
+      if(_isQuotaError(resp.status, msg)){ resp = null; }
+      else { throw new Error(msg || `HTTP ${resp.status}`); }
+    }
+  } else {
+    resp = null; // user wants Gemini directly
+  }
+
+  /* ── Fallback / forced: Gemini (Brad 5.0) ── */
+  if(!resp){
+    activeModel = 'gemini';
+    updateModelBadge();
+    resp = await fetch(_EU_GEMINI, {method:'POST', signal,
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:_EM_GEMINI, messages, stream:true, temperature:0.7})});
+    if(!resp.ok){
+      const j = await resp.json().catch(()=>({}));
+      throw new Error(j?.error?.message || `HTTP ${resp.status}`);
+    }
+  } else {
+    activeModel = 'groq';
+    updateModelBadge();
+  }
+
+  /* ── Stream SSE tokens ── */
+  const reader=resp.body.getReader(), dec=new TextDecoder();
+  let buf='', total=0;
   while(true){
     const{done,value}=await reader.read(); if(done) break;
     buf+=dec.decode(value,{stream:true});
@@ -1945,6 +2041,36 @@ async function callAI(messages, onToken, signal){
     }
   }
   updateTokBadge(total);
+}
+
+function updateModelBadge(){
+  const el  = document.getElementById('model-name-txt');
+  const bdg = document.getElementById('model-badge');
+  const lbl = MODEL_LABEL[activeModel] || 'Bino2.4';
+  if(el)  el.textContent = lbl;
+  if(bdg) bdg.classList.toggle('fallback', activeModel === 'gemini');
+  // Reflect in settings panel
+  const binoCheck = document.getElementById('mopt-bino-check');
+  const bradCheck = document.getElementById('mopt-brad-check');
+  const binoBt    = document.getElementById('mopt-bino');
+  const bradBt    = document.getElementById('mopt-brad');
+  const note      = document.getElementById('model-fallback-note');
+  const isFallback = activeModel === 'gemini';
+  if(binoCheck){ binoCheck.style.display = isFallback ? 'none' : ''; }
+  if(bradCheck){ bradCheck.style.display = isFallback ? ''     : 'none'; }
+  if(binoBt){ binoBt.style.borderColor = isFallback ? 'var(--b1)' : 'var(--b2)'; }
+  if(bradBt){ bradBt.style.borderColor = isFallback ? 'rgba(255,193,60,.45)' : 'var(--b1)'; }
+  if(note)  { note.hidden = !isFallback; }
+}
+
+/* Let the user manually force a model preference */
+let preferredModel = localStorage.getItem('binaris_model') || 'groq'; // 'groq' | 'gemini' | 'auto'
+function setPreferredModel(id){
+  preferredModel = id;
+  localStorage.setItem('binaris_model', id);
+  activeModel = id;
+  updateModelBadge();
+  sysNotif(`Modèl chanje: ${MODEL_LABEL[id]}`, 'ok');
 }
 function updateTokBadge(n){
   totalTokens+=n;
