@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ht">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
@@ -11,8 +11,12 @@
 <link rel="manifest" href="manifest.json"/>
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
-<title>Binaris — Konekte</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<title>Binaris — Sign In</title>
+<meta name="description" content="Sign in to Binaris, the AI assistant that helps you build, code, design, and get instant answers. Free. Multilingual. Built by Marc-Arthur Samuel Dalus."/>
+<meta property="og:title" content="Binaris — Sign In"/>
+<meta property="og:description" content="Sign in to Binaris AI. Build, code, design, and get instant answers — free, multilingual AI assistant."/>
+<meta name="robots" content="noindex,nofollow"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Press+Start+2P&family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 
 <!-- In-app browser detection for login page -->
 <script>
@@ -193,8 +197,8 @@ input{-webkit-user-select:text;user-select:text}
 /* Terms */
 .terms{font-family:var(--mono);color:var(--w3);text-align:center;line-height:1.7;letter-spacing:.03em}
 .terms a{color:var(--w2);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
-.byline{font-family:var(--mono);color:var(--w3);letter-spacing:.07em;text-align:center}
-.byline strong{color:var(--w2);font-weight:500}
+.byline{font-family:"Orbitron","Geist Mono",monospace;color:var(--w3);letter-spacing:.08em;text-align:center;font-size:.5rem;text-transform:uppercase;font-weight:600}
+.byline strong{color:rgba(255,255,255,.85);font-weight:900;letter-spacing:.06em}
 
 /* Field validation styling */
 .field input.err{border-color:rgba(255,68,68,.5)}
@@ -331,8 +335,8 @@ input{-webkit-user-select:text;user-select:text}
 .dev-desktop .left-panel .feat-body{display:flex;flex-direction:column;gap:2px}
 .dev-desktop .left-panel .feat-txt{font-size:.76rem;font-weight:600;color:var(--w1);letter-spacing:.02em}
 .dev-desktop .left-panel .feat-label{font-size:.67rem;color:var(--w3);font-family:var(--mono)}
-.dev-desktop .left-panel .byline{font-size:.6rem;font-family:var(--mono);color:var(--w3);letter-spacing:.07em}
-.dev-desktop .left-panel .byline strong{color:var(--w2);font-weight:500}
+.dev-desktop .left-panel .byline{font-size:.55rem;font-family:"Orbitron","Geist Mono",monospace;color:var(--w3);letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.dev-desktop .left-panel .byline strong{color:rgba(255,255,255,.85);font-weight:900}
 .dev-desktop .card{
   flex:0 0 370px;background:rgba(7,7,7,.88);border:1px solid rgba(255,255,255,.10);border-radius:28px;
   padding:36px 32px 32px;display:flex;flex-direction:column;align-items:center;
@@ -852,7 +856,7 @@ window.handleResetPw = async function() {
 </button>
 <script>
 (function(){
-  var _lang = 'ht';
+  var _lang = 'en';
   var _T = {
     ht:{
       title:'Binaris — Konekte',
@@ -999,7 +1003,7 @@ window.handleResetPw = async function() {
   };
 
   document.addEventListener('DOMContentLoaded',function(){
-    _lang = localStorage.getItem('binaris_login_lang') || 'ht';
+    _lang = localStorage.getItem('binaris_login_lang') || 'en';
     _applyLoginLang(_lang);
   });
 })();
