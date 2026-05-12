@@ -1,12 +1,11 @@
 // ═══════════════════════════════════════════
 //  firebase-init.js — Binaris Firebase Module
-//  Single source of truth for auth + Firestore
 // ═══════════════════════════════════════════
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -30,15 +29,16 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-
 // ── Exports ───────────────────────────────────────────────────────────────────
 export { app, auth, db, onAuthStateChanged };
 
-/** Google popup sign-in */
-export async function signInWithGoogle() {
-  const result = await signInWithPopup(auth, provider);
+/**
+ * Sign in with a Google ID token obtained from GIS One Tap.
+ * Called by login.html's GIS callback — never navigates away.
+ */
+export async function signInWithGoogleCredential(idToken) {
+  const credential = GoogleAuthProvider.credential(idToken);
+  const result     = await signInWithCredential(auth, credential);
   return result.user;
 }
 
@@ -51,9 +51,7 @@ export async function signInWithEmail(email, password) {
 /** Email + password — create new account, optionally set display name */
 export async function signUpWithEmail(email, password, displayName) {
   const result = await createUserWithEmailAndPassword(auth, email, password);
-  if (displayName) {
-    await updateProfile(result.user, { displayName });
-  }
+  if (displayName) await updateProfile(result.user, { displayName });
   return result.user;
 }
 
