@@ -42,6 +42,9 @@
 <meta name="twitter:description"content="Build, code, design, and get instant answers with Binaris AI. Free. Multilingual. Built by Marc-Arthur Samuel Dalus."/>
 <meta name="twitter:image"      content="https://binaris.cc/icon-1024.png"/>
 <title>Binaris — AI Assistant</title>
+<!-- noscript: send bots/no-JS visitors to the public SEO landing page
+     instead of the auth-gated app shell -->
+<noscript><meta http-equiv="refresh" content="0;url=./seo.html"/></noscript>
 <!-- Structured data: tells Google exactly what this site is -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Binaris","url":"https://binaris.cc/","description":"Binaris is an AI assistant that helps you build, code, design, and get instant answers. It supports English, Haitian Creole, French, Spanish, and more.","applicationCategory":"ProductivityApplication","operatingSystem":"Web","author":{"@type":"Person","name":"Marc-Arthur Samuel Dalus"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":["en","ht","fr","es","pt"]}
@@ -479,7 +482,7 @@ html{
 .scroll-btn.visible{opacity:1;pointer-events:all;transform:translateY(0)}.scroll-btn:hover{background:var(--s4);border-color:var(--b3);color:var(--w1)}
 
 /* ── EMPTY STATE ─────────────────────────── */
-#empty{display:flex;flex-direction:column;align-items:center;min-height:100%;padding:72px 24px 190px;text-align:center;touch-action:pan-y}
+#empty{display:flex;flex-direction:column;align-items:center;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:72px 24px 190px;text-align:center;touch-action:pan-y}
 .e-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--r-pill);border:1px solid var(--b2);background:var(--w5);font-family:var(--mono);font-size:.6rem;color:var(--w3);letter-spacing:.1em;margin-bottom:24px;animation:fu .55s ease both}
 .e-dot{width:5px;height:5px;border-radius:50%;background:var(--ok);box-shadow:0 0 4px var(--ok)}
 .e-h{font-family:var(--serif);font-size:clamp(2rem,4.8vw,3.8rem);font-weight:400;font-style:italic;line-height:1.06;letter-spacing:-.02em;color:var(--w1);margin-bottom:12px;animation:fu .55s .07s ease both}
@@ -672,7 +675,7 @@ html{
   .msg.user .m-av{display:none}
   .msg.user{gap:0}
   .msg.user .bubble{max-width:100%;width:auto;float:none;margin-left:auto;font-size:.86rem}
-  #empty{padding:40px 16px calc(200px + var(--mob-nav-h) + var(--safe-bottom))}
+  #empty{padding:40px 16px calc(200px + var(--mob-nav-h) + var(--safe-bottom));overflow-y:auto;-webkit-overflow-scrolling:touch}
   .bar{border-radius:18px;padding:9px 8px 7px 12px}.bar-tx{font-size:.875rem}
   .act span{display:none}.act{padding:5px 8px}.act-sep,.char-c{display:none}
   .topbar{padding:calc(9px + var(--safe-top)) 14px 9px}
@@ -2570,51 +2573,13 @@ wrapEl.addEventListener('scroll',()=>{const btn=$('scroll-btn'),at=wrapEl.scroll
 /* iOS passive touchstart — forces Safari to register msgs-wrap as scroll target */
 wrapEl.addEventListener('touchstart', function(){}, {passive:true});
 
-/* DESKTOP SCROLL FIX
-   body{overflow:hidden} eats wheel events before they reach msgs-wrap.
-   Intercept wheel on #empty and forward to the scroll container directly. */
+/* SCROLL FIX for #empty (welcome page)
+   #empty is now overflow-y:auto with height:100% so it is its OWN scroll
+   container — the browser handles touch and trackpad natively.
+   We only need a passive touchstart so Android registers it as interactive. */
 (function(){
   var el = document.getElementById('empty');
-  el.addEventListener('wheel', function(e){
-    e.preventDefault();
-    wrapEl.scrollTop += e.deltaY;
-  }, {passive:false});
-})();
-
-/* ANDROID SCROLL FIX
-   Android Chrome sees body{touch-action:manipulation; overflow:hidden} and
-   treats any pan gesture as consumed by body — it never delegates to msgs-wrap.
-   We intercept touch events on #empty and drive wrapEl.scrollTop directly.
-   Using passive:true on all three so we never block frame rendering. */
-(function(){
-  var startY=0, lastY=0, vel=0, rafId=0;
-  var el = document.getElementById('empty');
-
-  el.addEventListener('touchstart', function(e){
-    cancelAnimationFrame(rafId);
-    startY = lastY = e.touches[0].clientY;
-    vel = 0;
-  }, {passive:true});
-
-  el.addEventListener('touchmove', function(e){
-    var y   = e.touches[0].clientY;
-    var dy  = lastY - y;
-    vel     = dy;
-    lastY   = y;
-    wrapEl.scrollTop += dy;
-  }, {passive:true});
-
-  el.addEventListener('touchend', function(){
-    // Momentum: decay velocity so it feels native
-    var v = vel;
-    function step(){
-      if(Math.abs(v) < 0.4) return;
-      wrapEl.scrollTop += v;
-      v *= 0.94;
-      rafId = requestAnimationFrame(step);
-    }
-    rafId = requestAnimationFrame(step);
-  }, {passive:true});
+  el.addEventListener('touchstart', function(){}, {passive:true});
 })();
 function showMsgs(){
   const wasEmpty = msgsEl.style.display !== 'flex';
