@@ -8,9 +8,9 @@
 <!-- PWA — makes Chrome/Edge/Samsung show the install prompt -->
 <link rel="manifest" href="manifest.json"/>
 <!-- Android: themes status bar + gesture nav bar to match app -->
-<meta name="theme-color" content="#CC0000" id="theme-color-meta"/>
-<meta name="theme-color" content="#CC0000" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
-<meta name="theme-color" content="#CC0000" media="(prefers-color-scheme:light)" id="theme-color-light"/>
+<meta name="theme-color" content="#FFFF00" id="theme-color-meta"/>
+<meta name="theme-color" content="#FFFF00" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
+<meta name="theme-color" content="#FFFF00" media="(prefers-color-scheme:light)" id="theme-color-light"/>
 <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png"/>
 <link rel="apple-touch-startup-image" href="splash.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
@@ -81,7 +81,7 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════ */
 :root{
-  --bg:#FF0000;--s1:#CC0000;--s2:#BB0000;--s3:#AA0000;--s4:#990000;--s5:#880000;
+  --bg:#FFFF00;--s1:#CCCC00;--s2:#BBBB00;--s3:#AAAA00;--s4:#999900;--s5:#888800;
   --w1:#fff;--w2:rgba(255,255,255,.72);--w3:rgba(255,255,255,.38);
   --w4:rgba(255,255,255,.16);--w5:rgba(255,255,255,.07);--w6:rgba(255,255,255,.04);
   --b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.22);
@@ -281,7 +281,7 @@ html{
 ═══════════════════════════════════════════ */
 #splash{
   position:fixed;inset:0;z-index:999;
-  background:#FF0000;
+  background:#FFFF00;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   gap:0;
@@ -942,7 +942,7 @@ html{
 
 /* Extend topbar bg all the way into the status bar notch */
 html, body {
-  background-color: #FF0000;
+  background-color: #FFFF00;
 }
 .topbar::before {
   content: '';
@@ -1912,7 +1912,7 @@ function buildLangGrid(){
    THEMES — 8 options
 ═════════════════════════════════════════ */
 const THEMES=[
-  {id:'dark',   name:'Red',      swatch:'#FF0000', border:'rgba(255,255,255,.12)', bar:'#FF0000', bg:'#FF0000', light:false},
+  {id:'dark',   name:'Red',      swatch:'#FFFF00', border:'rgba(255,255,255,.12)', bar:'#FFFF00', bg:'#FFFF00', light:false},
   {id:'black',  name:'Dark',     swatch:'#000000', border:'rgba(255,255,255,.12)', bar:'#000000', bg:'#000000', light:false},
   {id:'slate',  name:'Slate',    swatch:'#0f1117', border:'rgba(230,237,243,.15)', bar:'#0f1117', bg:'#0f1117', light:false},
   {id:'light',  name:'Light',    swatch:'#ffffff', border:'rgba(0,0,0,.15)',        bar:'#ffffff', bg:'#ffffff', light:true},
