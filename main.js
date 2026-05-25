@@ -18,6 +18,14 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
   unsubscribe(); // One-shot guard — stop listening after first resolution
 
   if (!user) {
+    // Search engine bots / crawlers must NOT be sent to login.html (which is noindex).
+    // Detect common crawlers by user-agent and serve the page as-is so Google
+    // can index the public content at seo.html or the root.
+    const BOT_UA = /Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|AhrefsBot|SemrushBot|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|ia_archiver/i;
+    if (BOT_UA.test(navigator.userAgent)) {
+      // Bot detected — do not redirect; let the crawler read the page in place.
+      return;
+    }
     // Not signed in → send to login page
     window.location.replace("./login.html");
     return;
