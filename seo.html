@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+<!-- ═══════════════════════════════════════════════════════
+     SEO ENTRY POINT — binaris.cc/seo.html
+     • No login required — fully public
+     • No noindex — explicitly tells Google to crawl & index
+     • Title and all meta clearly identify the site as "Binaris"
+     • Canonical points to the root so link equity flows there
+════════════════════════════════════════════════════════ -->
+
+<title>Binaris — AI Assistant</title>
+
+<!-- Indexing: explicitly allow crawling and indexing -->
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://binaris.cc/"/>
+
+<!-- Core identity -->
+<meta name="description" content="Binaris is a fast, free AI assistant that helps you build, code, design, and get answers instantly. Chat in Haitian Creole, English, French, Spanish and more."/>
+<meta name="author" content="Marc-Arthur Samuel Dalus"/>
+<meta name="application-name" content="Binaris"/>
+<meta name="keywords" content="Binaris, AI assistant, Haitian Creole AI, free AI chat, multilingual AI, code assistant, Cobinar"/>
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website"/>
+<meta property="og:site_name"   content="Binaris"/>
+<meta property="og:title"       content="Binaris — AI Assistant"/>
+<meta property="og:description" content="Build, code, design, and get instant answers with Binaris AI. Free. Multilingual. Built by Marc-Arthur Samuel Dalus."/>
+<meta property="og:url"         content="https://binaris.cc/"/>
+<meta property="og:image"       content="https://binaris.cc/icon-1024.png"/>
+<meta property="og:image:width" content="1024"/>
+<meta property="og:image:height"content="1024"/>
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image"/>
+<meta name="twitter:site"        content="@Binaris_app"/>
+<meta name="twitter:title"       content="Binaris — AI Assistant"/>
+<meta name="twitter:description" content="Build, code, design, and get instant answers with Binaris AI. Free. Multilingual."/>
+<meta name="twitter:image"       content="https://binaris.cc/icon-1024.png"/>
+
+<!-- PWA / browser chrome -->
+<meta name="theme-color" content="#FFFF00"/>
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any"/>
+<link rel="apple-touch-icon" sizes="180x180" href="icon-192.png"/>
+<link rel="manifest" href="manifest.json"/>
+
+<!-- Structured data: WebApplication schema for Google rich results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Binaris",
+  "alternateName": "Binaris AI",
+  "url": "https://binaris.cc/",
+  "description": "Binaris is a free AI assistant that helps you build, code, design, and get instant answers. Supports English, Haitian Creole, French, Spanish, Portuguese and more.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "Web",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Marc-Arthur Samuel Dalus"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cobinar"
+  },
+  "inLanguage": ["en", "ht", "fr", "es", "pt"],
+  "sameAs": ["https://binaris.cc/"]
+}
+</script>
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#FFFF00;
+    --fg:#0a0a0a;
+    --red:#FF0000;
+    --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  html,body{
+    height:100%;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:var(--font);
+    -webkit-font-smoothing:antialiased;
+  }
+  body{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:24px;
+    text-align:center;
+  }
+
+  /* Brand mark */
+  .logo{
+    width:80px;height:80px;
+    border-radius:20px;
+    margin-bottom:24px;
+    border:3px solid var(--fg);
+    box-shadow:4px 4px 0 var(--fg);
+  }
+  h1{
+    font-size:clamp(2rem,6vw,3.2rem);
+    font-weight:900;
+    letter-spacing:-.02em;
+    line-height:1.1;
+    margin-bottom:12px;
+  }
+  h1 span{color:var(--red)}
+  .tagline{
+    font-size:clamp(.95rem,2.5vw,1.15rem);
+    color:rgba(0,0,0,.65);
+    max-width:480px;
+    line-height:1.6;
+    margin-bottom:36px;
+  }
+  .cta{
+    display:inline-block;
+    background:var(--fg);
+    color:var(--bg);
+    text-decoration:none;
+    font-weight:700;
+    font-size:1rem;
+    padding:14px 36px;
+    border-radius:8px;
+    border:2px solid var(--fg);
+    box-shadow:4px 4px 0 rgba(0,0,0,.75);
+    transition:transform .12s,box-shadow .12s;
+  }
+  .cta:hover{
+    transform:translate(-2px,-2px);
+    box-shadow:6px 6px 0 rgba(0,0,0,.75);
+  }
+  .cta:active{
+    transform:translate(2px,2px);
+    box-shadow:2px 2px 0 rgba(0,0,0,.75);
+  }
+  .features{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    margin-top:40px;
+    max-width:600px;
+  }
+  .feat{
+    background:rgba(0,0,0,.08);
+    border:2px solid rgba(0,0,0,.18);
+    border-radius:8px;
+    padding:8px 16px;
+    font-size:.84rem;
+    font-weight:600;
+  }
+  footer{
+    position:absolute;
+    bottom:20px;
+    font-size:.75rem;
+    color:rgba(0,0,0,.4);
+  }
+</style>
+</head>
+<body>
+
+<img src="icon-192.png" alt="Binaris app icon" class="logo"/>
+
+<!-- h1 must contain the site name clearly for Google -->
+<h1>Binaris<br/><span>AI</span> Assistant</h1>
+
+<p class="tagline">
+  Build, code, design, and get instant answers — for free.<br/>
+  Chat in Haitian Creole, English, French, Spanish and more.
+</p>
+
+<a href="https://binaris.cc/" class="cta" rel="noopener">Open Binaris →</a>
+
+<div class="features">
+  <span class="feat">💬 Free AI Chat</span>
+  <span class="feat">🌍 Multilingual</span>
+  <span class="feat">💻 Code Assistant</span>
+  <span class="feat">🎨 Design Help</span>
+  <span class="feat">⚡ Instant Answers</span>
+  <span class="feat">🇭🇹 Kreyòl Ayisyen</span>
+</div>
+
+<footer>© Binaris · Built by Marc-Arthur Samuel Dalus · Cobinar</footer>
+
+</body>
+</html>
