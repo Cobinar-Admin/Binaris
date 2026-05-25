@@ -18,7 +18,7 @@
 
   <url>
     <loc>https://binaris.cc/</loc>
-    <lastmod>2025-04-24</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <!-- Alternate languages supported by the app's built-in switcher -->
@@ -37,7 +37,7 @@
 
   <url>
     <loc>https://binaris.cc/login.html</loc>
-    <lastmod>2025-04-24</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ht" href="https://binaris.cc/login.html"/>
@@ -51,7 +51,7 @@
 
   <url>
     <loc>https://binaris.cc/privacy/</loc>
-    <lastmod>2025-04-24</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="ht" href="https://binaris.cc/privacy/"/>
@@ -60,11 +60,20 @@
 
   <url>
     <loc>https://binaris.cc/terms/</loc>
-    <lastmod>2025-04-24</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="ht" href="https://binaris.cc/terms/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://binaris.cc/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://binaris.cc/seo.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ht" href="https://binaris.cc/seo.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://binaris.cc/seo.html"/>
   </url>
 
   <!-- ═══════════════════════════════════════
