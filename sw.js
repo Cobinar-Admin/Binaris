@@ -8,7 +8,7 @@
    To force an update: bump CACHE_VERSION below, then redeploy.
 ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'operion-v4';
+const CACHE_VERSION = 'operion-v5';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
 
@@ -32,6 +32,9 @@ const NEVER_CACHE = [
   'openrouter.ai',
   'openai.com',
   'anthropic.com',
+  // Cobinar auth — OAuth token endpoint must never be cached or intercepted
+  'auth.cobinar.com',
+  'api.accounts.cobinar.com',
 ];
 
 /* ── INSTALL ───────────────────────────────────────────────── */
