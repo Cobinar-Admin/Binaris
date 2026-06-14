@@ -52,8 +52,12 @@
   try {
     // ── Exchange code for tokens ────────────────────────
     setMsg('Exchanging token…');
+    // Use cache:'no-store' and mode:'cors' so Binaris's service worker
+    // doesn't intercept or cache this cross-origin request.
     const tokenRes = await fetch(`${COBINAR_AUTH}/oauth/token`, {
       method: 'POST',
+      mode:   'cors',
+      cache:  'no-store',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         grant_type:    'authorization_code',
