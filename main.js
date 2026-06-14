@@ -12,15 +12,53 @@ import { auth, onAuthStateChanged, signOut } from "./firebase-init.js";
 
 let authResolved = false;
 
+// ── Cobinar session bridge ─────────────────────────────────────────────────────
+// When a user signs in via Cobinar OAuth, Firebase auth is not active.
+// We store the user in localStorage under 'cobinar-user' and hydrate the UI
+// from there, bypassing Firebase entirely for Cobinar sessions.
+function _loadCobinarSession() {
+  try {
+    const raw = localStorage.getItem('cobinar-user');
+    if (!raw) return null;
+    const u = JSON.parse(raw);
+    // Treat sessions older than 8 hours as expired
+    if (Date.now() - (u.ts || 0) > 8 * 60 * 60 * 1000) {
+      localStorage.removeItem('cobinar-user');
+      return null;
+    }
+    return u;
+  } catch { return null; }
+}
+
+const cobinarUser = _loadCobinarSession();
+if (cobinarUser) {
+  // Hydrate immediately — no Firebase needed
+  authResolved = true;
+  const fakeUser = {
+    uid:         cobinarUser.uid   || 'cobinar-' + Math.random().toString(36).slice(2),
+    displayName: cobinarUser.name  || cobinarUser.email?.split('@')[0] || 'User',
+    email:       cobinarUser.email || '',
+    photoURL:    cobinarUser.photo || null,
+  };
+  window._binarisUser = fakeUser;
+  // Hydrate once DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => _hydrateUserUI(fakeUser));
+  } else {
+    _hydrateUserUI(fakeUser);
+  }
+}
+
 const unsubscribe = onAuthStateChanged(auth, (user) => {
   if (authResolved) return;
   authResolved = true;
-  unsubscribe(); // One-shot guard — stop listening after first resolution
+  unsubscribe();
 
   if (!user) {
-    // Search engine bots / crawlers must NOT be sent to login.html (which is noindex).
-    // Detect common crawlers by user-agent and serve the page as-is so Google
-    // can index the public content at seo.html or the root.
+    // Also check for a Cobinar session — already handled above, but guard
+    // against edge cases where cobinarUser was set after this fires.
+    if (_loadCobinarSession()) return;
+
     const BOT_UA = /Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|AhrefsBot|SemrushBot|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|ia_archiver/i;
     if (BOT_UA.test(navigator.userAgent)) {
       // Bot detected — do not redirect; let the crawler read the page in place.
@@ -123,12 +161,16 @@ function _getInitials(name) {
 
 // ── Sign-out ──────────────────────────────────────────────────────────────────
 window.logout = async function () {
+  // Clear Cobinar session if present
+  localStorage.removeItem('cobinar-user');
+  sessionStorage.removeItem('cobinar-user-email');
+  sessionStorage.removeItem('cobinar-user-name');
+  sessionStorage.removeItem('cobinar-user-photo');
+  sessionStorage.removeItem('cobinar-user-uid');
   try {
     await signOut();
-    window.location.replace("./login.html");
-  } catch (err) {
-    console.error("[Binaris] Sign-out failed:", err);
-  }
+  } catch (_e) { /* Firebase may not have a session */ }
+  window.location.replace('./login.html');
 };
 
 // ── Notification permission scheduling ───────────────────────────────────────
