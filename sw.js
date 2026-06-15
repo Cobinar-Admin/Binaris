@@ -75,14 +75,17 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // 1. Never cache API calls — always go to network
+  // 1. Never cache API calls — return WITHOUT calling event.respondWith so the
+  //    browser makes the request natively. This is critical for cross-origin CORS:
+  //    if the SW calls fetch(request) itself, the response is opaque (status 0)
+  //    and the browser sees a network error even when the server returns CORS headers.
   if (NEVER_CACHE.some(origin => url.hostname.includes(origin))) {
-    event.respondWith(fetch(request));
-    return;
+    return; // browser handles natively — DO NOT call event.respondWith here
   }
 
-  // 2. Non-GET requests — always network
+  // 2. Non-GET requests — always network (same rule: don't intercept cross-origin)
   if (request.method !== 'GET') {
+    if (url.origin !== self.location.origin) return; // cross-origin non-GET: browser handles
     event.respondWith(fetch(request));
     return;
   }
