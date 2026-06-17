@@ -8,9 +8,9 @@
 <!-- PWA — makes Chrome/Edge/Samsung show the install prompt -->
 <link rel="manifest" href="manifest.json"/>
 <!-- Android: themes status bar + gesture nav bar to match app -->
-<meta name="theme-color" content="#FFFF00" id="theme-color-meta"/>
-<meta name="theme-color" content="#FFFF00" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
-<meta name="theme-color" content="#FFFF00" media="(prefers-color-scheme:light)" id="theme-color-light"/>
+<meta name="theme-color" content="#E6C64C" id="theme-color-meta"/>
+<meta name="theme-color" content="#E6C64C" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
+<meta name="theme-color" content="#E6C64C" media="(prefers-color-scheme:light)" id="theme-color-light"/>
 <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png"/>
 <link rel="apple-touch-startup-image" href="splash.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
@@ -84,7 +84,7 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════ */
 :root{
-  --bg:#FFFF00;--s1:#CCCC00;--s2:#BBBB00;--s3:#AAAA00;--s4:#999900;--s5:#888800;
+  --bg:#E6C64C;--s1:#D9B83E;--s2:#CCAC32;--s3:#BFA026;--s4:#B2941A;--s5:#A5880E;
   --w1:#0a0a0a;--w2:rgba(0,0,0,.68);--w3:rgba(0,0,0,.42);
   --w4:rgba(0,0,0,.16);--w5:rgba(0,0,0,.07);--w6:rgba(0,0,0,.03);
   --b1:rgba(0,0,0,.10);--b2:rgba(0,0,0,.16);--b3:rgba(0,0,0,.24);
@@ -284,7 +284,7 @@ html{
 ═══════════════════════════════════════════ */
 #splash{
   position:fixed;inset:0;z-index:999;
-  background:#FFFF00;
+  background:#E6C64C;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   gap:0;
@@ -940,12 +940,12 @@ html{
 .topbar {
   border-bottom: none !important;
   box-shadow: 0 2px 0 rgba(0,0,0,0.3);
-  background: #FFFF00 !important;
+  background: #E6C64C !important;
 }
 
 /* Extend topbar bg all the way into the status bar notch */
 html, body {
-  background-color: #FFFF00;
+  background-color: #E6C64C;
 }
 .topbar::before {
   content: '';
@@ -953,7 +953,7 @@ html, body {
   top: 0;
   left: 0; right: 0;
   height: env(safe-area-inset-top, 0px);
-  background: #FFFF00;
+  background: #E6C64C;
   z-index: 9999;
   pointer-events: none;
 }
@@ -1915,7 +1915,7 @@ function buildLangGrid(){
    THEMES — 8 options
 ═════════════════════════════════════════ */
 const THEMES=[
-  {id:'dark',   name:'Red',      swatch:'#FFFF00', border:'rgba(0,0,0,.15)', bar:'#FFFF00', bg:'#FFFF00', light:true},
+  {id:'dark',   name:'Gold',     swatch:'#E6C64C', border:'rgba(0,0,0,.15)', bar:'#E6C64C', bg:'#E6C64C', light:true},
   {id:'black',  name:'Dark',     swatch:'#000000', border:'rgba(255,255,255,.12)', bar:'#000000', bg:'#000000', light:false},
   {id:'slate',  name:'Slate',    swatch:'#0f1117', border:'rgba(230,237,243,.15)', bar:'#0f1117', bg:'#0f1117', light:false},
   {id:'light',  name:'Light',    swatch:'#ffffff', border:'rgba(0,0,0,.15)',        bar:'#ffffff', bg:'#ffffff', light:true},
@@ -1951,7 +1951,7 @@ function applyTheme(id){
 
   // 5. Topbar background is ALWAYS yellow — brand colour
   const topbar = document.querySelector('.topbar');
-  if(topbar) topbar.style.backgroundColor = '#FFFF00';
+  if(topbar) topbar.style.backgroundColor = '#E6C64C';
 
   // 5b. theme-color meta drives the OS browser chrome / PWA title bar — sync with theme
   document.querySelectorAll('meta[name="theme-color"]').forEach(m => { m.content = bgHex; });
