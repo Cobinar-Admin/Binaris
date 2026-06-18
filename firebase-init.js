@@ -7,6 +7,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -33,13 +35,53 @@ const db   = getFirestore(app);
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 
+// ── IAB detection ──────────────────────────────────────────────────────────────
+// In-app browsers (Instagram, Facebook, TikTok, etc.) block window.open() popups.
+// We detect them and fall back to a full-page redirect flow instead, which works
+// universally. This also eliminates the atob() errors caused by Firebase's popup
+// fallback mechanism storing corrupt pending-state in localStorage.
+function _isInAppBrowser() {
+  const ua = navigator.userAgent || "";
+  return (
+    /FBAN|FBAV|Instagram|Twitter\/|Snapchat|TikTok|Line\/|KAKAOTALK|MicroMessenger|LinkedInApp|Pinterest\//.test(ua) ||
+    (ua.includes("wv") && !ua.includes("Chrome/") && /Android/.test(ua))
+  );
+}
+
 // ── Exports ───────────────────────────────────────────────────────────────────
 export { app, auth, db, onAuthStateChanged };
 
-/** Google popup sign-in */
+/**
+ * Google sign-in.
+ *  - Desktop / standard browsers → popup (instant, no page reload)
+ *  - In-app browsers (IAB)       → full-page redirect (universally supported)
+ *
+ * After a redirect the page reloads; call handleGoogleRedirectResult() on load
+ * to complete sign-in and capture the user object.
+ */
 export async function signInWithGoogle() {
+  if (_isInAppBrowser()) {
+    // Redirect flow: navigates away and returns — result handled on next load
+    await signInWithRedirect(auth, provider);
+    return null;
+  }
   const result = await signInWithPopup(auth, provider);
   return result.user;
+}
+
+/**
+ * Call once on every page load (before any auth gate).
+ * Returns the signed-in User if we just came back from a Google redirect,
+ * or null if this is a normal load.
+ */
+export async function handleGoogleRedirectResult() {
+  try {
+    const result = await getRedirectResult(auth);
+    return result ? result.user : null;
+  } catch (err) {
+    // Surface auth errors (e.g. account-exists-with-different-credential)
+    throw err;
+  }
 }
 
 /** Email + password — sign in existing user */

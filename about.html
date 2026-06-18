@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#ECEAE7"/>
+<title>About Binaris — AI Assistant for Everyone</title>
+<meta name="description" content="Binaris is a multilingual AI assistant that lets you build, code, write, and get answers instantly — free, private, and available in 24 languages including Haitian Creole."/>
+<meta name="keywords" content="AI assistant, multilingual AI, Haitian Creole AI, voice AI, free AI chat, Binaris"/>
+<meta property="og:title" content="About Binaris — AI Assistant for Everyone"/>
+<meta property="og:description" content="Binaris is a multilingual AI assistant built to empower everyone — from students to professionals — with instant, private, free AI in 24 languages."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://binaris.app/about"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://binaris.app/about"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+
+<!-- Structured data for crawlers -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Binaris",
+  "url": "https://binaris.app",
+  "description": "Binaris is a multilingual AI assistant offering instant, private, free responses in 24 languages including Haitian Creole. Built for students, professionals, and everyday users.",
+  "applicationCategory": "Productivity",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "featureList": [
+    "Instant AI responses",
+    "24 languages including Haitian Creole",
+    "Voice AI input",
+    "Private — no data selling",
+    "Free tier available",
+    "Works in-browser, no install required"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "Marc-Arthur Samuel Dalus"
+  }
+}
+</script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:     #ECEAE7;
+  --s1:     #E4E1DD;
+  --s2:     #DEDAD6;
+  --accent: #E6C64C;
+  --acc2:   #C9AA35;
+  --t1:     #1e1a17;
+  --t2:     rgba(30,26,23,.68);
+  --t3:     rgba(30,26,23,.42);
+  --t4:     rgba(30,26,23,.24);
+  --sh-d:   rgba(0,0,0,.12);
+  --sh-l:   rgba(255,255,255,.88);
+  --neo-raised:    8px 8px 18px var(--sh-d), -6px -6px 14px var(--sh-l);
+  --neo-raised-sm: 5px 5px 11px var(--sh-d), -4px -4px  9px var(--sh-l);
+  --neo-flat:      3px 3px  7px var(--sh-d), -3px -3px  7px var(--sh-l);
+  --r-sm: 10px; --r-md: 14px; --r-lg: 18px; --r-xl: 24px; --r-2xl: 32px;
+  --font: "Geist","Inter",system-ui,sans-serif;
+}
+html, body {
+  background: var(--bg); color: var(--t1);
+  font-family: var(--font); line-height: 1.65;
+  font-size: 15px; -webkit-font-smoothing: antialiased;
+}
+a { color: var(--t1); text-decoration: none; }
+
+/* Ambient background */
+.bg-layer {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 700px 500px at 0% 0%, rgba(230,198,76,.06), transparent 60%),
+    radial-gradient(ellipse 500px 600px at 100% 100%, rgba(230,198,76,.04), transparent 60%),
+    linear-gradient(150deg, #EFECEA 0%, #ECEAE7 50%, #E8E5E1 100%);
+}
+
+/* Layout */
+.page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* Nav */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 32px;
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo img { width: 38px; height: 38px; border-radius: 10px; box-shadow: var(--neo-flat); }
+.nav-wordmark { font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 10px; }
+.nav-link {
+  padding: 7px 16px; border-radius: 99px; font-size: .82rem; font-weight: 500;
+  color: var(--t2); box-shadow: var(--neo-flat); transition: all .15s;
+}
+.nav-link:hover { box-shadow: var(--neo-raised-sm); color: var(--t1); }
+.nav-link.cta {
+  background: linear-gradient(135deg, var(--accent), var(--acc2));
+  color: #1a1500; font-weight: 700; box-shadow: 4px 4px 10px rgba(0,0,0,.13), -2px -2px 6px rgba(255,255,255,.60);
+}
+.nav-link.cta:hover { box-shadow: 6px 6px 14px rgba(0,0,0,.15), -3px -3px 8px rgba(255,255,255,.65); }
+
+/* Hero */
+.hero { padding: 48px 0 56px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px; border-radius: 99px; margin-bottom: 20px;
+  font-size: .72rem; font-weight: 600; letter-spacing: .10em; text-transform: uppercase;
+  color: var(--acc2); background: rgba(230,198,76,.10);
+  box-shadow: var(--neo-flat);
+}
+.hero-eyebrow svg { width: 12px; height: 12px; }
+h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800;
+  line-height: 1.15; letter-spacing: -.025em; margin-bottom: 20px;
+}
+h1 em { color: var(--accent); font-style: normal; }
+.hero-sub {
+  font-size: 1.05rem; color: var(--t2); max-width: 580px; line-height: 1.75; margin-bottom: 36px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-hero {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; border-radius: var(--r-lg); font-size: .9rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--acc2));
+  color: #1a1500; box-shadow: 5px 5px 12px rgba(0,0,0,.14), -3px -3px 8px rgba(255,255,255,.60);
+  transition: all .18s;
+}
+.btn-hero:hover { box-shadow: 7px 7px 16px rgba(0,0,0,.16), -4px -4px 10px rgba(255,255,255,.65); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; border-radius: var(--r-lg); font-size: .9rem; font-weight: 600;
+  color: var(--t2); box-shadow: var(--neo-flat); transition: all .18s;
+}
+.btn-ghost:hover { box-shadow: var(--neo-raised-sm); color: var(--t1); }
+
+/* Feature grid */
+.section { padding: 56px 0 0; }
+.section-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--t3); margin-bottom: 12px;
+}
+h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 10px; }
+h2 em { color: var(--accent); font-style: normal; }
+.section-sub { color: var(--t2); font-size: .95rem; max-width: 480px; margin-bottom: 36px; }
+
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; }
+.feat-card {
+  padding: 22px 20px; border-radius: var(--r-xl);
+  background: var(--bg); box-shadow: var(--neo-raised-sm);
+  transition: transform .18s, box-shadow .18s;
+}
+.feat-card:hover { transform: translateY(-3px); box-shadow: 8px 8px 20px rgba(0,0,0,.13), -5px -5px 14px rgba(255,255,255,.85); }
+.feat-icon {
+  width: 40px; height: 40px; border-radius: var(--r-md);
+  background: rgba(230,198,76,.12); color: var(--acc2);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+}
+.feat-icon svg { width: 18px; height: 18px; }
+.feat-title { font-weight: 700; font-size: .92rem; margin-bottom: 6px; }
+.feat-desc  { font-size: .80rem; color: var(--t2); line-height: 1.6; }
+
+/* Mission */
+.mission {
+  margin-top: 56px; padding: 36px 36px 36px;
+  border-radius: var(--r-2xl); background: var(--bg);
+  box-shadow: var(--neo-raised);
+}
+.mission h2 { margin-bottom: 14px; }
+.mission p { color: var(--t2); font-size: .95rem; line-height: 1.8; max-width: 640px; }
+.mission p + p { margin-top: 12px; }
+
+/* Languages */
+.langs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.lang-chip {
+  padding: 5px 14px; border-radius: 99px; font-size: .75rem; font-weight: 500;
+  color: var(--t2); box-shadow: var(--neo-flat);
+}
+.lang-chip.hl { background: rgba(230,198,76,.12); color: var(--acc2); font-weight: 700; }
+
+/* Stats row */
+.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 56px; }
+.stat-card {
+  padding: 24px 20px; border-radius: var(--r-xl); text-align: center;
+  background: var(--bg); box-shadow: var(--neo-raised-sm);
+}
+.stat-num { font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+.stat-lbl { font-size: .78rem; color: var(--t2); font-weight: 500; }
+
+/* Creator */
+.creator {
+  margin-top: 56px; padding: 32px; border-radius: var(--r-xl);
+  background: var(--bg); box-shadow: var(--neo-flat);
+  display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+}
+.creator-avatar {
+  width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), var(--acc2));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.2rem; color: #1a1500;
+  box-shadow: var(--neo-raised-sm);
+}
+.creator-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.creator-text p  { font-size: .82rem; color: var(--t2); line-height: 1.65; max-width: 500px; }
+
+/* Footer */
+footer {
+  margin-top: 72px; padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  font-size: .75rem; color: var(--t3);
+}
+footer a { color: var(--t3); border-bottom: 1px solid rgba(0,0,0,.12); padding-bottom: 1px; transition: color .15s; }
+footer a:hover { color: var(--t1); }
+.footer-links { display: flex; gap: 20px; }
+
+@media (max-width: 600px) {
+  nav { flex-wrap: wrap; gap: 12px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .mission { padding: 24px; }
+  .creator { flex-direction: column; }
+  h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+<div class="bg-layer" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="/">
+      <img src="icon-192.png" alt="Binaris logo"
+           onerror="this.style.display='none'"/>
+      <span class="nav-wordmark">Binaris</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="/index.html">App</a>
+      <a class="nav-link" href="/terms">Terms</a>
+      <a class="nav-link" href="/privacy">Privacy</a>
+      <a class="nav-link cta" href="/login.html">Sign In →</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-eyebrow">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M8 1L10 6H15L11 9.5L12.5 15L8 11.5L3.5 15L5 9.5L1 6H6Z"/>
+      </svg>
+      Free · Private · Multilingual
+    </div>
+
+    <h1 id="hero-heading">Build anything<br>with <em>intelligence</em></h1>
+
+    <p class="hero-sub">
+      Binaris is an AI assistant designed for everyone — students, developers, writers, and professionals.
+      Get instant answers, generate code, write content, and converse naturally in <strong>24 languages</strong>,
+      including Haitian Creole.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn-hero" href="/login.html">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M9.5 1.5L3.5 9H8L6.5 14.5L12.5 7H8L9.5 1.5Z"/>
+        </svg>
+        Start for free
+      </a>
+      <a class="btn-ghost" href="/index.html">Try the app →</a>
+    </div>
+  </section>
+
+  <!-- What is Binaris -->
+  <section class="section" aria-labelledby="what-heading">
+    <p class="section-label">What it is</p>
+    <h2 id="what-heading">An AI assistant built for <em>real people</em></h2>
+    <p class="section-sub">
+      Binaris connects you directly to a powerful AI model — no jargon, no steep learning curve.
+      Ask anything, build anything, in your language.
+    </p>
+
+    <div class="feat-grid" role="list">
+      <article class="feat-card" role="listitem">
+        <div class="feat-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.5 1.5L3.5 9H8L6.5 14.5L12.5 7H8L9.5 1.5Z"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Instant Responses</h3>
+        <p class="feat-desc">Lightning-fast AI replies — no waiting, no loading screens. Ask and get your answer in seconds.</p>
+      </article>
+
+      <article class="feat-card" role="listitem">
+        <div class="feat-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M8 1.5L2 4V8.5C2 11.9 4.7 14.8 8 15.5C11.3 14.8 14 11.9 14 8.5V4L8 1.5Z"/>
+            <path d="M5.5 8.5L7.5 10.5L11 6.5"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Private by Design</h3>
+        <p class="feat-desc">Your data stays yours. Binaris never sells your conversations or personal information to advertisers.</p>
+      </article>
+
+      <article class="feat-card" role="listitem">
+        <div class="feat-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="8" cy="8" r="6.5"/>
+            <path d="M8 1.5C6.3 3.8 5.5 5.9 5.5 8S6.3 12.2 8 14.5M8 1.5C9.7 3.8 10.5 5.9 10.5 8S9.7 12.2 8 14.5M1.5 8H14.5"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Multilingual</h3>
+        <p class="feat-desc">Switch freely between 24 languages — including Haitian Creole — so the AI speaks your language.</p>
+      </article>
+
+      <article class="feat-card" role="listitem">
+        <div class="feat-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M1 8H3M4 5V11M7 2.5V13.5M10 4.5V11.5M13 6.5V9.5M16 8H14"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Voice AI</h3>
+        <p class="feat-desc">Talk naturally and get spoken answers. Hands-free, fully conversational — the AI listens and responds.</p>
+      </article>
+
+      <article class="feat-card" role="listitem">
+        <div class="feat-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 2H13C13.6 2 14 2.4 14 3V11C14 11.6 13.6 12 13 12H9L7 14L5 12H3C2.4 12 2 11.6 2 11V3C2 2.4 2.4 2 3 2Z"/>
+            <path d="M5 6H11M5 8.5H9"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Persistent Memory</h3>
+        <p class="feat-desc">Binaris remembers your past conversations so you can continue where you left off without repeating yourself.</p>
+      </article>
+
+      <article class="feat-card" role="listitem">
+        <div class="feat-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 2H6L8 6L5 8C6.1 10.1 7.9 11.9 10 13L12 10L16 12V16C16 16 12 18 8 14C4 10 2 6 2 6V2Z" transform="scale(0.85) translate(1,1)"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Works Everywhere</h3>
+        <p class="feat-desc">Browser, mobile, or desktop — Binaris works on any device with no installation required.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats" aria-label="Binaris at a glance">
+    <div class="stat-card">
+      <div class="stat-num">24</div>
+      <div class="stat-lbl">Languages supported</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">Free</div>
+      <div class="stat-lbl">Always a free tier</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">0</div>
+      <div class="stat-lbl">Ads or data sales</div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="mission" aria-labelledby="mission-heading">
+    <p class="section-label">Our purpose</p>
+    <h2 id="mission-heading">Why <em>Binaris</em> exists</h2>
+    <p>
+      Powerful AI tools shouldn't be locked behind language barriers or expensive subscriptions.
+      Binaris was built to level the playing field — giving everyone access to a capable, responsive AI
+      regardless of where they live, what language they speak, or what budget they have.
+    </p>
+    <p>
+      We built Binaris with a specific focus on communities that are underserved by most AI products,
+      starting with Haitian Creole speakers. The name <em>Binaris</em> is a nod to the binary nature
+      of AI computation — simple at its core, powerful in practice.
+    </p>
+
+    <div aria-label="Supported languages">
+      <p style="font-size:.78rem;font-weight:600;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-top:24px;margin-bottom:10px">Supported languages include</p>
+      <div class="langs" role="list">
+        <span class="lang-chip hl" role="listitem">Haitian Creole</span>
+        <span class="lang-chip" role="listitem">English</span>
+        <span class="lang-chip" role="listitem">French</span>
+        <span class="lang-chip" role="listitem">Spanish</span>
+        <span class="lang-chip" role="listitem">Portuguese</span>
+        <span class="lang-chip" role="listitem">Arabic</span>
+        <span class="lang-chip" role="listitem">Chinese</span>
+        <span class="lang-chip" role="listitem">Hindi</span>
+        <span class="lang-chip" role="listitem">Japanese</span>
+        <span class="lang-chip" role="listitem">Korean</span>
+        <span class="lang-chip" role="listitem">German</span>
+        <span class="lang-chip" role="listitem">Italian</span>
+        <span class="lang-chip" role="listitem">Russian</span>
+        <span class="lang-chip" role="listitem">Dutch</span>
+        <span class="lang-chip" role="listitem">Turkish</span>
+        <span class="lang-chip" role="listitem">Polish</span>
+        <span class="lang-chip" role="listitem">Swedish</span>
+        <span class="lang-chip" role="listitem">+ 7 more</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creator -->
+  <section class="creator" aria-labelledby="creator-heading">
+    <div class="creator-avatar" aria-hidden="true">M</div>
+    <div class="creator-text">
+      <h3 id="creator-heading">Built by Marc-Arthur Samuel Dalus</h3>
+      <p>
+        Binaris is an independent project created with a clear goal: make AI genuinely useful and
+        accessible to people across cultures and languages. Every design decision — from the
+        multilingual first approach to the zero-ads policy — reflects that commitment.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>&copy; 2025 Binaris. All rights reserved.</span>
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="/login.html">Sign In</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </nav>
+  </footer>
+
+</div>
+</body>
+</html>

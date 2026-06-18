@@ -16,28 +16,24 @@
 <meta name="description" content="Sign in to Binaris — the AI assistant that builds, codes, and answers instantly. Free, multilingual, premium."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet"/>
 
-<!-- IAB detection -->
-<script>
-(function(){
-  var ua=navigator.userAgent;
-  var isIAB=/FBAN|FBAV|Instagram|Twitter|Snapchat|TikTok|Line\/|KAKAOTALK|MicroMessenger|LinkedInApp|Pinterest/.test(ua)||(ua.includes('wv')&&!ua.includes('Chrome/')&&/Android/.test(ua));
-  if(!isIAB)return;
-  document.addEventListener('DOMContentLoaded',function(){
-    var b=document.createElement('div');
-    b.style.cssText='position:fixed;inset:0;z-index:9999;background:#ECEAE7;color:#1e1a17;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;font-family:Geist,Inter,system-ui,sans-serif';
-    b.innerHTML='<div style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#E6C64C">Open in your browser</div>'
-      +'<div style="font-size:.84rem;color:rgba(30,26,23,.5);line-height:1.7;max-width:280px;margin-bottom:24px">Sign-in does not work inside Facebook, Instagram, or other in-app browsers. Please open in Safari or Chrome.</div>'
-      +'<div style="font-size:.75rem;color:rgba(30,26,23,.3)">Tap ··· → Open in browser</div>';
-    document.body.appendChild(b);
-  });
-})();
-</script>
 
-<!-- Already signed in → redirect -->
+
+<!-- Auth guard + redirect-result handler (IAB-compatible) -->
 <script type="module">
-import { auth, onAuthStateChanged } from "./firebase-init.js";
+import { auth, onAuthStateChanged, handleGoogleRedirectResult } from "./firebase-init.js";
+// 1. Complete any pending Google redirect sign-in (from IAB / redirect flow)
+(async () => {
+  try {
+    const ru = await handleGoogleRedirectResult();
+    if (ru) { window.location.replace('./index.html'); return; }
+  } catch(e) {
+    // Will be shown by the error toast after DOM loads
+    sessionStorage.setItem('login_redirect_err', e.code || e.message || 'Sign-in failed.');
+  }
+})();
+// 2. If already signed in, skip login page
 const _u = onAuthStateChanged(auth, user => { _u(); if(user) window.location.replace('./index.html'); });
 </script>
 
@@ -715,7 +711,7 @@ button{background:none;border:none;cursor:pointer;font-family:inherit}
 
         <!-- Sign in -->
         <div id="email-signin">
-          <div class="form-stack">
+          <form class="form-stack" onsubmit="event.preventDefault();handleEmailSignIn()">
             <div class="field">
               <span class="field-label">Email</span>
               <input type="email" id="si-email" placeholder="you@example.com"
@@ -732,20 +728,20 @@ button{background:none;border:none;cursor:pointer;font-family:inherit}
               </span>
             </div>
             <span class="forgot" onclick="switchEmailMode('reset')">Forgot password?</span>
-            <button class="btn-primary" id="signin-email-btn" onclick="handleEmailSignIn()">
+            <button class="btn-primary" id="signin-email-btn" type="submit">
               <span class="btn-text">Sign in</span>
               <div class="btn-spinner"></div>
             </button>
-          </div>
+          </form>
           <div class="switch-mode">
             <span>No account?</span>
-            <button onclick="switchEmailMode('signup')">Create one</button>
+            <button type="button" onclick="switchEmailMode('signup')">Create one</button>
           </div>
         </div>
 
         <!-- Sign up -->
         <div id="email-signup" style="display:none">
-          <div class="form-stack">
+          <form class="form-stack" onsubmit="event.preventDefault();handleEmailSignUp()">
             <div class="field-row">
               <div class="field">
                 <span class="field-label">First name</span>
@@ -774,14 +770,14 @@ button{background:none;border:none;cursor:pointer;font-family:inherit}
               </span>
             </div>
             <div class="pw-strength-bar" id="pw-strength"><div id="pw-fill"></div></div>
-            <button class="btn-primary" id="signup-email-btn" onclick="handleEmailSignUp()">
+            <button class="btn-primary" id="signup-email-btn" type="submit">
               <span class="btn-text">Create account</span>
               <div class="btn-spinner"></div>
             </button>
-          </div>
+          </form>
           <div class="switch-mode">
             <span>Already have an account?</span>
-            <button onclick="switchEmailMode('signin')">Sign in</button>
+            <button type="button" onclick="switchEmailMode('signin')">Sign in</button>
           </div>
         </div>
 
@@ -790,19 +786,19 @@ button{background:none;border:none;cursor:pointer;font-family:inherit}
           <p style="font-size:.75rem;color:var(--t3);margin-bottom:14px;line-height:1.6">
             Enter your email and we'll send a reset link.
           </p>
-          <div class="form-stack">
+          <form class="form-stack" onsubmit="event.preventDefault();handleResetPw()">
             <div class="field">
               <span class="field-label">Email</span>
               <input type="email" id="reset-email" placeholder="you@example.com"
                 autocomplete="email"/>
             </div>
-            <button class="btn-primary" id="reset-btn" onclick="handleResetPw()">
+            <button class="btn-primary" id="reset-btn" type="submit">
               <span class="btn-text">Send reset link</span>
               <div class="btn-spinner"></div>
             </button>
-          </div>
+          </form>
           <div class="switch-mode">
-            <button onclick="switchEmailMode('signin')">← Back to sign in</button>
+            <button type="button" onclick="switchEmailMode('signin')">← Back to sign in</button>
           </div>
         </div>
 
@@ -977,6 +973,11 @@ window.handleResetPw=async function(){
     setTimeout(function(){switchEmailMode('signin');},2500);
   }catch(err){setLoading(btn,false);showErr(ERRS[err.code]||err.message||'Could not send reset email.');}
 };
+// Show any redirect error stored before DOM loaded
+document.addEventListener('DOMContentLoaded', function() {
+  var re = sessionStorage.getItem('login_redirect_err');
+  if (re) { sessionStorage.removeItem('login_redirect_err'); showErr(re); }
+});
 </script>
 
 <script>

@@ -8,9 +8,9 @@
 <!-- PWA — makes Chrome/Edge/Samsung show the install prompt -->
 <link rel="manifest" href="manifest.json"/>
 <!-- Android: themes status bar + gesture nav bar to match app -->
-<meta name="theme-color" content="#E6C64C" id="theme-color-meta"/>
-<meta name="theme-color" content="#E6C64C" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
-<meta name="theme-color" content="#E6C64C" media="(prefers-color-scheme:light)" id="theme-color-light"/>
+<meta name="theme-color" content="#ECEAE7" id="theme-color-meta"/>
+<meta name="theme-color" content="#ECEAE7" media="(prefers-color-scheme:dark)" id="theme-color-dark"/>
+<meta name="theme-color" content="#ECEAE7" media="(prefers-color-scheme:light)" id="theme-color-light"/>
 <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png"/>
 <link rel="apple-touch-startup-image" href="splash.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
@@ -84,10 +84,10 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════ */
 :root{
-  --bg:#E6C64C;--s1:#D9B83E;--s2:#CCAC32;--s3:#BFA026;--s4:#B2941A;--s5:#A5880E;
-  --w1:#0a0a0a;--w2:rgba(0,0,0,.68);--w3:rgba(0,0,0,.42);
-  --w4:rgba(0,0,0,.16);--w5:rgba(0,0,0,.07);--w6:rgba(0,0,0,.03);
-  --b1:rgba(0,0,0,.10);--b2:rgba(0,0,0,.16);--b3:rgba(0,0,0,.24);
+  --bg:#ECEAE7;--s1:#E4E1DD;--s2:#DEDAD6;--s3:#D5D0CB;--s4:#CCC7C1;--s5:#C3BEB8;
+  --w1:#1e1a17;--w2:rgba(30,26,23,.68);--w3:rgba(30,26,23,.44);
+  --w4:rgba(30,26,23,.26);--w5:rgba(30,26,23,.10);--w6:rgba(30,26,23,.05);
+  --b1:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);--b3:rgba(0,0,0,.18);
   --ok:#1aad5e;--warn:#d4600a;--err:#d42828;
   --r-xs:4px;--r-sm:7px;--r-md:11px;--r-lg:14px;--r-xl:18px;--r-2xl:22px;--r-pill:9999px;
   --font:"Geist","Inter",system-ui,sans-serif;
@@ -284,7 +284,7 @@ html{
 ═══════════════════════════════════════════ */
 #splash{
   position:fixed;inset:0;z-index:999;
-  background:#E6C64C;
+  background:#ECEAE7;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   gap:0;
@@ -916,393 +916,230 @@ html{
 
 /* ── Translate button removed from main chat - use lang button in topbar ── */
 
-/* ═══════════════════════════════════════════════════════════
-   NEOBRUTALISM OVERRIDE — bold borders, flat offset shadows
-   Keeps the same red/dark color palette.
-═══════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────
+   NEOMORPHISM OVERRIDE  soft depth, warm neutral
+   Default (Gold) theme: #ECEAE7 base, #E6C64C accent.
+   Dark themes keep their own [data-theme] vars.
+───────────────────────────────────────────── */
 
-/* ── Global border & shadow tokens ── */
+/* Shadow tokens */
 :root {
-  --neo-border: 2px solid rgba(0,0,0,0.55);
-  --neo-shadow: 3px 3px 0 rgba(0,0,0,0.5);
-  --neo-shadow-sm: 2px 2px 0 rgba(0,0,0,0.45);
-  --neo-shadow-lg: 4px 4px 0 rgba(0,0,0,0.6);
-  --neo-radius: 4px;
-}
-[data-theme="light"] {
-  --neo-border: 2px solid rgba(0,0,0,0.8);
-  --neo-shadow: 3px 3px 0 rgba(0,0,0,0.75);
-  --neo-shadow-sm: 2px 2px 0 rgba(0,0,0,0.6);
-  --neo-shadow-lg: 4px 4px 0 rgba(0,0,0,0.8);
+  --sh-d: rgba(0,0,0,.12);
+  --sh-l: rgba(255,255,255,.88);
+  --neo-raised:    8px 8px 18px var(--sh-d), -6px -6px 14px var(--sh-l);
+  --neo-raised-sm: 5px 5px 11px var(--sh-d), -4px -4px  9px var(--sh-l);
+  --neo-inset:   inset 4px 4px 9px var(--sh-d), inset -4px -4px 9px var(--sh-l);
+  --neo-pressed: inset 2px 2px 6px var(--sh-d), inset -2px -2px 6px var(--sh-l);
+  --neo-flat:      3px 3px 7px var(--sh-d), -3px -3px 7px var(--sh-l);
 }
 
-/* ── Topbar: fully yellow, edge-to-edge ── */
+/* Topbar */
 .topbar {
   border-bottom: none !important;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.3);
-  background: #E6C64C !important;
+  background: var(--bg) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.09), 0 -2px 6px rgba(255,255,255,.55) !important;
 }
-
-/* Extend topbar bg all the way into the status bar notch */
-html, body {
-  background-color: #E6C64C;
-}
+html, body { background-color: var(--bg); }
 .topbar::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0; right: 0;
+  content: ''; position: fixed; top: 0; left: 0; right: 0;
   height: env(safe-area-inset-top, 0px);
-  background: #E6C64C;
-  z-index: 9999;
-  pointer-events: none;
+  background: var(--bg); z-index: 9999; pointer-events: none;
 }
 .topbar { position: relative; }
 
-/* ── Buttons: chunky neo style ── */
-.btn-primary,
-.p-btn-primary,
-.p-btn,
-.preview-signin,
+/* Send button — gold gradient */
 .send-btn {
-  border: var(--neo-border) !important;
-  box-shadow: var(--neo-shadow) !important;
-  border-radius: var(--neo-radius) !important;
-  font-weight: 700 !important;
-  transition: transform .1s ease, box-shadow .1s ease !important;
+  background: linear-gradient(135deg, #E6C64C 0%, #C9AA35 100%) !important;
+  color: #1a1500 !important; border: none !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: 4px 4px 10px rgba(0,0,0,.13), -2px -2px 6px rgba(255,255,255,.60) !important;
+  transition: all .15s ease !important;
 }
-.btn-primary:hover:not(:disabled),
-.p-btn:hover,
-.preview-signin:hover,
 .send-btn:hover:not(:disabled) {
-  transform: translate(-1px, -1px) !important;
-  box-shadow: var(--neo-shadow-lg) !important;
+  background: linear-gradient(135deg, #EDD05A 0%, #D4AF38 100%) !important;
+  box-shadow: 5px 5px 14px rgba(0,0,0,.15), -3px -3px 8px rgba(255,255,255,.65) !important;
+  transform: translateY(-1px) !important;
 }
-.btn-primary:active:not(:disabled),
-.p-btn:active,
-.send-btn:active {
-  transform: translate(1px, 1px) !important;
-  box-shadow: none !important;
-}
+.send-btn:active:not(:disabled) { box-shadow: var(--neo-pressed) !important; transform: translateY(0) !important; }
+.send-btn:disabled { background: var(--s3) !important; color: var(--w4) !important; box-shadow: var(--neo-inset) !important; }
+.send-btn.stop-mode { background: var(--s2) !important; color: var(--w2) !important; border: none !important; box-shadow: var(--neo-raised-sm) !important; }
 
-/* ── Input fields: bold border ── */
-.field input,
-#key-input {
-  border: var(--neo-border) !important;
-  border-radius: var(--neo-radius) !important;
-}
-.field input:focus,
-#key-input:focus {
-  border-color: var(--w1) !important;
-  box-shadow: var(--neo-shadow-sm) !important;
-}
-
-/* ── Panels / cards ── */
-.panel,
-.card {
-  border: var(--neo-border) !important;
-  box-shadow: var(--neo-shadow-lg) !important;
-  border-radius: 6px !important;
-}
-
-/* ── Sidebar ── */
-.sidebar {
-  border-right: var(--neo-border) !important;
-}
-
-/* ── Chat messages: clean bubbles only — no outer wrapper decoration ── */
-/* Remove .msg.user .m-body border that was adding a box around the bubble */
-.msg.user .m-body {
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-}
-
-/* Bubble entrance animation */
-@keyframes bubbleIn {
-  from { opacity: 0; transform: translateY(10px) scale(.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-.msg {
-  border-bottom: none !important;
-  animation: bubbleIn .22s cubic-bezier(.16,1,.3,1) both !important;
-}
-.msg.user .bubble {
-  animation: bubbleIn .18s cubic-bezier(.16,1,.3,1) both !important;
-}
-.msg.ai .bubble {
-  animation: bubbleIn .24s cubic-bezier(.16,1,.3,1) both !important;
-}
-
-/* Hide m-who labels (name chips) — keep only the bubble */
-.m-who { display: none !important; }
-
-/* Hide avatars — just show the bubbles */
-.m-av { display: none !important; }
-
-/* Clean bubble layout without avatar offset */
-.msg {
-  gap: 0 !important;
-  padding: 6px 0 !important;
-}
-.m-body { padding: 0 !important; }
-.msg.ai { justify-content: flex-start !important; }
-.msg.user { justify-content: flex-end !important; }
-.msg.ai .bubble {
-  max-width: 82% !important;
-  width: fit-content !important;
-}
-.msg.user .bubble {
-  float: none !important;
-  display: inline-block !important;
-  margin-left: auto !important;
-  max-width: 82% !important;
-}
-
-/* ── MOBILE: restore full-width AI bubbles (overrides neobrutalism 82% cap) ── */
-@media(max-width:640px){
-  .msg.ai .bubble {
-    max-width: 100% !important;
-    width: 100% !important;
-    display: block !important;
-  }
-  .msg.ai .mdbody {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .msg.ai .m-body {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-/* ── Status chip / lang chip ── */
-.status-chip, .lang-btn, .tok-badge {
-  border: var(--neo-border) !important;
-  border-radius: var(--neo-radius) !important;
-  box-shadow: var(--neo-shadow-sm) !important;
-}
-
-/* ── New chat button ── */
-.sb-new {
-  border: var(--neo-border) !important;
-  border-radius: var(--neo-radius) !important;
-  font-weight: 700 !important;
-  box-shadow: var(--neo-shadow-sm) !important;
-}
-.sb-new:hover {
-  transform: translate(-1px, -1px) !important;
-  box-shadow: var(--neo-shadow) !important;
-}
-
-/* ── History rows ── */
-.hist-row {
-  border: 1px solid var(--b2) !important;
-  border-radius: var(--neo-radius) !important;
-}
-.hist-row.active {
-  border: var(--neo-border) !important;
-  box-shadow: var(--neo-shadow-sm) !important;
-}
-
-/* ── Dock / input bar ── */
-/* dock-inner: no outer border - keep clean */
-
-/* ── Auth tabs (login) ── */
-.auth-tab.active {
-  border: var(--neo-border) !important;
-  box-shadow: var(--neo-shadow-sm) !important;
-}
-
-/* ── translate button removed from main chat ── */
-
-/* ══════════════════════════════════════════════
-   SKYBLUE NEOBRUTALIST INPUT BAR
-   ══════════════════════════════════════════════ */
-
-/* The input container itself — sky blue with hard neo border */
+/* Input bar — inset neo */
 .bar {
-  background: #87CEEB !important;
-  border: 2.5px solid #1a6fa8 !important;
-  border-radius: 6px !important;
-  box-shadow: 4px 4px 0 #0d3d5e !important;
-  transition: box-shadow .12s, transform .1s !important;
+  background: var(--bg) !important; border: none !important;
+  border-radius: var(--r-2xl) !important;
+  box-shadow: var(--neo-inset) !important; transition: box-shadow .2s !important;
 }
 .bar:focus-within {
-  border-color: #0e5a8a !important;
-  box-shadow: 6px 6px 0 #0a2e46 !important;
-  transform: translate(-1px, -1px);
+  box-shadow: inset 4px 4px 9px var(--sh-d), inset -4px -4px 9px var(--sh-l),
+              0 0 0 2px rgba(230,198,76,.25) !important;
 }
+.bar-tx { background: transparent !important; color: var(--w1) !important; }
+.bar-tx::placeholder { color: var(--w3) !important; }
 
-/* Textarea inside bar — full width, auto-grow like ChatGPT */
-.bar-tx {
-  background: transparent !important;
-  color: #05202e !important;
-  width: 100% !important;
-  min-height: 26px !important;
-  max-height: 180px !important;
-  overflow-y: auto !important;
-  resize: none !important;
-  line-height: 1.55 !important;
-  align-self: stretch !important;
-}
-.bar-tx::placeholder {
-  color: #2a6a8a !important;
-  opacity: .75 !important;
-}
-
-/* Action chips inside bar */
-.acts {
-  border-top: 1.5px solid rgba(14,90,138,.25) !important;
-}
+/* Action chips */
 .act {
-  background: rgba(255,255,255,.35) !important;
-  border: 1.5px solid rgba(14,90,138,.3) !important;
-  color: #04253a !important;
-  font-weight: 600 !important;
-  border-radius: 4px !important;
+  background: var(--bg) !important; border: none !important;
+  border-radius: var(--r-pill) !important; color: var(--w3) !important;
+  font-weight: 500 !important; box-shadow: var(--neo-flat) !important; transition: all .15s ease !important;
 }
-.act:hover {
-  background: rgba(255,255,255,.65) !important;
-  border-color: #0e5a8a !important;
-  transform: translate(-1px,-1px);
-  box-shadow: 2px 2px 0 #0d3d5e !important;
-}
-.act.on {
-  background: #0e5a8a !important;
-  border-color: #0a2e46 !important;
-  color: #fff !important;
-  box-shadow: 2px 2px 0 #0a2e46 !important;
+.act:hover { color: var(--w1) !important; box-shadow: var(--neo-raised-sm) !important; transform: none !important; }
+.act.on   { background: var(--bg) !important; color: var(--w1) !important; box-shadow: var(--neo-inset) !important; }
+.act.rec  { color: var(--err) !important; }
+
+/* Settings panel */
+.panel {
+  background: var(--s1) !important; border-left: none !important;
+  box-shadow: -10px 0 24px rgba(0,0,0,.10), 4px 0 12px rgba(255,255,255,.45) !important;
+  border-radius: 0 !important;
 }
 
-/* Send button — red neo on skyblue bar */
-.send-btn {
-  background: #CC0000 !important;
-  border: 2px solid #8a0000 !important;
-  box-shadow: 3px 3px 0 #3a0000 !important;
-  color: #fff !important;
-  border-radius: 5px !important;
-}
-.send-btn:hover:not(:disabled) {
-  background: #e60000 !important;
-  transform: translate(-1px,-1px) !important;
-  box-shadow: 4px 4px 0 #3a0000 !important;
-}
-.send-btn:active:not(:disabled) {
-  transform: translate(1px,1px) !important;
-  box-shadow: 1px 1px 0 #3a0000 !important;
-}
-.send-btn:disabled {
-  background: rgba(204,0,0,.35) !important;
-  box-shadow: none !important;
-  border-color: rgba(138,0,0,.3) !important;
-}
-.send-btn.stop-mode {
-  background: #1a0000 !important;
-  border-color: #8a0000 !important;
-  color: #ff8080 !important;
+/* Prompt cards */
+.card { border: none !important; border-radius: var(--r-xl) !important; box-shadow: var(--neo-raised-sm) !important; transition: transform .18s, box-shadow .18s !important; }
+.card:hover { box-shadow: 8px 8px 18px rgba(0,0,0,.13), -5px -5px 12px rgba(255,255,255,.85) !important; transform: translateY(-2px) !important; }
+
+/* Sidebar */
+.sidebar, .sb-drawer {
+  background: var(--s1) !important; border-right: none !important;
+  box-shadow: 6px 0 16px rgba(0,0,0,.09), -3px 0 8px rgba(255,255,255,.40) !important;
 }
 
-/* Scrollbar for chat messages — normal theme scrollbar */
-.msgs-wrap::-webkit-scrollbar { width: 4px; }
-.msgs-wrap::-webkit-scrollbar-thumb { background: var(--s4); border-radius: 2px; }
-
-/* ── Splash screen: neo wordmark ── */
-.splash-wordmark {
-  font-weight: 900 !important;
-  letter-spacing: .25em !important;
-  text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+/* Chips / badges */
+.status-chip, .lang-btn, .tok-badge, .model-badge {
+  background: var(--bg) !important; border: none !important;
+  border-radius: var(--r-pill) !important; box-shadow: var(--neo-flat) !important;
 }
-.splash-progress {
-  border: 1px solid rgba(255,255,255,0.3) !important;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.3) !important;
+.status-chip:hover, .lang-btn:hover { box-shadow: var(--neo-raised-sm) !important; background: var(--bg) !important; }
+
+/* Topbar icon buttons */
+.tb-btn:hover { background: var(--bg) !important; border: none !important; box-shadow: var(--neo-raised-sm) !important; }
+
+/* New chat button */
+.sb-new {
+  background: var(--bg) !important; border: none !important;
+  border-radius: var(--r-md) !important; font-weight: 600 !important;
+  box-shadow: var(--neo-raised-sm) !important; transition: all .15s !important;
+}
+.sb-new:hover { box-shadow: var(--neo-inset) !important; transform: none !important; background: var(--bg) !important; }
+
+/* History rows */
+.hist-row { border: none !important; border-radius: var(--r-md) !important; transition: all .15s !important; }
+.hist-row:hover { background: var(--w6) !important; box-shadow: inset 2px 2px 5px rgba(0,0,0,.07), inset -2px -2px 5px rgba(255,255,255,.75) !important; }
+.hist-row.active { background: var(--w5) !important; border: none !important; box-shadow: inset 3px 3px 7px rgba(0,0,0,.09), inset -3px -3px 7px rgba(255,255,255,.80) !important; }
+
+/* Settings rows */
+.p-row { border: none !important; border-radius: var(--r-md) !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,.08), inset -3px -3px 6px rgba(255,255,255,.80) !important; }
+.p-info, .p-url { border: none !important; border-radius: var(--r-md) !important; box-shadow: inset 2px 2px 5px rgba(0,0,0,.07), inset -2px -2px 5px rgba(255,255,255,.75) !important; }
+
+/* Panel buttons */
+.p-btn-primary {
+  background: linear-gradient(135deg, #E6C64C 0%, #C9AA35 100%) !important;
+  color: #1a1500 !important; border: none !important; border-radius: var(--r-md) !important;
+  box-shadow: 5px 5px 12px rgba(0,0,0,.14), -3px -3px 8px rgba(255,255,255,.60) !important;
+  font-weight: 700 !important;
+}
+.p-btn-primary:hover { box-shadow: 7px 7px 16px rgba(0,0,0,.16), -4px -4px 10px rgba(255,255,255,.65) !important; transform: translateY(-1px) !important; }
+.p-btn-primary:active { box-shadow: var(--neo-pressed) !important; transform: translateY(0) !important; }
+.p-btn-ghost { background: var(--bg) !important; border: none !important; border-radius: var(--r-md) !important; box-shadow: var(--neo-flat) !important; }
+.p-btn-ghost:hover { box-shadow: var(--neo-raised-sm) !important; color: var(--w1) !important; }
+
+/* Toggle switch */
+.sw-t { background: var(--s3) !important; border: none !important; box-shadow: var(--neo-inset) !important; }
+.sw input:checked + .sw-t { background: #E6C64C !important; }
+.sw-t::after { background: var(--bg) !important; }
+.sw input:checked + .sw-t::after { background: #1a1500 !important; left: 18px; }
+
+/* Scroll button */
+.scroll-btn { background: var(--bg) !important; border: none !important; box-shadow: var(--neo-raised-sm) !important; color: var(--w2) !important; }
+.scroll-btn:hover { box-shadow: var(--neo-raised) !important; }
+
+/* User message bubbles */
+.msg.user .bubble {
+  background: var(--s2) !important; border: none !important;
+  box-shadow: 4px 4px 10px rgba(0,0,0,.10), -2px -2px 7px rgba(255,255,255,.75) !important;
+  border-radius: var(--r-2xl) var(--r-2xl) var(--r-xs) var(--r-2xl) !important;
 }
 
-/* ── Settings section labels ── */
-.p-lbl {
-  font-weight: 800 !important;
-  letter-spacing: .08em !important;
-  text-transform: uppercase !important;
-  font-size: .62rem !important;
+/* Mobile nav */
+.mob-nav { background: var(--s1) !important; border-top: none !important; box-shadow: 0 -4px 14px rgba(0,0,0,.09), 0 2px 8px rgba(255,255,255,.40) !important; }
+
+/* Empty state badge */
+.e-badge { background: var(--s1) !important; border: none !important; box-shadow: var(--neo-flat) !important; }
+
+/* Theme / lang selector cards */
+.theme-card, .lang-card { border: none !important; border-radius: var(--r-md) !important; box-shadow: var(--neo-flat) !important; }
+.theme-card.selected, .lang-card.selected { border: none !important; box-shadow: var(--neo-inset) !important; }
+
+/* Checkbox */
+.hist-chk { background: var(--s2) !important; border: none !important; box-shadow: inset 2px 2px 4px rgba(0,0,0,.08), inset -2px -2px 4px rgba(255,255,255,.80) !important; }
+.hist-chk.checked { background: #E6C64C !important; box-shadow: 2px 2px 5px rgba(0,0,0,.12), -1px -1px 3px rgba(255,255,255,.70) !important; color: #1a1500 !important; border-color: transparent !important; }
+
+/* Preview sign-in */
+.preview-signin {
+  background: linear-gradient(135deg, #E6C64C 0%, #C9AA35 100%) !important;
+  color: #1a1500 !important; border: none !important; border-radius: var(--r-md) !important;
+  box-shadow: 5px 5px 12px rgba(0,0,0,.14), -3px -3px 8px rgba(255,255,255,.60) !important;
+}
+.preview-signin:hover { transform: translateY(-1px) !important; box-shadow: 7px 7px 16px rgba(0,0,0,.15), -4px -4px 10px rgba(255,255,255,.65) !important; }
+
+/* Code blocks stay dark */
+.code-wrap { background: #0c0c0c !important; }
+.code-hdr  { background: #111 !important; }
+
+/* ═══════════════════════════════════════
+   BUBBLE LAYOUT - clean chat UI
+═══════════════════════════════════════ */
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.msg { border-bottom: none !important; animation: bubbleIn .22s cubic-bezier(.16,1,.3,1) both !important; gap: 0 !important; padding: 6px 0 !important; }
+.msg.user .m-body { border: none !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
+.msg.user .bubble { animation: bubbleIn .18s cubic-bezier(.16,1,.3,1) both !important; float: none !important; display: inline-block !important; margin-left: auto !important; max-width: 82% !important; }
+.msg.ai  .bubble  { animation: bubbleIn .24s cubic-bezier(.16,1,.3,1) both !important; max-width: 82% !important; width: fit-content !important; }
+.m-who { display: none !important; }
+.m-av  { display: none !important; }
+.m-body { padding: 0 !important; }
+.msg.ai   { justify-content: flex-start !important; }
+.msg.user { justify-content: flex-end !important; }
+
+@media (max-width: 640px) {
+  .msg.ai .bubble { max-width: 100% !important; width: 100% !important; display: block !important; }
+  .msg.ai .mdbody, .msg.ai .m-body { width: 100% !important; max-width: 100% !important; }
 }
 
-/* ── Theme / lang card selections ── */
-.theme-card.selected, .lang-card.selected {
-  border: var(--neo-border) !important;
-  box-shadow: var(--neo-shadow-sm) !important;
+/* Pixel font for wordmarks */
+.splash-wordmark, .sb-name, .e-badge span, .wordmark {
+  font-family: "Press Start 2P", monospace !important; letter-spacing: .08em !important;
 }
+.splash-wordmark { font-size: 1.1rem !important; font-weight: 700 !important; text-shadow: none !important; }
+.sb-name         { font-size: .55rem !important; }
+.e-badge span    { font-size: .42rem !important; }
+.tb-creator      { font-family: "Press Start 2P", monospace !important; font-size: .38rem !important; letter-spacing: .04em !important; }
 
-/* ── Mobile nav bar ── */
-.mob-nav {
-  border-top: var(--neo-border) !important;
-  background: var(--bg) !important;
-}
+/* Splash */
+#splash          { background: #ECEAE7 !important; }
+.splash-wordmark { color: #1e1a17 !important; }
+.splash-byline   { color: rgba(30,26,23,.45) !important; }
+.splash-progress { border: none !important; box-shadow: none !important; }
 
+/* Settings labels */
+.p-lbl { font-weight: 700 !important; letter-spacing: .08em !important; }
 
-/* ── PRESS START 2P (BIT/MINECRAFT FONT) ── */
-.splash-wordmark,
-.sb-name,
-.e-badge span,
-.wordmark {
-  font-family: "Press Start 2P", monospace !important;
-  letter-spacing: .08em !important;
-}
-/* Smaller because Press Start 2P is very wide */
-.splash-wordmark { font-size: 1.1rem !important; }
-.sb-name { font-size: .55rem !important; }
-.e-badge span { font-size: .42rem !important; }
-/* Topbar creator byline in bit font */
-.tb-creator {
-  font-family: "Press Start 2P", monospace !important;
-  font-size: .38rem !important;
-  letter-spacing: .04em !important;
-}
-
-/* ══════════════════════════════════════════════════════
-   LIGHT & SEPIA THEME — ensure all text reads in dark ink
-══════════════════════════════════════════════════════ */
-
-/* Welcome / empty state */
-[data-theme="light"] .e-h,
-[data-theme="sepia"] .e-h { color: var(--w1) !important; }
-
-[data-theme="light"] .e-h em,
-[data-theme="sepia"] .e-h em { color: var(--w2) !important; }
-
-[data-theme="light"] .e-p,
-[data-theme="sepia"] .e-p { color: var(--w2) !important; }
-
-[data-theme="light"] .e-by-text,
-[data-theme="sepia"] .e-by-text { color: var(--w3) !important; }
-
-[data-theme="light"] .e-by-text strong,
-[data-theme="sepia"] .e-by-text strong { color: var(--w1) !important; }
-
-[data-theme="light"] .e-badge,
-[data-theme="sepia"] .e-badge { color: var(--w3) !important; border-color: var(--b2) !important; }
-
-/* Prompt suggestion cards */
-[data-theme="light"] .card-t,
-[data-theme="sepia"] .card-t { color: var(--w1) !important; }
-
-[data-theme="light"] .card-d,
-[data-theme="sepia"] .card-d { color: var(--w2) !important; }
-
-/* Settings panel — about box already uses CSS vars now */
-/* Topbar text stays white (red bar) — no override needed */
-
-/* Dock hint */
-[data-theme="light"] .dock-hint,
-[data-theme="sepia"] .dock-hint { color: var(--w3) !important; }
-
-/* Message text */
-[data-theme="light"] .m-txt,
-[data-theme="sepia"] .m-txt { color: var(--w1) !important; }
-
-/* Retention / info notes */
-[data-theme="light"] .p-info,
-[data-theme="sepia"] .p-info { color: var(--w3) !important; }
+/* ═══════════════════════════════════════
+   LIGHT & SEPIA - dark ink text
+═══════════════════════════════════════ */
+[data-theme="light"] .e-h,   [data-theme="sepia"] .e-h   { color: var(--w1) !important; }
+[data-theme="light"] .e-h em,[data-theme="sepia"] .e-h em { color: var(--w2) !important; }
+[data-theme="light"] .e-p,   [data-theme="sepia"] .e-p   { color: var(--w2) !important; }
+[data-theme="light"] .e-by-text, [data-theme="sepia"] .e-by-text { color: var(--w3) !important; }
+[data-theme="light"] .e-by-text strong, [data-theme="sepia"] .e-by-text strong { color: var(--w1) !important; }
+[data-theme="light"] .e-badge, [data-theme="sepia"] .e-badge { color: var(--w3) !important; border-color: var(--b2) !important; }
+[data-theme="light"] .card-t, [data-theme="sepia"] .card-t { color: var(--w1) !important; }
+[data-theme="light"] .card-d, [data-theme="sepia"] .card-d { color: var(--w2) !important; }
+[data-theme="light"] .dock-hint,[data-theme="sepia"] .dock-hint { color: var(--w3) !important; }
+[data-theme="light"] .m-txt, [data-theme="sepia"] .m-txt { color: var(--w1) !important; }
+[data-theme="light"] .p-info, [data-theme="sepia"] .p-info { color: var(--w3) !important; }
 
 </style>
 </head>
@@ -1915,7 +1752,7 @@ function buildLangGrid(){
    THEMES — 8 options
 ═════════════════════════════════════════ */
 const THEMES=[
-  {id:'dark',   name:'Gold',     swatch:'#E6C64C', border:'rgba(0,0,0,.15)', bar:'#E6C64C', bg:'#E6C64C', light:true},
+  {id:'dark',   name:'Gold',     swatch:'#E6C64C', border:'rgba(0,0,0,.15)', bar:'#ECEAE7', bg:'#ECEAE7', light:true},
   {id:'black',  name:'Dark',     swatch:'#000000', border:'rgba(255,255,255,.12)', bar:'#000000', bg:'#000000', light:false},
   {id:'slate',  name:'Slate',    swatch:'#0f1117', border:'rgba(230,237,243,.15)', bar:'#0f1117', bg:'#0f1117', light:false},
   {id:'light',  name:'Light',    swatch:'#ffffff', border:'rgba(0,0,0,.15)',        bar:'#ffffff', bg:'#ffffff', light:true},
@@ -1949,9 +1786,9 @@ function applyTheme(id){
   const iosBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
   if(iosBar) iosBar.content = isLight ? 'default' : 'black-translucent';
 
-  // 5. Topbar background is ALWAYS yellow — brand colour
+  // 5. Topbar follows theme bar colour
   const topbar = document.querySelector('.topbar');
-  if(topbar) topbar.style.backgroundColor = '#E6C64C';
+  if(topbar) topbar.style.backgroundColor = t.bar;
 
   // 5b. theme-color meta drives the OS browser chrome / PWA title bar — sync with theme
   document.querySelectorAll('meta[name="theme-color"]').forEach(m => { m.content = bgHex; });
