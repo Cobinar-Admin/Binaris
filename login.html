@@ -29,8 +29,24 @@ import { auth, onAuthStateChanged, handleGoogleRedirectResult } from "./firebase
     const ru = await handleGoogleRedirectResult();
     if (ru) { window.location.replace('./index.html'); return; }
   } catch(e) {
-    // Will be shown by the error toast after DOM loads
-    sessionStorage.setItem('login_redirect_err', e.code || e.message || 'Sign-in failed.');
+    // Filter out Firebase internal base64/crypto errors from stale redirect state
+    // (these are not user-visible errors — they come from leftover IndexedDB state).
+    const msg = e.message || '';
+    const isStaleState =
+      e.name === 'InvalidCharacterError' ||
+      msg.includes('atob') || msg.includes('base64') ||
+      msg.includes('importKey') || msg.includes('pkcs8');
+    if (isStaleState) {
+      // Clear the stale Firebase auth state so it doesn't repeat
+      try {
+        ['firebaseLocalStorageDb','firebase-installations-database',
+         'firebase-messaging-database','firebaseLocalStorage'].forEach(db => {
+          try { indexedDB.deleteDatabase(db); } catch (_) {}
+        });
+      } catch (_) {}
+    } else {
+      sessionStorage.setItem('login_redirect_err', e.code || e.message || 'Sign-in failed.');
+    }
   }
 })();
 // 2. If already signed in, skip login page
