@@ -23,6 +23,9 @@
 (async function() {
   const COBINAR_AUTH      = 'https://auth.cobinar.com';
   const COBINAR_CLIENT_ID = 'cob_2851650ad19e117258ceba3e8633b35d';
+  // ⚠️  SECURITY NOTE: Move this token exchange to a Cloudflare Pages Function
+  //     (/functions/auth/callback.js) so the client_secret never ships to the browser.
+  //     Until then, treat COBINAR_SECRET as a *public* identifier, not a true secret.
   const COBINAR_SECRET    = 'cs_f6462aef1574ddbe9b0fb13824712c460c9162c0cdd6ad37150e5e5d70ca2d52';
   const REDIRECT_URI      = window.location.origin + '/auth/callback/';
 
@@ -68,8 +71,22 @@
       }),
     });
     if (!tokenRes.ok) {
-      const e = await tokenRes.json().catch(()=>({}));
-      showErr(e.error || 'Token exchange failed. Please try again.'); return;
+      const e = await tokenRes.json().catch(() => ({}));
+      // Map internal server errors to user-friendly messages.
+      // Never display raw crypto/atob messages to users.
+      const raw = (e.error || '').toLowerCase();
+      let msg;
+      if (raw === 'server_error' || raw.includes('atob') || raw.includes('pem') ||
+          raw.includes('importkey') || raw.includes('base64') || raw.includes('private key')) {
+        msg = 'Sign-in service error. Please try again in a moment.';
+      } else if (raw === 'invalid_client') {
+        msg = 'App configuration error — contact the site administrator.';
+      } else if (raw === 'invalid_grant') {
+        msg = 'Authorization expired. Please sign in again.';
+      } else {
+        msg = e.error_description || e.error || 'Token exchange failed. Please try again.';
+      }
+      showErr(msg); return;
     }
     const { access_token } = await tokenRes.json();
 
