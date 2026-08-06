@@ -49,6 +49,13 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Binaris","url":"https://binaris.cc/","description":"Binaris is an AI assistant that helps you build, code, design, and get instant answers. It supports English, Haitian Creole, French, Spanish, and more.","applicationCategory":"ProductivityApplication","operatingSystem":"Web","author":{"@type":"Person","name":"Marc-Arthur Samuel Dalus"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":["en","ht","fr","es","pt"]}
 </script>
+<!-- Site identity + nav: this is what Google's site-name system actually reads
+     (og:site_name/title are secondary signals — WebSite.name is primary).
+     SiteNavigationElement is a hint for sitelinks; Google still decides
+     algorithmically whether/which ones to show. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"Binaris","url":"https://binaris.cc/"},{"@type":"SiteNavigationElement","name":["Sign In","Privacy Policy","Terms of Service"],"url":["https://binaris.cc/login","https://binaris.cc/privacy/","https://binaris.cc/terms/"]}]}
+</script>
 <!-- Identity guard: re-stamps title + meta after any script or SPA navigation that might overwrite them -->
 <script>
 (function(){
@@ -154,6 +161,7 @@
 #preview-fill{height:100%;width:100%;border-radius:2px;transition:width .4s,background .4s}
 #preview-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:var(--w3);white-space:nowrap}
 .preview-signin{
+  display:inline-block;text-decoration:none;
   font-family:var(--mono);font-size:.62rem;padding:4px 10px;border-radius:var(--r-pill);
   border:1px solid var(--b2);background:transparent;color:var(--w2);cursor:pointer;
   transition:all .12s;white-space:nowrap;flex-shrink:0;
@@ -1301,7 +1309,7 @@ html, body { background-color: var(--bg); }
   <div id="preview-bar">
     <div id="preview-track"><div id="preview-fill"></div></div>
     <span id="preview-label"></span>
-    <button class="preview-signin" onclick="goToSignIn()">Sign in free</button>
+    <a class="preview-signin" href="/login">Sign in free</a>
   </div>
   <div class="msgs-wrap" id="msgs-wrap">
     <div id="empty">

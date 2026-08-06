@@ -45,7 +45,19 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://binaris.cc/seo.html"/>
   </url>
 
-  <!-- login.html is intentionally excluded — it carries noindex,nofollow -->
+  <url>
+    <loc>https://binaris.cc/login</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://binaris.cc/about</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
   <!-- ═══════════════════════════════════════
        LEGAL
