@@ -10,7 +10,7 @@ export async function onRequestPost(context) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: body.model || "llama-3.3-70b-versatile",
+      model: body.model || "openai/gpt-oss-120b",
       messages: body.messages,
       stream: body.stream ?? true,
       temperature: body.temperature ?? 0.7
